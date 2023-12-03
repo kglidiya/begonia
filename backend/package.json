@@ -5,6 +5,7 @@
   "author": "",
   "private": true,
   "homepage": "./",
+  "proxi": "http://begonia-world.ru/",
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
