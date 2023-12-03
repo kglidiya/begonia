@@ -1,0 +1,70 @@
+{
+	"name": "begonia",
+	"version": "0.1.0",
+	"private": true,
+	"homepage": "/",
+	"proxi": "http://localhost:3001/",
+	"dependencies": {
+		"@nestjs/mapped-types": "*",
+		"@testing-library/jest-dom": "^5.17.0",
+		"@testing-library/react": "^13.4.0",
+		"@testing-library/user-event": "^13.5.0",
+		"@types/jest": "^27.5.2",
+		"@types/node": "^16.18.40",
+		"@types/react": "^18.2.22",
+		"@types/react-dom": "^18.2.7",
+		"axios": "^1.4.0",
+		"eslint-config-airbnb": "^19.0.4",
+		"helmet": "^7.0.0",
+		"mobx": "^6.10.2",
+		"mobx-persist": "^0.4.1",
+		"mobx-persist-store": "^1.1.3",
+		"mobx-react": "^9.0.1",
+		"mobx-react-lite": "^4.0.4",
+		"mobx-utils": "^6.0.8",
+		"react": "^18.2.0",
+		"react-bootstrap": "^2.8.0",
+		"react-dadata": "^2.23.1",
+		"react-dom": "^18.2.0",
+		"react-hook-form": "^7.48.2",
+		"react-router-dom": "^6.15.0",
+		"react-scripts": "5.0.1",
+		"typescript": "^4.9.5",
+		"web-vitals": "^2.1.4"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+        "build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject",
+		"lint": "eslint . --fix --max-warnings=0",
+		"format": "prettier . --write"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"eslint": "^8.54.0",
+		"eslint-config-airbnb-typescript": "^17.1.0",
+		"eslint-config-prettier": "^9.0.0",
+		"eslint-import-resolver-typescript": "^3.6.1",
+		"eslint-plugin-airbnb": "^0.0.1-security",
+		"eslint-plugin-prettier": "^5.0.1",
+		"prettier": "3.1.0"
+	}
+}

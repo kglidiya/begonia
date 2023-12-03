@@ -1,0 +1,83 @@
+.container {
+	height: 100%;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.sliderGroup {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	margin: auto;
+}
+
+.track {
+	display: flex;
+	height: 650px;
+	flex-direction: row;
+	transition: all 0.3s linear;
+}
+
+.images {
+	flex: none;
+	height: auto;
+	object-fit: contain;
+	overflow: hidden;
+}
+
+.btn_prev {
+	position: absolute;
+	top: 50%;
+	left: -100px;
+	rotate: 180deg;
+	cursor: pointer;
+	z-index: 1000;
+}
+
+.btn_next {
+	position: absolute;
+	top: 50%;
+	right: -100px;
+	z-index: 1000;
+	cursor: pointer;
+}
+
+.markerGroup {
+	display: flex;
+	flex-direction: row;
+	gap: 7px;
+	position: absolute;
+	top: 103%;
+	right: 50%;
+}
+
+.marker {
+	width: 15px;
+	height: 15px;
+
+	border-radius: 50%;
+}
+
+.marker_default {
+	background-color: rgb(169, 172, 174);
+}
+
+.marker_active {
+	background-color: rgb(255, 255, 255);
+}
+
+@media (max-width: 768px) {
+	.btn_next {
+		top: 90%;
+		right: 0;
+	}
+
+	.btn_prev {
+		top: 90%;
+		left: 0;
+	}
+	.markerGroup {
+		right: 40%;
+	}
+}

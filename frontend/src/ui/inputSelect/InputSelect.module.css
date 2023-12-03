@@ -1,0 +1,96 @@
+.container {
+	position: relative;
+	width: 100%;
+}
+
+.input {
+	display: block;
+	box-sizing: border-box;
+	height: 38px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	width: 100%;
+	font-size: 16px;
+
+	padding-left: 10px;
+	padding-right: 35px;
+	outline: none;
+}
+
+.input:focus {
+	box-shadow: 5px 5px 10px 1px rgba(154, 148, 148, 0.3);
+}
+
+.label {
+	width: 100%;
+	font-size: 1rem;
+	font-weight: 400;
+	margin: 0;
+}
+
+.error {
+	color: red;
+	position: absolute;
+	font-weight: bold;
+	bottom: -25px;
+	left: 0;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+
+input[type='number'],
+input[type='number']:hover,
+input[type='number']:focus {
+	appearance: none;
+	-moz-appearance: textfield;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	-webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	z-index: 2;
+	background-color: white;
+	top: 65px;
+	right: 0;
+	width: 100%;
+}
+
+.list_default {
+	height: 0;
+	visibility: hidden;
+}
+
+.list_active {
+	height: auto;
+	visibility: visible;
+
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.list__item {
+	cursor: pointer;
+	height: 40px;
+	padding-left: 20px;
+	padding-top: 6px;
+	
+}
+
+.list__item:hover {
+	transition: background-color 0.3s linear;
+	background-color: var(--defaut-deep-pink);
+	color: white;
+	border-radius: 4px;
+}

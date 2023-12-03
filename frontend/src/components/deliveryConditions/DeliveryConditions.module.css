@@ -1,0 +1,22 @@
+.container {
+	padding: 20px 0 0 0;
+}
+
+.title {
+	margin-bottom: 20px;
+	text-align: center;
+	color: var(--default-deep-red);
+	font-weight: bold;
+}
+
+.text {
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+@media (max-width: 576px) {
+	.text {
+		font-size: 14px;
+	}
+}

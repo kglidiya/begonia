@@ -1,0 +1,27 @@
+.button {
+	box-shadow: 5px 5px 15px rgb(203 197 197);
+	border: none;
+	border-radius: 5px;
+	padding: 5px;
+	margin: 10px;
+	width: 40px;
+	height: 40px;
+	font-size: 18px;
+	transition: all 0.3s linear;
+	margin-top: 30px;
+}
+.button:hover {
+	background-color: rgb(249, 187, 187);
+	box-shadow: 8px 8px 18px rgb(203 197 197);
+	color: white;
+}
+
+.button_default {
+	background-color: white;
+	color: #000;
+}
+.button_active {
+	background-color: rgb(249, 187, 187);
+	box-shadow: 8px 8px 18px rgb(203 197 197);
+	color: white;
+}

@@ -1,0 +1,29 @@
+.container {
+	width: 60%;
+	padding-top: 50px;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 30%;
+	min-height: 100vh;
+}
+
+.title {
+	color: var(--default-deep-red);
+	margin-bottom: 5px;
+	font-size: 32px;
+	font-weight: bold;
+	text-align: center;
+}
+
+@media (max-width: 912px) {
+	.container {
+		width: 80%;
+	}
+}
+
+@media (max-width: 768px) {
+	.container {
+		width: 90%;
+	}
+}

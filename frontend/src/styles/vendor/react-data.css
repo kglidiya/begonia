@@ -1,0 +1,90 @@
+.react-dadata__container {
+	position: relative;
+}
+
+.react-dadata__input {
+	display: block;
+	box-sizing: border-box;
+	height: 38px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	width: 100%;
+	font-size: 16px;
+	padding: 0 10px;
+	outline: none;
+}
+
+.react-dadata__input:focus {
+	box-shadow: 5px 5px 10px 1px rgba(154, 148, 148, 0.3);
+}
+
+.react-dadata__suggestions {
+	position: absolute;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	z-index: 10;
+	background-color: #fff;
+	box-shadow: 0 1px 6px 3px rgba(0, 0, 0, 0.1);
+	/* top: calc(100% + 8px); */
+	top: calc(100%);
+	border-radius: 4px;
+	overflow: hidden;
+	left: 0;
+	right: 0;
+	text-align: left;
+}
+
+.react-dadata__suggestion-note {
+	font-size: 14px;
+	color: #ad8484;
+	padding: 10px 10px 5px 10px;
+}
+
+.react-dadata__suggestion {
+	font-size: 15px;
+	padding: 7px 10px;
+	cursor: pointer;
+	box-sizing: border-box;
+	width: 100%;
+	display: block;
+	background: none;
+	border: none;
+	text-align: left;
+}
+
+.react-dadata__suggestion--line-through {
+	text-decoration: line-through;
+}
+
+.react-dadata__suggestion-subtitle {
+	font-size: 14px;
+	margin-top: 4px;
+	color: #a91515;
+}
+
+.react-dadata__suggestion-subtitle-item {
+	display: inline-block;
+	margin-right: 16px;
+	margin-bottom: 4px;
+}
+
+.react-dadata__suggestion-subtitle-item:last-child {
+	margin-right: 0;
+}
+
+.react-dadata__suggestion--current {
+	background-color: rgba(0, 124, 214, 0.15);
+}
+
+.react-dadata__suggestion:hover {
+	background-color: rgba(195, 91, 91, 0.1);
+}
+
+.react-dadata mark {
+	background: none;
+}
+
+.react-dadata--highlighted {
+	color: #cb0909;
+}

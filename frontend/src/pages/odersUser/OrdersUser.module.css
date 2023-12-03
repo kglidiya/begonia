@@ -1,0 +1,38 @@
+.section {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	margin: auto;
+	width: 60%;
+	padding-top: 50px;
+	padding-bottom: 50px;
+	min-height: 100vh;
+}
+
+.title {
+	text-align: center;
+	font-size: 32px;
+	font-weight: bold;
+}
+
+.warning {
+	padding-top: 100px;
+	text-align: center;
+	font-size: 24px;
+	font-weight: bold;
+}
+@media (max-width: 992px) {
+	.section {
+		width: 80%;
+	}
+}
+
+@media (max-width: 768px) {
+	.section {
+		width: 90%;
+	}
+
+	.title {
+		font-size: 28px;
+	}
+}
