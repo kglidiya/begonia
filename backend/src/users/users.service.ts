@@ -64,6 +64,7 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     try {
+      console.log(process.env.ADMIN)
       const user = this.usersRepository.create({
         ...createUserDto,
         password: await hashPassword(createUserDto.password),

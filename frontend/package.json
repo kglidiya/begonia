@@ -2,8 +2,7 @@
 	"name": "begonia",
 	"version": "0.1.0",
 	"private": true,
-	"homepage": "/",
-	"proxi": "http://localhost:3001/",
+	"homepage": "./",
 	"dependencies": {
 		"@nestjs/mapped-types": "*",
 		"@testing-library/jest-dom": "^5.17.0",
