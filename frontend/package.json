@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"homepage": "./",
+	"proxi": "http://begonia-world.ru/",
 	"dependencies": {
 		"@nestjs/mapped-types": "*",
 		"@testing-library/jest-dom": "^5.17.0",
