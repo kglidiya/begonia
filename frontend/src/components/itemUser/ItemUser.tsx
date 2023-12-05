@@ -60,7 +60,7 @@ const ItemUser = observer(() => {
 	}, [data, setCount]);
 
 	const addToCart = () => {
-		if(!userStore.user.isAuth) {
+		if(!userStore.isAuth) {
 			navigate('/signin')
 		}
 		else handleRequest(
