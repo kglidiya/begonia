@@ -147,8 +147,11 @@ export class AuthService {
   }
 
   async resetPassword(recoveryCode: number, password: string) {
+    console.log(password)
+    
     if (recoveryCode) {
       const user = await this.usersService.findOneByRecoveryCode(recoveryCode);
+      console.log(user)
       if (!user) {
         throw new BadRequestException('Введен некорректный код');
       }

@@ -20,10 +20,10 @@ export default function Shop() {
 
 	const [items, setItems] = useState<IItem[] | undefined>();
 	const [currentPage, setCurrentPage] = useState(1);
-	const [resultPerPage] = useState(6);
+
 	const matches = useMediaQuery('(min-width: 512px)');
 	const [activeTab, setActiveTab] = useState(matches? Type.ALL: Type.ELATIOR);
-	
+	const [resultPerPage, setResultPerPage] = useState(9);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -42,18 +42,22 @@ export default function Shop() {
 	const handleTab1 = () => {
 		setActiveTab(Type.ELATIOR);
 		setCurrentPage(1);
+		setResultPerPage(8)
 	};
 	const handleTab2 = () => {
 		setActiveTab(Type.BULB);
 		setCurrentPage(1);
+		setResultPerPage(8)
 	};
 	const handleTab3 = () => {
 		setActiveTab(Type.FOLIAGE);
 		setCurrentPage(1);
+		setResultPerPage(8)
 	};
 	const handleTab4 = () => {
 		setActiveTab(Type.ALL);
 		setCurrentPage(1);
+		setResultPerPage(9)
 	};
 	if (status.isloading) {
 		return <Loader />;

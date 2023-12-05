@@ -6,6 +6,7 @@ import { handleRequest } from '../../utils/utils';
 import { RESET_PASSWORD_URL } from '../../utils/api';
 import { IStatus } from '../../utils/types';
 import Input from '../../ui/input/Input';
+import { values } from 'mobx';
 
 const ResetPassword = () => {
 	const {
@@ -84,7 +85,7 @@ const ResetPassword = () => {
 	}, [code.length, setFocus, watch]);
 
 	useEffect(() => {
-		if (code.length === 4) {
+		if (code.length === 4 && watch('password') === watch('repeatPassword')) {
 			handleRequest(status, setStatus, `${RESET_PASSWORD_URL}`, 'POST', {
 				recoveryCode: Number(code.join('')),
 				password: watch('password'),
@@ -94,6 +95,8 @@ const ResetPassword = () => {
 			}
 		}
 	}, [code.length, status.data]);
+
+
 	return (
 		<main className={styles.container}>
 			<form className={styles.form}>
@@ -101,7 +104,7 @@ const ResetPassword = () => {
 
 				<Input
 					type="password"
-					placeholder="Введите новый пароль"
+					placeholder="Введите новый пароль. Мин 4 символа"
 					name="password"
 					required
 					pattern={/.{4,}/}

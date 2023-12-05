@@ -45,6 +45,7 @@ export class UsersService {
     }
 
     try {
+      console.log(updateUserDto)
       const updatedData = await this.usersRepository
         .createQueryBuilder('user')
         .update<User>(User, { ...updateUserDto })
