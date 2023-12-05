@@ -1,4 +1,4 @@
-.main {
+.container {
 	width: 70%;
 	margin: auto;
 	padding-top: 70px;
@@ -12,7 +12,7 @@
 	margin: 50px auto;
 	display: flex;
 	flex-direction: column;
-	gap: 30px;
+	gap: 40px;
 	align-items: center;
 }
 
@@ -58,6 +58,9 @@
 }
 
 @media (max-width: 768px) {
+	.container {
+		width: 90%;
+	}
 	.gallery__image {
 		max-width: 100px;
 	}
@@ -72,9 +75,7 @@
 		max-width: 90%;
 	}
 
-	.form {
-		gap: 10px;
-	}
+
 
 	.gallery__image {
 		max-width: 90%;

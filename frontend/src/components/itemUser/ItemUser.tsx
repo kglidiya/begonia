@@ -123,9 +123,9 @@ const ItemUser = observer(() => {
 					<h3 className={styles.title}>{`Бегония ${item.type}`}</h3>
 
 					<div className={styles.details}>
-						<p className="text-medium text-bold">{item.name}</p>
+						<p className={styles.subtitle}>{item.name}</p>
 						{isInTheCart.length > 0 ? (
-							<div className={styles.details}>
+							<div className={styles.counterGroup}>
 								<Button
 									fontSize="20px"
 									width={!matches ? '90%' : '250px'}
@@ -181,8 +181,8 @@ const ItemUser = observer(() => {
 						</p>
 					)}
 					<div className="box-flex-row">
-						<p className="text-default text-bold">Цена</p>
-						<p className="text-default">{`${item.price} руб.`}</p>
+						<p className="text-medium text-bold">Цена</p>
+						<p className="text-medium">{`${item.price} руб.`}</p>
 					</div>
 					<div className={styles.details}>
 						<div className={styles.wrapper}>

@@ -126,14 +126,14 @@ const CheckOut = observer(() => {
 				<p>{`Общая сумма заказа: ${cartStore.total} руб.`}</p>
 			</div>
 
-			<form onSubmit={handleSubmit(onSubmit)} className="box-flex-column">
+			<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 				<div className={styles.addressGroup}>
 					<p className="text-default">Веедите полный адрес</p>
 					<AddressSuggestions
 						token={process.env.REACT_APP_DADATA_TOKEN as string}
 						value={address}
 						onChange={setAddress}
-						// inputProps={{ required: true }}
+						inputProps={{ required: true }}
 					/>
 				</div>
 				<Input

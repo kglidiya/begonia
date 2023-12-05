@@ -16,10 +16,10 @@ export default function ShopElement({ item, handleItemCick }: Props) {
 		<div className={styles.cardContainer} key={item.id}>
 			<div className={styles.card} onClick={() => handleItemCick(item.id)}>
 				<img src={item.image} alt={item.image} className={styles.card__image} />
-				<p className={styles.card__title}>{item.name}</p>
+				<p className={`${styles.card__title} text-bold`}>{item.name}</p>
 				<div className={styles.price__container}>
-					<p className={styles.card__title}>Цена:</p>
-					<p>{`${item.price} руб.`}</p>
+					<p className={`${styles.card__title} text-bold`}>Цена:</p>
+					<p className={styles.card__title}>{`${item.price} руб.`}</p>
 				</div>
 
 				<p className={styles.card__description}>{item.description}</p>

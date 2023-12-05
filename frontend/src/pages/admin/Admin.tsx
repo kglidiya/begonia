@@ -60,6 +60,8 @@ export default function Admin() {
 		// e.target.reset();
 	};
 	useEffect(() => {
+		window.scrollTo(0, 0);
+
 		if (status.data && !Array.isArray(status.data)) {
 			setModalOpen(true);
 			setTimeout(() => {

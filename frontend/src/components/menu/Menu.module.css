@@ -26,9 +26,10 @@
 	align-items: center;
 	cursor: pointer;
 	border-bottom: 1px solid rgb(202, 191, 191);
-	padding: 10px 20px;
+	padding: 10px 35px 10px 20px;
 	background-color: white;
 	height: 60px;
+	box-sizing: border-box;
 }
 .list__item:first-of-type {
 	border-top-right-radius: 10px;

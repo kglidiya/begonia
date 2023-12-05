@@ -19,8 +19,10 @@ function App() {
 
 	const accessToken: string | undefined = getCookie('token');
 	const refreshToken: string | undefined = localStorage.token;
-	console.log('render');
-	
+	const [isMenuOpen, setMenuOpen] = useState(false);
+	const closeMenu = () => {
+		setMenuOpen(false);
+	};
 	useEffect(() => {
 		if (!accessToken && refreshToken) {
 			handleRequest(status, setStatus, REFRESH_TOKEN, 'GET', '', refreshToken);
@@ -32,8 +34,8 @@ function App() {
 	// console.log(refreshToken)
 	return (
 		<Router>
-			<NavBar />
-			<AppRouter />
+			<NavBar isMenuOpen={isMenuOpen} setMenuOpen={setMenuOpen} closeMenu={closeMenu}/>
+			<AppRouter closeMenu={closeMenu}/>
 			<Footer />
 		</Router>
 	);

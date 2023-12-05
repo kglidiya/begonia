@@ -4,14 +4,14 @@
 
 .title {
 	align-self: center;
-	font-size: 26px;
+	font-size: 32px;
 	font-weight: bold;
 	color: var(--default-deep-red);
 }
 .form {
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: 30px;
 	width: 50%;
 	margin: auto;
 	padding-top: 70px;

@@ -40,6 +40,7 @@ export default function Orders() {
 	};
 	
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		document.addEventListener('scroll', scrollHander);
 		// eslint-disable-next-line func-names
 		return function () {

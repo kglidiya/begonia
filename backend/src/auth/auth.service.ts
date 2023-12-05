@@ -32,14 +32,9 @@ export class AuthService {
         'Такой пользователь уже зарегистрирован. Выполните вход'
       );
     }
-
-    const hash = await hashPassword(createUserDto.password);
-
     const newUser = await this.usersService.create({
-      ...createUserDto,
-      password: hash
+      ...createUserDto
     });
-
     const tokens = await this.getTokens(
       newUser.id,
       newUser.email,
@@ -55,13 +50,10 @@ export class AuthService {
 
   async signIn(data: AuthUserDto) {
     const user = await this.usersService.findOneWithPassword(data.email);
-    if (!user)
-      throw new BadRequestException('Такой пользователь не зарегистрирован');
-    const passwordMatches = verifyHash(data.password, user.password);
-        // const passwordMatches = await bcrypt.compare(data.password, user.password);
-    // console.log(`user.password ${user.password}`);
-    // console.log(`bcrypt.hash ${await bcrypt.hash(data.password, 10)}`)
-    console.log(passwordMatches);
+    if (!user) throw new BadRequestException('Такой пользователь не зарегистрирован');
+  
+    const passwordMatches = await verifyHash(data.password, user.password);
+    
     if (!passwordMatches) throw new BadRequestException('Неверный пароль');
     const tokens = await this.getTokens(user.id, user.email, user.role);
     await this.updateRefreshToken(user.id, tokens.refreshToken);

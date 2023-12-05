@@ -18,15 +18,17 @@ import MenuIcon from '../../ui/icons/menu/MenuIcon';
 import OrderIcon from '../../ui/icons/orderIcon/OrderIcon';
 import { toJS } from 'mobx';
 
-const NavBar = observer(() => {
+interface INavBar {
+	isMenuOpen: boolean;
+	closeMenu: () => void;
+	setMenuOpen: any;
+}
+const NavBar = observer(({ isMenuOpen, closeMenu, setMenuOpen }: INavBar) => {
 	const accessToken: string | undefined = getCookie('token');
 	const userStore = useContext(Context).user;
 	const cartStore = useContext(Context).cart;
 	const orderStore = useContext(Context).order;
-	// const [count, setCount] = useState(0);
-	// const [countOrder, setCountOrder] = useState(orderStore.orderCount || 0);
 	const navigate = useNavigate();
-	// const location = useLocation().pathname;
 	const matches = useMediaQuery('(min-width: 912px)');
 	const logout = () => {
 		userStore.setUser({});
@@ -39,13 +41,12 @@ const NavBar = observer(() => {
 		localStorage.removeItem('token');
 		navigate('/');
 
-		// setCount(0)
 	};
-	// console.log(toJS(cartStore.cart[0]))
-	const [isMenuOpen, setMenuOpen] = useState(false);
-	const closeMenu = () => {
-		setMenuOpen(false);
-	};
+
+	// const [isMenuOpen, setMenuOpen] = useState(false);
+	// const closeMenu = () => {
+	// 	setMenuOpen(false);
+	// };
 
 	const [status, setStatus] = useState<IStatus<ICartItem[] | []>>({
 		isloading: false,
@@ -59,24 +60,17 @@ const NavBar = observer(() => {
 		error: '',
 	});
 	useEffect(() => {
-		if (userStore.isAuth) {
-			// console.log(`'fetchCart' `)
-			// cartStore.fetchCart(status, setStatus);
-			cartStore.setTotal();
-			// console.log(status.data[0])
+		if (userStore.isAuth) {	
+			cartStore.setTotal();	
 		}
-		// }, [status.data.length, cartStore.cart.length, userStore.isAuth]);
+	
 	}, [cartStore.cart.length, userStore.isAuth]);
 	useEffect(() => {
 		if (userStore.isAuth && userStore.user.role === Role.USER) {
-			// console.log(`'fetchCart' `)
-
 			cartStore.fetchCart(status, setStatus, accessToken);
-
-			// console.log(userStore.user.email)
 		}
-		// }, [status.data.length, cartStore.cart.length, userStore.isAuth]);
 	}, [status.data.length, userStore.isAuth]);
+
 	useEffect(() => {
 		if (userStore.isAuth && userStore.user.role === Role.USER) {
 			handleRequest(
@@ -94,13 +88,12 @@ const NavBar = observer(() => {
 		}
 	}, [statusOrder.data?.length, userStore.isAuth]);
 
-	// console.log( localStorage.getItem("token"))
-	// console.log( accessToken)
 	return (
-		<header className={styles.container}>
-			<Link className={styles.logoGroup} to="/">
+		<header className={styles.header}>
+		   <div className={styles.container}>
+		   <Link className={styles.logoGroup} to="/">
 				<div className={styles.logo} />
-				<p className={styles.title}>Пеларгонии и Co</p>
+				<p className={styles.title}>Мир бегоний</p>
 			</Link>
 			{matches && (
 				<div className={styles.wrapper}>
@@ -215,6 +208,8 @@ const NavBar = observer(() => {
 					<Menu isOpen={isMenuOpen} closeMenu={closeMenu} />
 				</>
 			)}
+		   </div>
+		
 		</header>
 	);
 });

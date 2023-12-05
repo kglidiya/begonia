@@ -17,6 +17,7 @@ import DeliveryConditions from '../deliveryConditions/DeliveryConditions';
 import PhotoSlider from '../photoSider/PhotoSlider';
 import Modal from '../modal/Modal';
 import Notification from '../notification/Notification';
+import useMediaQuery from '../../hooks/useMediaQuery';
 
 export default function ItemAdmin() {
 	const { id } = useParams();
@@ -56,7 +57,7 @@ export default function ItemAdmin() {
 			galleryImage3: item?.galleryImage3,
 		},
 	});
-
+	const matches = useMediaQuery('(min-width: 768px)');
 	const [isDeleted, setIsDeleted] = useState({
 		hidden: false,
 		height: '100%',
@@ -95,25 +96,25 @@ export default function ItemAdmin() {
 			},
 			accessToken
 		);
+		
 	};
 	useEffect(() => {
-		if (data && !Array.isArray(data)) {
+		
+		if (status.data !== undefined && !Array.isArray(status.data)) {
 			setModalOpen(true);
 			setTimeout(() => {
 				setModalOpen(false);
 			}, 1000);
 		}
 	}, [status.data]);
+	
 	return (
-		<section className={styles.main} style={{ height: isDeleted.height }}>
+		<section className={styles.container} style={{ height: isDeleted.height }}>
 			<Button
 				text={isDeleted.buttonText}
-				width="300px"
-				fontSize="24px"
+				width={matches ? '300px' : '100%'}
+				fontSize={matches ? '24px' : '18px'}
 				onClick={deleteItem}
-				// onClick={() => {
-				// 	setModalOpen(true);
-				// }}
 			/>
 
 			{item !== undefined && !isDeleted.hidden && (
@@ -156,9 +157,7 @@ export default function ItemAdmin() {
 						clearButton
 						setValue={setValue}
 					/>
-					{/* {item.image !== '' && (
-						<img src={item.image} alt="Фото" className={styles.photo__main} />
-					)} */}
+
 					{watch('image') !== '' && (
 						<img
 							src={watch('image')}
@@ -276,21 +275,22 @@ export default function ItemAdmin() {
 					</div>
 					<Button
 						type="submit"
-						width="250px"
+						width={matches ? '250px' : '100%'}
+						fontSize={matches ? '20px' : '18px'}
 						text="ОБНОВИТЬ"
-						fontSize="20px"
-						onClick={() => setModalOpen(true)}
+						// onClick={() => setModalOpen(true)}
 					/>
 				</form>
 			)}
-			{!isDeleted.hidden && <Modal
-				onClose={closePopup}
-				isModalOpen={isModalOpen}
-				backgroundColor="transparent"
-			>
-				<Notification text="Данные обновлены" />
-			</Modal>}
-			
+			{!isDeleted.hidden && (
+				<Modal
+					onClose={closePopup}
+					isModalOpen={isModalOpen}
+					backgroundColor="transparent"
+				>
+					<Notification text="Данные обновлены" />
+				</Modal>
+			)}
 		</section>
 	);
 }

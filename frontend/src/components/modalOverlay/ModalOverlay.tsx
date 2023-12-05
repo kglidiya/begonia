@@ -22,6 +22,7 @@ export default function ModalOverLay({
 	return (
 		<div
 			onClick={(e) => {
+				
 				if (e.target === e.currentTarget) {
 					closePopup();
 				}

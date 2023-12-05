@@ -32,8 +32,8 @@ const TextArea = ({
 	return (
 		<div className={styles.container}>
 			{clearButton && <CloseIcon onClick={() => setValue(name, '')} />}
-			<label className={styles.label}>
-				{label}
+			<label className={styles.label}>	{label}</label>
+			
 				<textarea
 					className={styles.input}
 					placeholder={placeholder}
@@ -46,7 +46,7 @@ const TextArea = ({
 				{error?.[`${name}`] && (
 					<span className={styles.error}>{errorMessage}</span>
 				)}
-			</label>
+		
 		</div>
 	);
 };

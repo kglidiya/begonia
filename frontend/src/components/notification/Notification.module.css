@@ -15,3 +15,14 @@
     font-weight: bold;
     color: var(--default-deep-red);
 }
+
+@media (max-width: 768px) {
+	.container {
+		min-width: 90%;
+	}
+
+    .text {
+        font-size: 24px;
+    }
+	
+}

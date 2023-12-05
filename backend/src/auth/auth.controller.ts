@@ -17,6 +17,11 @@ import { RefreshTokenGuard } from './guards/refreshToken.guard';
 @Controller()
 export class AuthController {
   constructor(private authService: AuthService) { }
+  
+  @Post('signin')
+  signin(@Body() data: AuthUserDto) {
+    return this.authService.signIn(data);
+  }
 
   @Post('signup')
   signup(@Body() createUserDto: CreateUserDto) {
@@ -24,10 +29,7 @@ export class AuthController {
     return this.authService.signUp(createUserDto);
   }
 
-  @Post('signin')
-  signin(@Body() data: AuthUserDto) {
-    return this.authService.signIn(data);
-  }
+
 
   @Post('forgot-password')
   forgotpass(@Body() data: any) {

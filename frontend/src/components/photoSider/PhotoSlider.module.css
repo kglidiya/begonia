@@ -32,14 +32,14 @@
 	left: -100px;
 	rotate: 180deg;
 	cursor: pointer;
-	z-index: 1000;
+	z-index: 200;
 }
 
 .btn_next {
 	position: absolute;
 	top: 50%;
 	right: -100px;
-	z-index: 1000;
+	z-index: 200;
 	cursor: pointer;
 }
 

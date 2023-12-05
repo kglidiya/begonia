@@ -21,8 +21,9 @@ export default function Shop() {
 	const [items, setItems] = useState<IItem[] | undefined>();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [resultPerPage] = useState(6);
-	const [activeTab, setActiveTab] = useState(Type.ALL);
-	const matches = useMediaQuery('(min-width: 414px)');
+	const matches = useMediaQuery('(min-width: 512px)');
+	const [activeTab, setActiveTab] = useState(matches? Type.ALL: Type.ELATIOR);
+	
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -137,33 +138,7 @@ export default function Shop() {
 					<div className={styles.container}>
 						{items &&
 							items.map((item) => {
-								// if (activeTab === Type.ELATIOR && item.type === Type.ELATIOR) {
-								// 	return (
-								// 		<ShopElement
-								// 			key={item.id}
-								// 			item={item}
-								// 			handleItemCick={handleItemCick}
-								// 		/>
-								// 	);
-								// }
-								// if (activeTab === Type.BULB && item.type === Type.BULB) {
-								// 	return (
-								// 		<ShopElement
-								// 			key={item.id}
-								// 			item={item}
-								// 			handleItemCick={handleItemCick}
-								// 		/>
-								// 	);
-								// }
-								// if (activeTab === Type.FOLIAGE && item.type === Type.FOLIAGE) {
-								// 	return (
-								// 		<ShopElement
-								// 			key={item.id}
-								// 			item={item}
-								// 			handleItemCick={handleItemCick}
-								// 		/>
-								// 	);
-								// }
+								
 								if (activeTab === Type.ALL) {
 									return (
 										<ShopElement

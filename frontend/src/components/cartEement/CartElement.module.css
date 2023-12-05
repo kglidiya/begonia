@@ -37,6 +37,7 @@
 	overflow: hidden;
 	text-align: justify;
 	width: 100%;
+	line-height: 1.4;
 }
 
 .closeButton {
@@ -73,6 +74,7 @@
 		height: auto;
 		flex-direction: column;
 		gap: 10px;
+	
 	}
 
 	.countGroup {

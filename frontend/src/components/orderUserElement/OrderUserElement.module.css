@@ -7,6 +7,7 @@
 	border-radius: 20px;
 	padding: 20px;
 	cursor: pointer;
+	
 }
 
 .orderGroup {
@@ -23,6 +24,9 @@
 	margin: 0;
 }
 
+.price {
+	font-size: 16px;
+}
 .orderStatus {
 	background-color: var(--default-deep-red);
 	padding: 5px;
@@ -88,6 +92,16 @@
 		width: 100%;
 	}
 
+	.orderGroup {
+		align-items: center;
+		margin-bottom: 10px;
+	}
+	.text {
+		text-align: center;
+	}
+	.price {
+		text-align: center;
+	}
 	.list__item:first-of-type {
 		width: 60%;
 	}

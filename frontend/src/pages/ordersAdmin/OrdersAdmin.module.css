@@ -26,4 +26,12 @@
 	.container {
 		width: 90%;
 	}
+
+	
+}
+
+@media (max-width: 576px) {
+	.title {
+		font-size: 22px;
+	}
 }

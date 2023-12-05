@@ -4,13 +4,17 @@
 	padding-bottom: 50px;
 	margin: auto;
 }
-
+.form {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 40px;
+}
 .addressGroup {
 	margin-bottom: 15px;
 	width: 100%;
 }
 .orderGroup {
-	width: 100%;
 	background-color: rgb(249 235 235);
 	box-shadow: 5px 5px 15px rgb(203 197 197);
 	border-radius: 20px;
@@ -53,6 +57,15 @@
 	font-weight: bold;
 	color: red;
 	text-align: center;
+}
+
+@media (max-width: 576px) {
+	.orderGroup {
+		padding: 15px;
+	}
+	.list__item {
+		font-size: 16px;
+	}
 }
 
 @media (max-width: 414px) {

@@ -22,6 +22,7 @@
 }
 
 .sectionHeader {
+	font-size: 20px;
 	margin-bottom: 15px;
 	color: var(--default-deep-red);
 }
@@ -34,8 +35,11 @@
 	padding: 30px;
 	margin: auto;
 	background-color: white;
+	box-sizing: border-box;
 }
-
+.comments {
+	word-break: break-all;
+}
 .statusGroup {
 	display: flex;
 	flex-direction: row;

@@ -118,7 +118,7 @@ export default function OrderDetails() {
 								)}
 							</div>
 							{order.delivery.comments && (
-								<p> {`Комментарии: ${order.delivery.comments}`} </p>
+								<p className={styles.comments}> {`Комментарии: ${order.delivery.comments}`} </p>
 							)}
 						</div>
 					)}

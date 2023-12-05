@@ -13,7 +13,9 @@
 	font-size: 16px;
 	padding: 10px 35px 10px 10px;
 	outline: none;
-	height: 120px;
+	height: 150px;
+	line-height: 1.4;
+
 }
 
 .input:focus {
@@ -22,12 +24,15 @@
 
 .label {
 	width: 100%;
+	position: absolute;
+	top: -20px;
+	left: 0;
 }
 
 .error {
 	color: red;
 	position: absolute;
 	font-weight: bold;
-	bottom: -25px;
+	bottom: -17px;
 	left: 0;
 }

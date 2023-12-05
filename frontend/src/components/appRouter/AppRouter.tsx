@@ -27,10 +27,12 @@ import Orders from '../../pages/ordersAdmin/OrdersAdmin';
 import OrdersUser from '../../pages/odersUser/OrdersUser';
 import OrderDetails from '../../pages/orderDetails/OrderDetails';
 import { UserRoute } from '../userRoute/UserRoute';
-
-export default function AppRouter() {
+interface IAppRouter {
+	closeMenu: () => void;
+}
+export default function AppRouter({closeMenu}: IAppRouter) {
 	return (
-		<main className={styles.main}>
+		<main className={styles.main} onClick={closeMenu}>
 			<Routes>
 				<Route path={SHOP_ROUTE} element={<Shop />} />
 				<Route path={REGISTRATION_ROUTE} element={<Signup />} />

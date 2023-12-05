@@ -23,6 +23,9 @@
 }
 
 .label {
+     position: absolute;
+	 top: -20px;
+	 left: 0;
 	width: 100%;
 	font-size: 1rem;
 	font-weight: 400;
@@ -33,7 +36,7 @@
 	color: red;
 	position: absolute;
 	font-weight: bold;
-	bottom: -25px;
+	bottom: -17px;
 	left: 0;
 }
 

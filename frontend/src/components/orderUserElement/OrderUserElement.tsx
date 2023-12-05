@@ -60,7 +60,7 @@ const OrderUserElement = observer(({ orderItem }: IOrderUserElement) => {
 						<p className={styles.text}>{`Закат от ${formatDate(
 							String(orderItem.createdAt)
 						)}`}</p>
-						<p>{`Общая сумма заказа: ${getTotal(
+						<p className={styles.price}>{`Общая сумма заказа: ${getTotal(
 							orderItem.orderItems
 						)} руб.`}</p>
 						<p className={styles.orderStatus}>

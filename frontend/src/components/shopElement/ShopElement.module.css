@@ -2,6 +2,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
+
 }
 .card {
 	box-shadow: 15px 5px 15px 5px rgb(229, 228, 228);
@@ -13,10 +14,12 @@
 	cursor: pointer;
 	transition: box-shadow 0.3s linear;
 	background-color: white;
+	align-items: center;
+   height: 100%;
 }
 
 .card:hover {
-	box-shadow: 15px 10px 20px 10px rgb(229, 228, 228);
+	box-shadow: 15px 10px 25px 15px rgb(229, 228, 228);
 }
 
 .card__image {
@@ -24,11 +27,13 @@
 	height: 200px;
 	object-fit: contain;
 	align-self: center;
-	padding-top: 15px;
+	margin-top: 15px;
+	margin-bottom: 15px;
 }
 
 .card__title {
-	font-weight: bold;
+	font-size: 18px;
+	margin-bottom: 10px;
 }
 
 .price__container {
@@ -37,7 +42,6 @@
 	gap: 15px;
 }
 .card__description {
-	height: 100px;
 	width: 90%;
 	text-align: justify;
 	display: -webkit-box;
@@ -45,10 +49,16 @@
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 	margin-bottom: 15px;
+	min-height: 96px;
+	line-height: 1.4;
 }
 
 @media (max-width: 576px) {
+	.card__title {
+		font-size: 16px;
+	}
 	.card__description {
 		font-size: 14px;
+		min-height: 85px;
 	}
 }
