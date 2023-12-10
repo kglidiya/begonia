@@ -36,8 +36,7 @@ export function setCookie(
 			updatedCookie += `=${propValue}`;
 		}
 	}
-	document.cookie = updatedCookie + ";path=/";
-
+	document.cookie = `${updatedCookie};path=/`;
 }
 
 export function deleteCookie(name: string) {

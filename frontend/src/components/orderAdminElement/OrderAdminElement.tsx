@@ -1,4 +1,4 @@
-
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useNavigate } from 'react-router-dom';
 import styles from './OrderAdminElement.module.css';
 import { IOrder } from '../../utils/types';

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { handleRequest } from '../utils/utils';
+import { handleRequest } from '../utils/api';
 import { IStatus } from '../utils/types';
 
 const useFetch = (url: string, path: string) => {
@@ -8,16 +8,14 @@ const useFetch = (url: string, path: string) => {
 		data: [],
 		error: '',
 	});
-	// console.log(status.data)
-
 	useEffect(() => {
 		if (url) {
 			handleRequest(status, setStatus, url, 'GET');
-		} else {
+		}
+		if (status.error) {
 			setStatus({
 				...status,
-				isloading: false,
-				error: 'Ошибка: Не удалось получить токен',
+				error: status.error,
 			});
 		}
 	}, [url, path]);

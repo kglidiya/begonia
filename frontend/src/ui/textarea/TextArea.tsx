@@ -1,4 +1,3 @@
-
 import { UseFormRegister } from 'react-hook-form';
 import styles from './TextArea.module.css';
 import CloseIcon from '../icons/closeIcon/CloseIcon';
@@ -32,21 +31,23 @@ const TextArea = ({
 	return (
 		<div className={styles.container}>
 			{clearButton && <CloseIcon onClick={() => setValue(name, '')} />}
-			<label className={styles.label}>	{label}</label>
-			
-				<textarea
-					className={styles.input}
-					placeholder={placeholder}
-					{...register(name, {
-						required,
-						maxLength,
-						minLength,
-					})}
-				/>
-				{error?.[`${name}`] && (
-					<span className={styles.error}>{errorMessage}</span>
-				)}
-		
+			<label className={styles.label} htmlFor={name}>
+				{' '}
+				{label}
+			</label>
+
+			<textarea
+				className={styles.input}
+				placeholder={placeholder}
+				{...register(name, {
+					required,
+					maxLength,
+					minLength,
+				})}
+			/>
+			{error?.[`${name}`] && (
+				<span className={styles.error}>{errorMessage}</span>
+			)}
 		</div>
 	);
 };

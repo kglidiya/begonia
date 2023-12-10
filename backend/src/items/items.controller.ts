@@ -30,7 +30,6 @@ export class ItemsController {
 
   @Get()
   findAll(@Query() query: any) {
-    // console.log(query)
     return this.itemsService.findAll(query.type, query.page, query.resultPerPage);
   }
 

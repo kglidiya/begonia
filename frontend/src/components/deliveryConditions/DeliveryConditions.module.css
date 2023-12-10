@@ -7,6 +7,7 @@
 	text-align: center;
 	color: var(--default-deep-red);
 	font-weight: bold;
+	font-size: 24px;
 }
 
 .text {
@@ -18,5 +19,9 @@
 @media (max-width: 576px) {
 	.text {
 		font-size: 14px;
+	}
+
+	.title {
+		font-size: 22px;
 	}
 }

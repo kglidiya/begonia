@@ -9,7 +9,7 @@ interface IModalOverLayProps {
 	animation: string;
 	backgroundColor?: string;
 
-	closeIcone?: boolean
+	closeIcone?: boolean;
 }
 
 export default function ModalOverLay({
@@ -17,23 +17,24 @@ export default function ModalOverLay({
 	closePopup,
 	animation,
 	backgroundColor,
-	closeIcone
+	closeIcone,
 }: IModalOverLayProps) {
 	return (
 		<div
 			onClick={(e) => {
-				
 				if (e.target === e.currentTarget) {
 					closePopup();
 				}
 			}}
 			className={`${styles.overlay} ${styles[animation]}`}
-			style={{backgroundColor}}
+			style={{ backgroundColor }}
 		>
-			{closeIcone && <span className={styles.closeButton}>
-				<ClosePopupIcon onClick={closePopup} />
-			</span>}
-			
+			{closeIcone && (
+				<span className={styles.closeButton}>
+					<ClosePopupIcon onClick={closePopup} />
+				</span>
+			)}
+
 			{children}
 		</div>
 	);

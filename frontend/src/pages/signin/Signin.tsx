@@ -4,12 +4,13 @@ import { useForm } from 'react-hook-form';
 import { observer } from 'mobx-react-lite';
 import styles from './Signin.module.css';
 import Button from '../../ui/button/Button';
-import { emailRegex, handleRequest } from '../../utils/utils';
-import { SIGN_IN_URL } from '../../utils/api';
+import { emailRegex } from '../../utils/utils';
+import { SIGN_IN_URL, handleRequest } from '../../utils/api';
 import { Context } from '../..';
 import { IStatus, IUser } from '../../utils/types';
 import Input from '../../ui/input/Input';
 import useMediaQuery from '../../hooks/useMediaQuery';
+import Spinner from '../../ui/icons/spinner/Spinner';
 
 const Signin = observer(() => {
 	const {
@@ -20,7 +21,6 @@ const Signin = observer(() => {
 	} = useForm({ values: { email: '', password: '' } });
 	const matches = useMediaQuery('(min-width: 576px)');
 	const user = useContext(Context)?.user;
-	const cartStore = useContext(Context)?.cart;
 	const navigate = useNavigate();
 
 	const [status, setStatus] = useState<IStatus<undefined | IUser>>({
@@ -28,10 +28,9 @@ const Signin = observer(() => {
 		data: undefined,
 		error: '',
 	});
-console.log(status.error)
+
 	const onSubmit = (values: any) => {
 		handleRequest(status, setStatus, SIGN_IN_URL, 'POST', values);
-		//cartStore.setCart(status, setStatus);
 	};
 
 	useEffect(() => {
@@ -81,7 +80,7 @@ console.log(status.error)
 
 				<Button
 					type="submit"
-					text="Войти"
+					text={!status.isloading ? 'Войти' : <Spinner />}
 					width={matches ? '300px' : '95%'}
 					fontSize={matches ? '24px' : '18px'}
 				/>

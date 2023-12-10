@@ -1,4 +1,4 @@
-
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useState } from 'react';
 import styles from './InputSelect.module.css';
 import CloseIcon from '../icons/closeIcon/CloseIcon';
@@ -55,7 +55,7 @@ const InputSelect = ({
 					}}
 				/>
 			)}
-			<label className={styles.label}>
+			<label className={styles.label} htmlFor={name}>
 				{label}
 				<input
 					type={type}
@@ -82,7 +82,6 @@ const InputSelect = ({
 			>
 				{options.map((option) => {
 					return (
-						
 						<li
 							key={option}
 							onClick={() => {

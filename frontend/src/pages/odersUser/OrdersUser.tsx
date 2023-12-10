@@ -43,24 +43,18 @@ const OrdersUser = observer(() => {
 
 			{deleted && order && order.length > 0 && (
 				<>
-					{order?.map((el: IOrder, i) => {
+					{order?.map((el) => {
 						if (el.status === OrderStatus.CANCELLED) {
-							return (
-								<OrderUserElement
-									key={i}
-									orderItem={el}
-									// orderStatus={order.status}
-								/>
-							);
+							return <OrderUserElement key={el.id} orderItem={el} />;
 						}
 					})}
 				</>
 			)}
 			{!deleted && order && order.length > 0 && (
 				<>
-					{order?.map((el: IOrder, i) => {
+					{order?.map((el) => {
 						if (el.status !== OrderStatus.CANCELLED) {
-							return <OrderUserElement key={i} orderItem={el} />;
+							return <OrderUserElement key={el.id} orderItem={el} />;
 						}
 					})}
 				</>

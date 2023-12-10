@@ -2,8 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  HttpCode,
-  HttpStatus,
   Post,
   Req,
   UseGuards
@@ -29,8 +27,6 @@ export class AuthController {
     return this.authService.signUp(createUserDto);
   }
 
-
-
   @Post('forgot-password')
   forgotpass(@Body() data: any) {
     return this.authService.forgotpassword(data.email);
@@ -42,17 +38,9 @@ export class AuthController {
     return this.authService.resetPassword(recoveryCode, password);
   }
 
-  // @UseGuards(AccessTokenGuard)
-  // @Get('logout')
-  // logout(@Req() req: Request) {
-
-  //   this.authService.logout(req.user['sub']);
-  // }
-
   @UseGuards(RefreshTokenGuard)
   @Get('refresh')
   refreshTokens(@Req() req: Request) {
-    // console.log(req.user)
     const userId = req.user['sub'];
     const refreshToken = req.user['refreshToken'];
     return this.authService.refreshTokens(userId, refreshToken);

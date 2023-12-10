@@ -21,6 +21,7 @@ export class UsersService {
   async findOne(id: number) {
     return await this.usersRepository.findOne({ where: { id } });
   }
+
   async findOneByEmail(email: string) {
     return await this.usersRepository.findOne({ where: { email } });
   }
@@ -30,6 +31,7 @@ export class UsersService {
       where: { recoveryCode: code }
     });
   }
+
   async findOneWithPassword(email: string): Promise<User> {
     return await this.usersRepository.findOne({
       where: { email },
@@ -45,7 +47,7 @@ export class UsersService {
     }
 
     try {
-      console.log(updateUserDto)
+   
       const updatedData = await this.usersRepository
         .createQueryBuilder('user')
         .update<User>(User, { ...updateUserDto })
@@ -64,9 +66,7 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto) {
-
     try {
-      // console.log(process.env.ADMIN)
       const user = this.usersRepository.create({
         ...createUserDto,
         password: await hashPassword(createUserDto.password),

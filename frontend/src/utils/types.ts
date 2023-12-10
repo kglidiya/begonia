@@ -17,15 +17,14 @@ export enum OrderStatus {
 export enum Type {
 	ELATIOR = 'Элатиор',
 	BULB = 'Клубневая',
-	FOLIAGE = 'Декоративно-лиственная',
-	ALL = 'Все сорта'
+	FOLIAGE = 'Ампельная',
+	ALL = 'Все сорта',
 }
 
 export interface IItem {
 	id: number;
 	createdAt: string;
 	updatedAt: string;
-	article: number;
 	type: string;
 	description: string;
 	price: number;

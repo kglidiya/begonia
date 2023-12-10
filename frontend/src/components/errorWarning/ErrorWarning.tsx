@@ -1,9 +1,13 @@
 import styles from './ErrorWarning.module.css';
 
-export default function ErrorWarning() {
+interface IErrorWarning {
+	message: string;
+}
+
+export default function ErrorWarning({ message }: IErrorWarning) {
 	return (
 		<div className={styles.error}>
-			<p className={styles.message}>Произошла ошибка</p>
+			<p className={styles.message}>{message}</p>
 		</div>
 	);
 }

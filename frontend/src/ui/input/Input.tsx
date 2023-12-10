@@ -1,4 +1,3 @@
-
 import styles from './Input.module.css';
 import CloseIcon from '../icons/closeIcon/CloseIcon';
 
@@ -43,7 +42,9 @@ const Input = ({
 	return (
 		<div className={styles.container}>
 			{clearButton && <CloseIcon onClick={() => setValue(name, '')} />}
-			<label className={styles.label}>{label}</label>
+			<label className={styles.label} htmlFor={name}>
+				{label}
+			</label>
 			<input
 				placeholder={placeholder}
 				type={type}

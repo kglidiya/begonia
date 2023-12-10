@@ -4,12 +4,13 @@ import { useForm } from 'react-hook-form';
 import { observer } from 'mobx-react-lite';
 import styles from './Signup.module.css';
 import Button from '../../ui/button/Button';
-import { emailRegex, handleRequest } from '../../utils/utils';
-import { SIGN_UP_URL } from '../../utils/api';
+import { emailRegex } from '../../utils/utils';
+import { SIGN_UP_URL, handleRequest } from '../../utils/api';
 import { Context } from '../..';
 import { IStatus, IUser } from '../../utils/types';
 import Input from '../../ui/input/Input';
 import useMediaQuery from '../../hooks/useMediaQuery';
+import Spinner from '../../ui/icons/spinner/Spinner';
 
 const Signup = observer(() => {
 	const {
@@ -77,7 +78,7 @@ const Signup = observer(() => {
 				/>
 				<Button
 					type="submit"
-					text="Зарегистрироваться"
+					text={!status.isloading ? 'Зарегистрироваться' : <Spinner />}
 					width={matches ? '300px' : '95%'}
 					fontSize={matches ? '24px' : '18px'}
 				/>

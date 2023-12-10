@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdateCartDto } from './dto/update-cartItem.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -19,20 +19,23 @@ export class CartService {
 
   async create(userId: number, createCartItemDto: any): Promise<any> {
     const { id, quantity } = createCartItemDto;
-    // console.log(quantity)
     const item = await this.itemsRepository.findOne({
       where: { id }
     });
+    if (!item) throw new BadRequestException('Товар не найден');
 
     const user = await this.usersRepository.findOne({
       where: { id: userId },
       relations: ['cart', 'cart.item']
     });
 
+    if (!user) throw new BadRequestException('Пользователь не найден');
+
+    //проверяем, есть ли уже такой товар в корзине
     const existingCartItem = user.cart.filter((el) => el.item.id === id);
 
+    //есть товар уже в корзине, меняем количество
     if (existingCartItem.length > 0) {
-      // console.log('existingCartItem.length > 0')
       await this.cartRepository
         .createQueryBuilder('cartItem')
         .update<CartItem>(CartItem, {
@@ -47,8 +50,8 @@ export class CartService {
         relations: ['user', 'item']
       });
     }
+    //если такого товара нет, довавляем в корзину
     if (existingCartItem.length === 0) {
-      //  console.log('existingCartItem.length === 0')
       const cartItemNew = this.cartRepository.create({
         user,
         item,
@@ -62,12 +65,13 @@ export class CartService {
 
   async update(updateCartDto: UpdateCartDto) {
     const { id, quantity } = updateCartDto;
-    // console.log(updateCartDto)
     const cartToUpdate = await this.cartRepository.findOne({
       where: { id },
       relations: ['item']
     });
-    // console.log(cartToUpdate)
+
+    if (!cartToUpdate) throw new BadRequestException('Товар не найден');
+
     await this.cartRepository
       .createQueryBuilder('cartItem')
       .update<CartItem>(CartItem, {
@@ -82,8 +86,6 @@ export class CartService {
       where: { id },
       relations: ['user', 'item']
     });
-    // console.log(t)
-    // return t
   }
 
   async findAll(userId: number) {
@@ -92,8 +94,6 @@ export class CartService {
       where: { user: { id: userId } },
       order: { createdAt: 'ASC' }
     });
-    // console.log(t)
-    // return t
   }
 
   async findOne(userId: number, itemId: number) {
@@ -102,7 +102,10 @@ export class CartService {
       relations: ['cart', 'cart.item']
     });
 
+    if (!user) throw new BadRequestException('Пользователь не найден');
+
     const existingCartItem = user.cart.filter((el) => el.item.id === itemId);
+    
     if (existingCartItem.length > 0) {
       return await this.cartRepository.findOne({
         where: { item: { id: itemId } },

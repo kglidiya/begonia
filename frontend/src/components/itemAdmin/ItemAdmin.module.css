@@ -15,7 +15,10 @@
 	gap: 40px;
 	align-items: center;
 }
-
+.title {
+	font-size: 28px;
+	font-weight: bold;
+}
 .photo__main {
 	max-width: 400px;
 	height: auto;
@@ -32,6 +35,7 @@
 .gallery__cards {
 	display: flex;
 	flex-direction: row;
+	margin-top: 15px;
 	gap: 25px;
 	margin-bottom: 30px;
 }
@@ -75,9 +79,11 @@
 		max-width: 90%;
 	}
 
-
-
 	.gallery__image {
 		max-width: 90%;
+	}
+
+	.title {
+		font-size: 22px;
 	}
 }

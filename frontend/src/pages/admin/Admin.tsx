@@ -1,20 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import styles from './Admin.module.css';
 import TextArea from '../../ui/textarea/TextArea';
-import { ITEMS_URL } from '../../utils/api';
-import { handleRequest, productType, urlRegex } from '../../utils/utils';
+import { ITEMS_URL, handleRequestWithAuth } from '../../utils/api';
+import { productType, urlRegex } from '../../utils/utils';
 import { IItem, IStatus } from '../../utils/types';
 import Button from '../../ui/button/Button';
 import Input from '../../ui/input/Input';
 import InputSelect from '../../ui/inputSelect/InputSelect';
-import { getCookie } from '../../utils/cookies';
+import { deleteCookie } from '../../utils/cookies';
 import Modal from '../../components/modal/Modal';
 import Notification from '../../components/notification/Notification';
+import { Context } from '../..';
+import Spinner from '../../ui/icons/spinner/Spinner';
 
 export default function Admin() {
-	const accessToken: string | undefined = getCookie('token');
-
+	// const accessToken: string | undefined = getCookie('token');
+	const userStore = useContext(Context).user;
+	const navigate = useNavigate();
+	const logout = () => {
+		userStore.setUser({});
+		userStore.setIsAuth(false);
+		deleteCookie('token');
+		deleteCookie('expires_on');
+		localStorage.removeItem('token');
+		navigate('/signin');
+	};
 	const {
 		register,
 		handleSubmit,
@@ -27,7 +39,6 @@ export default function Admin() {
 			description: '',
 			price: '',
 			image: '',
-			article: '',
 			quantity: '',
 			galleryImage1: '',
 			galleryImage2: '',
@@ -44,19 +55,11 @@ export default function Admin() {
 		setModalOpen(false);
 	};
 	const onSubmit = (values: any) => {
-		handleRequest(
-			status,
-			setStatus,
-			ITEMS_URL,
-			'POST',
-			{
-				...values,
-				price: values.price && +values.price,
-				article: values.article && +values.article,
-				quantity: values.quantity && +values.quantity,
-			},
-			accessToken
-		);
+		handleRequestWithAuth(logout, status, setStatus, ITEMS_URL, 'POST', {
+			...values,
+			price: values.price && +values.price,
+			quantity: values.quantity && +values.quantity,
+		});
 		// e.target.reset();
 	};
 	useEffect(() => {
@@ -69,7 +72,6 @@ export default function Admin() {
 			}, 1000);
 		}
 	}, [status.data]);
-
 
 	return (
 		<div className={styles.container}>
@@ -84,7 +86,6 @@ export default function Admin() {
 					name="type"
 					clearButton={false}
 					required
-					// errorMessage={"Заполните это поле"}
 				/>
 				<Input
 					type="text"
@@ -141,17 +142,6 @@ export default function Admin() {
 				/>
 				<Input
 					type="number"
-					name="article"
-					placeholder="Артикул"
-					required
-					register={register}
-					error={errors}
-					errorMessage="Заполните это поле"
-					clearButton
-					setValue={setValue}
-				/>
-				<Input
-					type="number"
 					name="quantity"
 					placeholder="Количество"
 					required
@@ -192,8 +182,12 @@ export default function Admin() {
 					clearButton
 					setValue={setValue}
 				/>
-				<Button type="submit" text="Отправить" width="200px" fontSize="20px" />
-		
+				<Button
+					type="submit"
+					text={!status.isloading ? 'Отправить' : <Spinner />}
+					width="200px"
+					fontSize="20px"
+				/>
 			</form>
 			<Modal
 				onClose={closePopup}

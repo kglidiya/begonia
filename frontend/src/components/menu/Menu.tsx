@@ -1,4 +1,4 @@
-
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styles from './Menu.module.css';
@@ -26,6 +26,7 @@ export default function Menu({ isOpen, closeMenu }: IMenu) {
 		orderStore.setOrder([]);
 		orderStore.setOrderCount();
 		deleteCookie('token');
+		deleteCookie('expires_on');
 		localStorage.removeItem('token');
 		navigate('/');
 	};
@@ -144,16 +145,31 @@ export default function Menu({ isOpen, closeMenu }: IMenu) {
 					</li>
 				</>
 			) : (
-				<li
-					className={styles.list__item}
-					onClick={() => {
-						closeMenu();
-						navigate('/signin');
-					}}
-				>
-					{' '}
-					<p className="text-default"> Войти</p>
-				</li>
+				<>
+					<li className={styles.list__item} onClick={closeMenu}>
+						<NavLink
+							to="/"
+							className={({ isActive }) =>
+								isActive ? styles.link_active : styles.link
+							}
+						>
+							<div className={`${styles.wrapper} box-flex-row`}>
+								<p> Магазин</p>
+								<FlowerIcon count={0} />
+							</div>
+						</NavLink>
+					</li>
+					<li
+						className={styles.list__item}
+						onClick={() => {
+							closeMenu();
+							navigate('/signin');
+						}}
+					>
+						{' '}
+						<p className="text-default"> Войти</p>
+					</li>
+				</>
 			)}
 		</ul>
 	);

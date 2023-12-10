@@ -11,7 +11,6 @@
 	border-radius: 4px;
 	width: 100%;
 	font-size: 16px;
-
 	padding-left: 10px;
 	padding-right: 35px;
 	outline: none;
@@ -62,7 +61,7 @@ input:-webkit-autofill:active {
 	position: absolute;
 	z-index: 2;
 	background-color: white;
-	top: 65px;
+	top: 60px;
 	right: 0;
 	width: 100%;
 }
@@ -84,8 +83,8 @@ input:-webkit-autofill:active {
 	cursor: pointer;
 	height: 40px;
 	padding-left: 20px;
-	padding-top: 6px;
-	
+	padding-top: 10px;
+    box-sizing: border-box;
 }
 
 .list__item:hover {

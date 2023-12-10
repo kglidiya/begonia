@@ -22,3 +22,8 @@
 	background-blend-mode: overlay;
 	box-shadow: 5px 5px 15px rgb(217, 200, 200);
 }
+
+button:hover {
+	transition: all 1s linear;
+	scale: 1.02;
+}

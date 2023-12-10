@@ -2,62 +2,13 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
 
-import axios, { AxiosError } from 'axios';
-import { getCookie, setCookie } from './cookies';
-import { ICartItem, IStatus, OrderStatus, Type } from './types';
-
-export const handleRequest = async (
-	status: IStatus<any>,
-	setStatus: React.Dispatch<React.SetStateAction<IStatus<any>>>,
-	url: string,
-	method: string,
-	data?: any,
-	token?: string,
-	params: {} | null = null
-) => {
-	try {
-		setStatus({ ...status, isloading: true });
-		// console.log("1");
-		// console.log(token)
-		const res = await axios(url, {
-			method,
-			data,
-			headers: token ? { Authorization: `Bearer ${token}` } : {},
-			params,
-		});
-		// console.log(status.data)
-		if (res.data.refreshToken && res.data.accessToken) {
-			localStorage.setItem('token', res.data.refreshToken);
-			setCookie('token', res.data.accessToken, { path: '/', expires: 60000 });
-		}
-		if (res.statusText !== 'OK' && res.statusText !== 'Created') {
-			// console.log("2");
-
-			throw new Error();
-		}
-		// console.log(res);
-		setStatus({ ...status, isloading: false, data: res.data });
-	} catch (error) {
-		console.log(error)
-		if (error instanceof AxiosError) {
-			// console.log(error.response?.data);
-			setStatus({
-				...status,
-				isloading: false,
-				error: error.response?.data.message,
-			});
-		}
-	}
-	// console.log("4");
-};
-
+import { ICartItem, OrderStatus, Type } from './types';
 
 export const formatDate = (date: string) => {
 	return new Date(date).toLocaleDateString();
 };
 
 export const getTotal = (arr: ICartItem[]) => {
-	// console.log(arr)
 	return arr.reduce((acc, curr) => {
 		return acc + curr.subTotal;
 	}, 0);

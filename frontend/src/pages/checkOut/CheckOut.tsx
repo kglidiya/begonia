@@ -13,13 +13,14 @@ import '../../styles/vendor/react-data.css';
 import Button from '../../ui/button/Button';
 import TextArea from '../../ui/textarea/TextArea';
 import { Context } from '../..';
-import { handleRequest, phoneRegex, phonePattern } from '../../utils/utils';
-import { ORDER_URL } from '../../utils/api';
-import { getCookie } from '../../utils/cookies';
+import { phoneRegex, phonePattern } from '../../utils/utils';
+import { ORDER_URL, handleRequestWithAuth } from '../../utils/api';
+import { deleteCookie } from '../../utils/cookies';
 import { ICartItem, IOrder, IStatus } from '../../utils/types';
 import DeliveryConditions from '../../components/deliveryConditions/DeliveryConditions';
 import Input from '../../ui/input/Input';
 import useMediaQuery from '../../hooks/useMediaQuery';
+import Spinner from '../../ui/icons/spinner/Spinner';
 
 interface IInputValues {
 	appartment: number | null;
@@ -32,7 +33,21 @@ interface IInputValues {
 
 const CheckOut = observer(() => {
 	const navigate = useNavigate();
+	const userStore = useContext(Context).user;
 	const cartStore = useContext(Context).cart;
+	const orderStore = useContext(Context).order;
+	const logOut = () => {
+		userStore.setUser({});
+		userStore.setIsAuth(false);
+		cartStore.setCart([]);
+		cartStore.setTotal([]);
+		orderStore.setOrder([]);
+		orderStore.setOrderCount();
+		deleteCookie('token');
+		deleteCookie('expires_on');
+		localStorage.removeItem('token');
+		navigate('/signin');
+	};
 	const [address, setAddress] = useState<
 		DaDataSuggestion<DaDataAddress> | undefined
 	>();
@@ -57,7 +72,6 @@ const CheckOut = observer(() => {
 		},
 	});
 
-	const accessToken: string | undefined = getCookie('token');
 	const [status, setStatus] = useState<IStatus<IOrder | []>>({
 		isloading: false,
 		data: [],
@@ -68,7 +82,6 @@ const CheckOut = observer(() => {
 		const { target } = e;
 		setValue('phone', target.value.replace(phoneRegex, '+7 ($2) $3-$4-$5'));
 	};
-	const orderStore = useContext(Context).order;
 
 	useEffect(() => {
 		setOrderItems(toJS(cartStore.cart));
@@ -77,7 +90,6 @@ const CheckOut = observer(() => {
 	useEffect(() => {
 		orderStore.addToOrder(status.data);
 		orderStore.setOrderCount();
-		// cartStore.setCart([]);
 
 		if (!Array.isArray(status.data)) {
 			navigate('/orders/me');
@@ -98,25 +110,20 @@ const CheckOut = observer(() => {
 			userName: values.userName,
 		};
 
-		handleRequest(
-			status,
-			setStatus,
-			`${ORDER_URL}`,
-			'POST',
-			{ ...body },
-			accessToken
-		);
+		handleRequestWithAuth(logOut, status, setStatus, `${ORDER_URL}`, 'POST', {
+			...body,
+		});
 		cartStore.setCart([]);
 	};
-	console.log(status.error);
+
 	return (
 		<section className={styles.container}>
 			<DeliveryConditions />
 			<div className={styles.orderGroup}>
 				<h3 className={styles.title}>Ваш заказ</h3>
-				{orderItems.map((el, i) => {
+				{orderItems.map((el) => {
 					return (
-						<ul key={i} className={styles.list}>
+						<ul key={el.id} className={styles.list}>
 							<li className={styles.list__item}>{el.item.name}</li>
 							<li className={styles.list__item}>{`${el.quantity} шт.`}</li>
 							<li className={styles.list__item}>{`${el.subTotal} руб.`}</li>
@@ -216,10 +223,9 @@ const CheckOut = observer(() => {
 
 				<Button
 					type="submit"
-					text="
-      Заказать"
-					width={!matches? '80%' : "300px"}
-					fontSize={!matches? '20px' : "24px"}
+					text={!status.isloading ? 'Заказать' : <Spinner />}
+					width={!matches ? '80%' : '300px'}
+					fontSize={!matches ? '20px' : '24px'}
 				/>
 				{status.error !== '' && <p className={styles.error}>{status.error}</p>}
 			</form>

@@ -1,26 +1,37 @@
 /* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
-import { ChangeEventHandler, useEffect, useState } from 'react';
+import { ChangeEventHandler, useContext, useEffect, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
-import { ORDER_URL } from '../../utils/api';
-import { getCookie } from '../../utils/cookies';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { ORDER_URL, REFRESH_TOKEN } from '../../utils/api';
+import { deleteCookie, getCookie, setCookie } from '../../utils/cookies';
 import styles from './OrdersAdmin.module.css';
 import useDebounce from '../../hooks/useDebounce';
 import { IOrder, IStatus } from '../../utils/types';
 import OrderAdminElement from '../../components/orderAdminElement/OrderAdminElement';
 import Input from '../../ui/input/Input';
-import axios from 'axios';
-import { useIsFirstRender } from '../../hooks/useIsFirstRender';
+import useIsFirstRender from '../../hooks/useIsFirstRender';
 import Loader from '../../components/loader/Loader';
+import { Context } from '../..';
 
 export default function Orders() {
 	const { register, watch } = useForm<FieldValues>({ values: { query: '' } });
-	const accessToken: string | undefined = getCookie('token');
 	const [status, setStatus] = useState<IStatus<IOrder[]>>({
 		isloading: false,
 		data: [],
 		error: '',
 	});
+	const userStore = useContext(Context).user;
+	const navigate = useNavigate();
+	const logOut = () => {
+		userStore.setUser({});
+		userStore.setIsAuth(false);
+		deleteCookie('token');
+		deleteCookie('expires_on');
+		localStorage.removeItem('token');
+		navigate('/signin');
+	};
 	const [ordersAll, setOrdersAll] = useState<IOrder[]>([]);
 	const [ordersSearch, setOrdersSearch] = useState<IOrder[]>([]);
 	const [limit] = useState(5);
@@ -29,16 +40,16 @@ export default function Orders() {
 	const [searching, setSearching] = useState(false);
 	const isFirstRender = useIsFirstRender();
 	const [total, setTotal] = useState(1);
+
 	const scrollHander = () => {
 		const { scrollHeight } = document.documentElement;
 		const currentHeight =
 			document.documentElement.scrollTop + window.innerHeight;
 		if (scrollHeight - currentHeight < 100) {
-			
 			setFetching(true);
 		}
 	};
-	
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		document.addEventListener('scroll', scrollHander);
@@ -48,16 +59,45 @@ export default function Orders() {
 		};
 	}, []);
 
-	const fetchOrders = (query?: string) => {
+	const fetchOrders = async (query?: string) => {
+		let accessToken: string | undefined = getCookie('token');
+		const refreshToken: string | undefined = localStorage.token;
+
+		if (!accessToken && Date.now() >= +localStorage.expires_on) {
+			return logOut();
+		}
+
+		if (!accessToken) {
+			if (Date.now() <= +localStorage.expires_on) {
+				try {
+					const res = await axios(REFRESH_TOKEN, {
+						method: 'GET',
+						headers: { Authorization: `Bearer ${refreshToken}` },
+					});
+					accessToken = res.data.accessToken;
+					localStorage.setItem('token', res.data.refreshToken);
+					localStorage.setItem(
+						'expires_on',
+						String(Date.now() + 600000 * 1000)
+					);
+					setCookie('token', res.data.accessToken, {
+						path: '/',
+						expires: 6000,
+					});
+				} catch (e: any) {
+					return logOut();
+				}
+			}
+		}
+
 		setStatus({ ...status, isloading: true });
 		if (query) {
 			axios(`${ORDER_URL}`, {
 				method: 'GET',
 				headers: { Authorization: `Bearer ${accessToken}` },
-				params: { query: query },
+				params: { query },
 			})
 				.then((res) => {
-					
 					setOrdersSearch(res.data);
 					setStatus({ ...status, isloading: false });
 				})
@@ -65,31 +105,28 @@ export default function Orders() {
 					setFetching(false);
 					setSearching(false);
 				});
-		} else 
-		axios(`${ORDER_URL}?offset=${offset}&limit=${limit}`, {
-			method: 'GET',
-			headers: { Authorization: `Bearer ${accessToken}` },
-		})
-			.then((res) => {
-				setTotal(res.data.total);
-				setOrdersAll([...ordersAll, ...res.data.chunk]);
-				if (isFirstRender) {
-				
-					setOffset(5);
-				} else setOffset((prev) => prev + 5);
-				setStatus({ ...status, isloading: false });
+		} else
+			axios(`${ORDER_URL}?offset=${offset}&limit=${limit}`, {
+				method: 'GET',
+				headers: { Authorization: `Bearer ${accessToken}` },
 			})
-			.finally(() => {
-				setFetching(false);
-			});
+				.then((res) => {
+					setTotal(res.data.total);
+					setOrdersAll([...ordersAll, ...res.data.chunk]);
+					if (isFirstRender) {
+						setOffset(5);
+					} else setOffset((prev) => prev + 5);
+					setStatus({ ...status, isloading: false });
+				})
+				.finally(() => {
+					setFetching(false);
+				});
 	};
 
 	const debouncedSearch = useDebounce(fetchOrders, 1000);
 
 	useEffect(() => {
-	
 		if (fetching && ordersAll.length !== total) {
-			// console.log('fetching');
 			fetchOrders();
 		}
 	}, [fetching]);

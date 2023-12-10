@@ -3,11 +3,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
 import { makeAutoObservable } from 'mobx';
-import { Dispatch, SetStateAction } from 'react';
-import { IOrder, IStatus, OrderStatus } from '../utils/types';
-import { getCookie } from '../utils/cookies';
-import { handleRequest } from '../utils/utils';
-import { ORDER_URL } from '../utils/api';
+import { IOrder, OrderStatus } from '../utils/types';
 
 export default class OrderStore {
 	_order: IOrder[];
@@ -18,15 +14,6 @@ export default class OrderStore {
 		this._order = [];
 		this._orderCount = 0;
 		makeAutoObservable(this);
-	}
-
-	fetchOrder(
-		status: IStatus<IOrder[] | []>,
-		setStatus: Dispatch<SetStateAction<IStatus<IOrder[] | []>>>
-	) {
-		const accessToken: string | undefined = getCookie('token');
-		handleRequest(status, setStatus, `${ORDER_URL}/me`, 'GET', '', accessToken);
-		this._order = status.data;
 	}
 
 	setOrderCount() {

@@ -7,7 +7,6 @@
 	width: 70%;
 	min-height: 100vh;
 	padding: 50px;
-
 }
 
 .details {
@@ -16,10 +15,9 @@
 	width: 100%;
 	gap: 15px;
 	justify-content: space-around;
-
 }
 .details:nth-of-type(1) {
-	align-items: center;	
+	align-items: center;
 }
 
 .counterGroup {
@@ -46,9 +44,7 @@
 .subtitle {
 	font-size: 26px;
 	font-weight: bold;
-
 }
-
 
 .warning {
 	color: red;
@@ -87,7 +83,7 @@
 	background-color: white;
 	box-shadow: 1px 4px 21px 26px white;
 	line-height: 1.4;
-}	
+}
 
 @media (max-width: 992px) {
 	.container {
@@ -137,7 +133,6 @@
 		flex-direction: column;
 		align-items: center;
 	}
-
 
 	.imageGallery {
 		width: 30%;

@@ -5,15 +5,14 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
-import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthUserDto } from '../users/dto/auth-user.dto';
 import { hashPassword, verifyHash } from 'src/utils/bcrypt';
 import { MailerService } from '@nestjs-modules/mailer';
-import { Role } from 'src/auth/roles/roles.emun';
 
-let recoveryCode;
+let recoveryCode: number;
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -50,13 +49,16 @@ export class AuthService {
 
   async signIn(data: AuthUserDto) {
     const user = await this.usersService.findOneWithPassword(data.email);
+
     if (!user) throw new BadRequestException('Такой пользователь не зарегистрирован');
   
     const passwordMatches = await verifyHash(data.password, user.password);
     
     if (!passwordMatches) throw new BadRequestException('Неверный пароль');
+
     const tokens = await this.getTokens(user.id, user.email, user.role);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...rest } = user;
     return {
       ...rest,
@@ -65,17 +67,13 @@ export class AuthService {
     };
   }
 
-  // async logout(id: number) {
-  //   return this.usersService.update({refreshToken: '' }, id);
-  // }
-
   hashData(data: string) {
     return hashPassword(data);
   }
 
   async refreshTokens(userId: number, refreshToken: string) {
     const user = await this.usersService.findOne(userId);
-    // if (!user) throw new ForbiddenException('Пользователь не зарегистирован');
+    if (!user) throw new ForbiddenException('Пользователь не зарегистирован');
     // const refreshTokenMatches = await verifyHash(
     //   user.refreshToken,
     //   refreshToken,
@@ -105,7 +103,7 @@ export class AuthService {
         },
         {
           secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
-          expiresIn: '1d'
+          expiresIn: '3h'
         }
       ),
       this.jwtService.signAsync(
@@ -116,7 +114,7 @@ export class AuthService {
         },
         {
           secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
-          expiresIn: '7d'
+          expiresIn: '6d'
         }
       )
     ]);
@@ -130,11 +128,11 @@ export class AuthService {
   async forgotpassword(email: string) {
     const user = await this.usersService.findOneByEmail(email);
     recoveryCode = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
-    if (!user) throw new BadRequestException('User does not exist');
+    if (!user) throw new BadRequestException('Пользователь не найден');
     try {
       await this.mailerService.sendMail({
         to: user.email,
-        from: 'lgkosinova@gmail.com',
+        from: this.configService.get<string>('MAILDEV_INCOMING_USER'),
         subject: 'Восстановление пароля',
         text: 'Ваш код для восстановления пароля',
         html: `<b>Ваш код для восстановления пароля</b>
@@ -147,11 +145,10 @@ export class AuthService {
   }
 
   async resetPassword(recoveryCode: number, password: string) {
-    console.log(password)
-    
+  
     if (recoveryCode) {
       const user = await this.usersService.findOneByRecoveryCode(recoveryCode);
-      console.log(user)
+    
       if (!user) {
         throw new BadRequestException('Введен некорректный код');
       }

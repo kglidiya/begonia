@@ -33,17 +33,20 @@ export class OrdersService {
       where: { id: userId },
       relations: ['cart', 'cart.item']
     });
-    // createOrderDto.orderItems[0].quantity
+
+    if (!user) throw new BadRequestException('Пользователь не найден');
+
     const itemsId = [];
     createOrderDto.orderItems.forEach((el) => itemsId.push(el.item.id));
     const itemsActual = await this.itemsRepository
       .createQueryBuilder('items')
       .whereInIds(itemsId)
       .getMany();
-    // console.log(itemsActual);
+
     const isAvaiable = itemsActual.some(
       (item, i) => item.quantity >= createOrderDto.orderItems[i].quantity
     );
+
     if (!isAvaiable) {
       throw new ConflictException(
         'Недостаточное количество товара. Вернитесь в корзину для корректировки'
@@ -71,7 +74,7 @@ export class OrdersService {
           async (item) => await this.cartRepository.remove(item)
         );
       }
-      // console.log(newOrder);
+
       return await this.ordersRepository.save(newOrder);
     }
   }
@@ -120,8 +123,7 @@ export class OrdersService {
     });
   }
 
-  async update(updateOrderDto: any) {
-    // const orderToUpdate = await this.ordersRepository.findOne({where:{ id}})
+  async update(updateOrderDto: UpdateOrderDto) {
     const { id, status } = updateOrderDto;
     const order = await this.ordersRepository.find({ where: { id } });
     if (!order) {
@@ -131,11 +133,12 @@ export class OrdersService {
       const items = order[0].orderItems;
       const itemsId = [];
       items.forEach((el) => itemsId.push(el.item.id));
-      // console.log(itemsId);
+
       const itemsUpdated = await this.itemsRepository
         .createQueryBuilder('items')
         .whereInIds(itemsId)
         .getMany();
+
       itemsUpdated.forEach(async (el, i) => {
         await this.ordersRepository
           .createQueryBuilder('item')
@@ -145,16 +148,7 @@ export class OrdersService {
           .where({ id: el.id })
           .returning('*')
           .execute();
-        // console.log(orderToUpdate.raw[0])
       });
-
-      // console.log(itemsUpdated);
-      //     const userRepository = getRepository(User);
-      // const userIds = [1, 2, 3]; // Массив идентификаторов
-
-      // const users = await userRepository.findByIds(userIds);
-
-      // console.log(users);
     }
     const orderToUpdate = await this.ordersRepository
       .createQueryBuilder('cartItem')
@@ -165,7 +159,6 @@ export class OrdersService {
       .where({ id })
       .returning('*')
       .execute();
-    // console.log(orderToUpdate.raw[0])
     return orderToUpdate.raw[0];
   }
 
@@ -178,6 +171,6 @@ export class OrdersService {
     }
     if (orderToDelete.status === OrderStatus.CREATED) {
       return await this.ordersRepository.delete(id);
-    } else throw new ForbiddenException('Access Denied');
+    } else throw new ForbiddenException('Вы не можене удалить принятый в работу заказ');
   }
 }

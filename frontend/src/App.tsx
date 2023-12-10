@@ -1,43 +1,37 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import AppRouter from './components/appRouter/AppRouter';
 import NavBar from './components/navbar/NavBar';
-import { deleteCookie, getCookie } from './utils/cookies';
-import { handleRequest } from './utils/utils';
-import { REFRESH_TOKEN } from './utils/api';
 import Footer from './components/footer/Footer';
-import { IStatus } from './utils/types';
+import HelmetSeo from './components/helmetSeo/HelmetSeo';
 
 function App() {
-	const [status, setStatus] = useState<IStatus<any>>({
-		isloading: false,
-		data: [],
-		error: '',
-	});
-
-	const accessToken: string | undefined = getCookie('token');
-	const refreshToken: string | undefined = localStorage.token;
 	const [isMenuOpen, setMenuOpen] = useState(false);
+
 	const closeMenu = () => {
 		setMenuOpen(false);
 	};
-	useEffect(() => {
-		if (!accessToken && refreshToken) {
-			handleRequest(status, setStatus, REFRESH_TOKEN, 'GET', '', refreshToken);
-		}
-		// deleteCookie('token');
-	}, [accessToken, refreshToken]);
-	
-	// console.log(accessToken)
-	// console.log(refreshToken)
+
 	return (
-		<Router>
-			<NavBar isMenuOpen={isMenuOpen} setMenuOpen={setMenuOpen} closeMenu={closeMenu}/>
-			<AppRouter closeMenu={closeMenu}/>
-			<Footer />
-		</Router>
+		<HelmetProvider>
+			<HelmetSeo
+				title="Begonia world"
+				description="Магазин бегоний"
+				type="website"
+			/>
+			<Router>
+				<NavBar
+					isMenuOpen={isMenuOpen}
+					setMenuOpen={setMenuOpen}
+					closeMenu={closeMenu}
+				/>
+				<AppRouter closeMenu={closeMenu} />
+				<Footer />
+			</Router>
+		</HelmetProvider>
 	);
 }
 

@@ -1,18 +1,15 @@
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import styles from './OrderUserElement.module.css';
 import { IOrder, IStatus, OrderStatus } from '../../utils/types';
-import {
-	formatDate,
-	getOrderStatus,
-	getTotal,
-	handleRequest,
-} from '../../utils/utils';
-import { ORDER_URL } from '../../utils/api';
+import { formatDate, getOrderStatus, getTotal } from '../../utils/utils';
+import { ORDER_URL, handleRequestWithAuth } from '../../utils/api';
 import { ORDER_ROUTE } from '../../utils/paths';
 import Button from '../../ui/button/Button';
-import { getCookie } from '../../utils/cookies';
+import { deleteCookie } from '../../utils/cookies';
 import { Context } from '../..';
 
 interface IOrderUserElement {
@@ -20,9 +17,24 @@ interface IOrderUserElement {
 }
 
 const OrderUserElement = observer(({ orderItem }: IOrderUserElement) => {
-	const accessToken: string | undefined = getCookie('token');
-	const [orderStatus, setOrderStatus] = useState(orderItem.status);
+	const userStore = useContext(Context).user;
+	const cartStore = useContext(Context).cart;
 	const orderStore = useContext(Context).order;
+	const navigate = useNavigate();
+	const logOut = () => {
+		userStore.setUser({});
+		userStore.setIsAuth(false);
+		cartStore.setCart([]);
+		cartStore.setTotal([]);
+		orderStore.setOrder([]);
+		orderStore.setOrderCount();
+		deleteCookie('token');
+		deleteCookie('expires_on');
+		localStorage.removeItem('token');
+		navigate('/signin');
+	};
+	const [orderStatus, setOrderStatus] = useState(orderItem.status);
+
 	const [status, setStatus] = useState<IStatus<[] | IOrder>>({
 		isloading: false,
 		data: [],
@@ -30,21 +42,15 @@ const OrderUserElement = observer(({ orderItem }: IOrderUserElement) => {
 	});
 
 	const deleteOrder = () => {
-		handleRequest(
-			status,
-			setStatus,
-			`${ORDER_URL}`,
-			'PATCH',
-			{ id: orderItem.id, status: OrderStatus.CANCELLED },
-			accessToken
-		);
+		handleRequestWithAuth(logOut, status, setStatus, `${ORDER_URL}`, 'PATCH', {
+			id: orderItem.id,
+			status: OrderStatus.CANCELLED,
+		});
 
 		setOrderStatus(OrderStatus.CANCELLED);
 		orderStore.updateOrderStatus(orderItem.id);
 		orderStore.setOrderCount();
 	};
-
-	const navigate = useNavigate();
 
 	const onClick = (e: any) => {
 		if (e.target.textContent === 'Отменить') {
@@ -69,9 +75,9 @@ const OrderUserElement = observer(({ orderItem }: IOrderUserElement) => {
 					</div>
 
 					<div className={styles.itemsGroup}>
-						{orderItem.orderItems.map((el, i) => {
+						{orderItem.orderItems.map((el) => {
 							return (
-								<ul key={i} className={styles.list}>
+								<ul key={el.id} className={styles.list}>
 									<li className={styles.list__item}>{el.item.name}</li>
 									<li>
 										<img
@@ -87,12 +93,7 @@ const OrderUserElement = observer(({ orderItem }: IOrderUserElement) => {
 						})}
 					</div>
 					{orderStatus === OrderStatus.CREATED && (
-						<Button
-							width="100px"
-							text="Отменить"
-							fontSize="20px"
-							// onClick={(e) => onClick(e)}
-						/>
+						<Button width="100px" text="Отменить" fontSize="20px" />
 					)}
 				</article>
 			)}

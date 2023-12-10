@@ -1,11 +1,14 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 import useFetch from '../../hooks/useFetch';
-import { CART_URL, ITEMS_URL } from '../../utils/api';
+import { CART_URL, ITEMS_URL, handleRequestWithAuth } from '../../utils/api';
 import styles from './ItemUser.module.css';
 import Button from '../../ui/button/Button';
-import { handleRequest } from '../../utils/utils';
-import { getCookie } from '../../utils/cookies';
+
+import { deleteCookie } from '../../utils/cookies';
 import ButtonIncrement from '../../ui/buttonIncrement/ButtonIncrement';
 import ButtonDecrement from '../../ui/buttonDecrement/ButtonDecrement';
 import { Context } from '../..';
@@ -15,13 +18,25 @@ import useMediaQuery from '../../hooks/useMediaQuery';
 import { ICartItem, IItem, IStatus } from '../../utils/types';
 import ErrorWarning from '../errorWarning/ErrorWarning';
 import Loader from '../loader/Loader';
-import { observer } from 'mobx-react-lite';
-import { toJS } from 'mobx';
-import DeliveryConditions from '../deliveryConditions/DeliveryConditions';
+import Spinner from '../../ui/icons/spinner/Spinner';
 
 const ItemUser = observer(() => {
+	const navigate = useNavigate();
 	const userStore = useContext(Context).user;
 	const cartStore = useContext(Context).cart;
+	const orderStore = useContext(Context).order;
+	const logOut = () => {
+		userStore.setUser({});
+		userStore.setIsAuth(false);
+		cartStore.setCart([]);
+		cartStore.setTotal([]);
+		orderStore.setOrder([]);
+		orderStore.setOrderCount();
+		deleteCookie('token');
+		deleteCookie('expires_on');
+		localStorage.removeItem('token');
+		navigate('/signin');
+	};
 	const { id } = useParams();
 	const location = useLocation().pathname;
 	const [status, setStatus] = useState<IStatus<IItem | []>>({
@@ -36,8 +51,7 @@ const ItemUser = observer(() => {
 	const [isInTheCart, setIsInTheCar] = useState<ICartItem[]>([]);
 	const [buttonSwitch, setButtonSwitch] = useState(false);
 	const [isModalOpen, setModalOpen] = useState(false);
-	const accessToken: string | undefined = getCookie('token');
-	const navigate = useNavigate();
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
@@ -60,30 +74,21 @@ const ItemUser = observer(() => {
 	}, [data, setCount]);
 
 	const addToCart = () => {
-		if(!userStore.isAuth) {
-			navigate('/signin')
-		}
-		else handleRequest(
-			status,
-			setStatus,
-			CART_URL,
-			'POST',
-			{ id: Number(id), quantity: count },
-			accessToken
-		);
+		if (!userStore.isAuth) {
+			navigate('/signin');
+		} else
+			handleRequestWithAuth(logOut, status, setStatus, CART_URL, 'POST', {
+				id: Number(id),
+				quantity: count,
+			});
 	};
 	const updateQuantity = () => {
-		handleRequest(
-			status,
-			setStatus,
-			CART_URL,
-			'PATCH',
-			{ id: Number(isInTheCart[0].id), quantity: count },
-			accessToken
-		);
+		handleRequestWithAuth(logOut, status, setStatus, CART_URL, 'PATCH', {
+			id: Number(isInTheCart[0].id),
+			quantity: count,
+		});
 	};
 	useEffect(() => {
-
 		if (status.data && !Array.isArray(status.data)) {
 			if (!isInTheCart.length) {
 				cartStore.addToCart(status.data);
@@ -111,20 +116,20 @@ const ItemUser = observer(() => {
 	const closePopup = () => {
 		setModalOpen(false);
 	};
+
 	if (error) {
-		return <ErrorWarning />;
+		return <ErrorWarning message={error} />;
 	}
 
 	if (isloading) {
 		return <Loader />;
 	}
-    // console.log(remainingQty)
+
 	return (
 		<section className={styles.container}>
 			{item && (
 				<>
 					<h3 className={styles.title}>{`Бегония ${item.type}`}</h3>
-
 					<div className={styles.details}>
 						<p className={styles.subtitle}>{item.name}</p>
 						{isInTheCart.length > 0 ? (
@@ -134,7 +139,6 @@ const ItemUser = observer(() => {
 									width={!matches ? '90%' : '250px'}
 									text="Перейти в корзину"
 									onClick={updateQuantity}
-									// disabled={remainingQty === 0}
 								/>
 								<div className={styles.counter}>
 									<ButtonDecrement onClick={decrement} count={count} />
@@ -142,7 +146,6 @@ const ItemUser = observer(() => {
 									<ButtonIncrement
 										onClick={increment}
 										disabled={remainingQty <= 0}
-									
 									/>
 								</div>
 							</div>
@@ -150,7 +153,7 @@ const ItemUser = observer(() => {
 							<Button
 								fontSize="20px"
 								width={!matches ? '90%' : '250px'}
-								text="Добавить в корзину"
+								text={!status.isloading ? 'Добавить в корзину' : <Spinner />}
 								onClick={() => {
 									setRemainingQty((qty) => qty - 1);
 									setButtonSwitch(true);
@@ -233,9 +236,8 @@ const ItemUser = observer(() => {
 
 						<p className={styles.description}>{item.description}</p>
 					</div>
-					<Modal onClose={closePopup} isModalOpen={isModalOpen} closeIcone={true}>
+					<Modal onClose={closePopup} isModalOpen={isModalOpen} closeIcone>
 						<PhotoSlider item={item} />
-						
 					</Modal>
 				</>
 			)}

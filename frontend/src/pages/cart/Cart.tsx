@@ -8,20 +8,27 @@ import Button from '../../ui/button/Button';
 import DeliveryConditions from '../../components/deliveryConditions/DeliveryConditions';
 import { ICartItem, IStatus } from '../../utils/types';
 import useMediaQuery from '../../hooks/useMediaQuery';
-import Loader from '../../components/loader/Loader';
-import ErrorWarning from '../../components/errorWarning/ErrorWarning';
-import { toJS } from 'mobx';
-import { check } from 'prettier';
-import { getCookie } from '../../utils/cookies';
-import { CART_URL } from '../../utils/api';
-import { handleRequest } from '../../utils/utils';
+import { deleteCookie } from '../../utils/cookies';
+import { CART_URL, handleRequestWithAuth } from '../../utils/api';
 
 const Cart = observer(() => {
-	const cartStore = useContext(Context).cart;
-	const accessToken: string | undefined = getCookie('token');
 	const navigate = useNavigate();
+	const userStore = useContext(Context).user;
+	const cartStore = useContext(Context).cart;
+	const orderStore = useContext(Context).order;
+	const logOut = () => {
+		userStore.setUser({});
+		userStore.setIsAuth(false);
+		cartStore.setCart([]);
+		cartStore.setTotal([]);
+		orderStore.setOrder([]);
+		orderStore.setOrderCount();
+		deleteCookie('token');
+		deleteCookie('expires_on');
+		localStorage.removeItem('token');
+		navigate('/signin');
+	};
 
-	const [cartItems, setCartItems] = useState<[] | ICartItem[]>([]);
 	const [isDisabled, setIsDisabled] = useState(false);
 	const matches = useMediaQuery('(min-width: 576px)');
 	const [status, setStatus] = useState<IStatus<[] | ICartItem[]>>({
@@ -39,43 +46,24 @@ const Cart = observer(() => {
 	}, []);
 
 	useEffect(() => {
-
 		setIsDisabled(
 			cartStore.cart.some((el: ICartItem) => el.item.quantity < el.quantity)
 		);
 	}, [cartStore.cart]);
 
-	// if (status.error) {
-	// 	return <ErrorWarning />;
-	// }
-	// if(status.isloading) {
-	// 	return <Loader/>
-	// }
-	// console.log(cartStore.cart)
-
-	const updateCart = () => {
-		handleRequest(statusCart, setStatusCart, CART_URL, 'GET', '', accessToken);
-
-		// if(statusCart.data.length > 0) {
-		// 	cartStore.setCart(statusCart.data)
-		// 	console.log('1')
-		// 	if(!isDisabled){
-		// 		console.log('2')
-		// 		navigate('/checkout')
-		// 	}
-		// }
-		// cartStore.setCart(statusCart.data)
-	};
-	//console.log(statusCart.data)
 	useEffect(() => {
-		handleRequest(statusCart, setStatusCart, CART_URL, 'GET', '', accessToken);
-		// console.log(statusCart.data)
+		handleRequestWithAuth(
+			logOut,
+			statusCart,
+			setStatusCart,
+			CART_URL,
+			'GET',
+			''
+		);
 		if (statusCart.data.length > 0) {
 			cartStore.setCart(statusCart.data);
-			
 		}
 	}, [statusCart.data.length]);
-
 
 	return (
 		<section className={styles.container}>
@@ -95,19 +83,7 @@ const Cart = observer(() => {
 						onClick={() => navigate('/checkout')}
 						disabled={isDisabled}
 					/>
-					{/* {cartItems.length > 0 &&
-						cartItems.map((cartItem) => {
-							return (
-								<div key={cartItem.id} className={styles.cartItemGroup}>
-									<CartElement
-										status={status}
-										setStatus={setStatus}
-										cartItem={cartItem}
-										setIsDisabled={setIsDisabled}
-									/>
-								</div>
-							);
-						})} */}
+
 					{cartStore.cart.length > 0 &&
 						cartStore.cart.map((cartItem: ICartItem) => {
 							return (
@@ -116,7 +92,6 @@ const Cart = observer(() => {
 										status={status}
 										setStatus={setStatus}
 										cartItem={cartItem}
-										setIsDisabled={setIsDisabled}
 									/>
 								</div>
 							);

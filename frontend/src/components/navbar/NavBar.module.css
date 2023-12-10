@@ -10,7 +10,7 @@
 }
 
 .container {
-	width: 90%;
+	width: 80%;
 	height: 150px;
 	margin: auto;
 	display: flex;
@@ -21,7 +21,6 @@
 	justify-content: space-between;
 	align-items: center;
 	gap: 10px;
-	
 }
 
 .logoGroup {
@@ -55,13 +54,17 @@
 	text-shadow: 5px 5px 5px rgb(176, 173, 173);
 	margin: 0;
 	text-decoration: none;
-	/* max-width: 120px; */
 }
 
 .link {
 	text-decoration: none;
 	color: black;
 	margin: 0;
+}
+
+.link:hover {
+	transition: all 0.3s linear;
+	text-shadow: 3px 3px 3px rgb(172, 156, 156);
 }
 
 .link_active {
@@ -71,6 +74,15 @@
 	margin: 0;
 }
 
+.link_active:hover {
+	transition: all 0.3s linear;
+	text-shadow: 3px 3px 3px rgb(172, 156, 156);
+}
+
+.link_active:last-of-type:hover {
+	transition: all 0.3s linear;
+	text-shadow: none;
+}
 .exitGroup {
 	display: flex;
 	flex-direction: row;
@@ -81,7 +93,6 @@
 
 @media (max-width: 1200px) {
 	.container {
-
 		padding-left: 40px;
 		padding-right: 40px;
 	}
@@ -92,7 +103,6 @@
 }
 
 @media (max-width: 992px) {
-
 	.wrapper {
 		gap: 10px;
 	}
@@ -103,7 +113,6 @@
 }
 
 @media (max-width: 768px) {
-
 	.logo {
 		height: 100px;
 		width: 100px;

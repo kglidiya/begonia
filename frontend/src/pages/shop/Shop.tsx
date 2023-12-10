@@ -1,8 +1,10 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Shop.module.css';
-import { ITEMS_URL } from '../../utils/api';
-import { handleRequest } from '../../utils/utils';
+import { ITEMS_URL, handleRequest } from '../../utils/api';
 import { ITEM_ROUTE } from '../../utils/paths';
 import ShopElement from '../../components/shopElement/ShopElement';
 import { IItem, IItemsPagination, IStatus, Type } from '../../utils/types';
@@ -22,12 +24,12 @@ export default function Shop() {
 	const [currentPage, setCurrentPage] = useState(1);
 
 	const matches = useMediaQuery('(min-width: 512px)');
-	const [activeTab, setActiveTab] = useState(matches? Type.ALL: Type.ELATIOR);
+	const [activeTab, setActiveTab] = useState(matches ? Type.ALL : Type.ELATIOR);
 	const [resultPerPage, setResultPerPage] = useState(9);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		handleRequest(status, setStatus, ITEMS_URL, 'GET', '', '', {
+		handleRequest(status, setStatus, ITEMS_URL, 'GET', '', {
 			type: activeTab,
 			page: currentPage,
 			resultPerPage,
@@ -42,28 +44,28 @@ export default function Shop() {
 	const handleTab1 = () => {
 		setActiveTab(Type.ELATIOR);
 		setCurrentPage(1);
-		setResultPerPage(8)
+		setResultPerPage(8);
 	};
 	const handleTab2 = () => {
 		setActiveTab(Type.BULB);
 		setCurrentPage(1);
-		setResultPerPage(8)
+		setResultPerPage(8);
 	};
 	const handleTab3 = () => {
 		setActiveTab(Type.FOLIAGE);
 		setCurrentPage(1);
-		setResultPerPage(8)
+		setResultPerPage(8);
 	};
 	const handleTab4 = () => {
 		setActiveTab(Type.ALL);
 		setCurrentPage(1);
-		setResultPerPage(9)
+		setResultPerPage(9);
 	};
 	if (status.isloading) {
 		return <Loader />;
 	}
 	if (status.error) {
-		return <ErrorWarning />;
+		return <ErrorWarning message="Произошла ошибка" />;
 	}
 
 	const handleItemCick = (id: number) => {
@@ -76,8 +78,8 @@ export default function Shop() {
 				<li
 					className={
 						activeTab === Type.ALL
-							? `${styles.tabs} ${styles.tabs_active}`
-							: styles.tabs
+							? `${styles.tab} ${styles.tab_active}`
+							: styles.tab
 					}
 					onClick={handleTab4}
 				>
@@ -86,8 +88,8 @@ export default function Shop() {
 				<li
 					className={
 						activeTab === Type.ELATIOR
-							? `${styles.tabs} ${styles.tabs_active}`
-							: styles.tabs
+							? `${styles.tab} ${styles.tab_active}`
+							: styles.tab
 					}
 					onClick={handleTab1}
 				>
@@ -96,8 +98,8 @@ export default function Shop() {
 				<li
 					className={
 						activeTab === Type.BULB
-							? `${styles.tabs} ${styles.tabs_active}`
-							: styles.tabs
+							? `${styles.tab} ${styles.tab_active}`
+							: styles.tab
 					}
 					onClick={handleTab2}
 				>
@@ -106,12 +108,12 @@ export default function Shop() {
 				<li
 					className={
 						activeTab === Type.FOLIAGE
-							? `${styles.tabs} ${styles.tabs_active}`
-							: styles.tabs
+							? `${styles.tab} ${styles.tab_active}`
+							: styles.tab
 					}
 					onClick={handleTab3}
 				>
-					Декоративно-лиственная
+					Ампельная
 				</li>
 			</ul>
 			<div className={styles.wrapper}>
@@ -132,83 +134,84 @@ export default function Shop() {
 						</ul>
 					</div>
 				)}
-				{activeTab === Type.ALL && <div
-					className="box-fex-column"
-					style={{
-						width: activeTab === Type.ALL ? '70%' : '100%',
-						display: (matches) ? 'block' : 'none',
-					}}
-				>
-					<div className={styles.container}>
-						{items &&
-							items.map((item) => {
-								
-								if (activeTab === Type.ALL) {
-									return (
-										<ShopElement
-											key={item.id}
-											item={item}
-											handleItemCick={handleItemCick}
-										/>
-									);
-								}
-							})}
-
+				{activeTab === Type.ALL && (
+					<div
+						style={{
+							width: '70%',
+							display: matches ? 'block' : 'none',
+						}}
+					>
+						<div className={styles.container}>
+							{items &&
+								items.map((item) => {
+									if (activeTab === Type.ALL) {
+										return (
+											<ShopElement
+												key={item.id}
+												item={item}
+												handleItemCick={handleItemCick}
+											/>
+										);
+									}
+								})}
+						</div>
+						<Pagination
+							total={status.data?.total as number}
+							resultPerPage={resultPerPage}
+							setCurrentPage={setCurrentPage}
+							currentPage={currentPage}
+						/>
 					</div>
-					<Pagination
-						total={status.data?.total as number}
-						resultPerPage={resultPerPage}
-						setCurrentPage={setCurrentPage}
-						currentPage={currentPage}
-					/>
-				</div>}
-					{activeTab !== Type.ALL && <div
-					className="box-fex-column"
-					
-				>
-					<div className={styles.container}>
-						{items &&
-							items.map((item) => {
-								if (activeTab === Type.ELATIOR && item.type === Type.ELATIOR) {
-									return (
-										<ShopElement
-											key={item.id}
-											item={item}
-											handleItemCick={handleItemCick}
-										/>
-									);
-								}
-								if (activeTab === Type.BULB && item.type === Type.BULB) {
-									return (
-										<ShopElement
-											key={item.id}
-											item={item}
-											handleItemCick={handleItemCick}
-										/>
-									);
-								}
-								if (activeTab === Type.FOLIAGE && item.type === Type.FOLIAGE) {
-									return (
-										<ShopElement
-											key={item.id}
-											item={item}
-											handleItemCick={handleItemCick}
-										/>
-									);
-								}
-								
-							})}
-							
+				)}
+				{activeTab !== Type.ALL && (
+					<div style={{ width: '100%' }}>
+						<div className={styles.container}>
+							{items &&
+								items.map((item) => {
+									if (
+										activeTab === Type.ELATIOR &&
+										item.type === Type.ELATIOR
+									) {
+										return (
+											<ShopElement
+												key={item.id}
+												item={item}
+												handleItemCick={handleItemCick}
+											/>
+										);
+									}
+									if (activeTab === Type.BULB && item.type === Type.BULB) {
+										return (
+											<ShopElement
+												key={item.id}
+												item={item}
+												handleItemCick={handleItemCick}
+											/>
+										);
+									}
+									if (
+										activeTab === Type.FOLIAGE &&
+										item.type === Type.FOLIAGE
+									) {
+										return (
+											<ShopElement
+												key={item.id}
+												item={item}
+												handleItemCick={handleItemCick}
+											/>
+										);
+									}
+								})}
+						</div>
+						<Pagination
+							total={status.data?.total as number}
+							resultPerPage={resultPerPage}
+							setCurrentPage={setCurrentPage}
+							currentPage={currentPage}
+						/>
 					</div>
-					<Pagination
-						total={status.data?.total as number}
-						resultPerPage={resultPerPage}
-						setCurrentPage={setCurrentPage}
-						currentPage={currentPage}
-					/>
-				</div>}
+				)}
 			</div>
-			
 		</section>
 	);
 }

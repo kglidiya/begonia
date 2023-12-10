@@ -56,9 +56,6 @@ export class Item {
   price: number;
 
   @Column()
-  article: number;
-
-  @Column()
   quantity: number;
 
   @OneToMany(() => CartItem, (cart) => cart.item, { cascade: true })

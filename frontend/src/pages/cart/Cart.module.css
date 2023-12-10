@@ -19,7 +19,6 @@
 	padding: 20px;
 	border-radius: 20px;
 	background-color: white;
-
 }
 
 .title {
@@ -34,7 +33,7 @@
 	background-color: rgb(249 235 235);
 	box-shadow: 5px 5px 15px rgb(203 197 197);
 	border-radius: 20px;
-    padding-right: 15px;
+	padding-right: 15px;
 }
 
 .text {
@@ -52,11 +51,9 @@
 	.cartItemGroup {
 		flex-direction: column;
 	}
-
 }
 
 @media (max-width: 576px) {
-
 	.text {
 		font-size: 14px;
 	}

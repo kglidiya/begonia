@@ -2,14 +2,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import styles from './ForgotPassword.module.css';
-
 import Button from '../../ui/button/Button';
-import { handleRequest } from '../../utils/utils';
-import { FORGOT_PASSWORD_URL } from '../../utils/api';
-import { setCookie } from '../../utils/cookies';
+import { handleRequest, FORGOT_PASSWORD_URL } from '../../utils/api';
 import { IStatus } from '../../utils/types';
 import Input from '../../ui/input/Input';
 import useMediaQuery from '../../hooks/useMediaQuery';
+import Spinner from '../../ui/icons/spinner/Spinner';
 
 const ForgotPassword = () => {
 	const {
@@ -32,10 +30,6 @@ const ForgotPassword = () => {
 	};
 	useEffect(() => {
 		if (status.data) {
-			setCookie('recoveryCode', String(status.data), {
-				path: '/',
-				expires: 60000,
-			});
 			navigate('/reset-password');
 		}
 	}, [status.data]);
@@ -62,7 +56,7 @@ const ForgotPassword = () => {
 
 				<Button
 					type="submit"
-					text="Восстановить"
+					text={!status.isloading ? 'Восстановить' : <Spinner />}
 					width={matches ? '300px' : '95%'}
 					fontSize={matches ? '24px' : '18px'}
 				/>

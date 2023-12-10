@@ -1,11 +1,6 @@
-import { makeAutoObservable, toJS } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { makePersistable } from 'mobx-persist-store';
-import { Dispatch, SetStateAction } from 'react';
-import { handleRequest } from '../utils/utils';
-import { CART_URL } from '../utils/api';
-import { getCookie } from '../utils/cookies';
-import { ICartItem, IItem, IStatus } from '../utils/types';
-
+import { ICartItem } from '../utils/types';
 
 export default class CartStore {
 	_cart: ICartItem[];
@@ -24,28 +19,9 @@ export default class CartStore {
 			properties: ['_total'],
 			storage: window.localStorage,
 		});
-		
 	}
 
-	fetchCart(
-		status: IStatus<ICartItem[] | []>,
-		setStatus: Dispatch<SetStateAction<IStatus<[] | ICartItem[]>>>,
-		accessToken: string
-	) {
-		handleRequest(status, setStatus, CART_URL, 'GET', '', accessToken);
-		// console.log(status.data)
-		this._cart = status.data;
-	}
-	
-	deleteCart(status: any, setStatus: any, id: number, accessToken: string) {
-		handleRequest(
-			status,
-			setStatus,
-			`${CART_URL}`,
-			'DELETE',
-			{ id },
-			accessToken
-		);
+	deleteCart(id: number) {
 		this._cart = this._cart.filter((cart) => cart.id !== id);
 	}
 
@@ -57,18 +33,16 @@ export default class CartStore {
 		this._cart = cart;
 	}
 
-
 	changeQuantity(id: number, quantity: number) {
 		const cartUpdated = this._cart.map((cartItem) => {
-		
 			if (cartItem.id === id) {
-				
 				return {
 					...cartItem,
-					quantity: quantity,
+					quantity,
 					subTotal: quantity * cartItem.item.price,
 				};
-			} else return cartItem;
+			}
+			return cartItem;
 		});
 		this._cart = cartUpdated;
 	}
@@ -87,12 +61,12 @@ export default class CartStore {
 			this._total = total;
 		}
 	}
+
 	setCount() {
 		this._count = this._cart.length;
 	}
 
 	get cart() {
-
 		return this._cart;
 	}
 

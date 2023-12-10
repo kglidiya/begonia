@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { Route, Routes } from 'react-router-dom';
 import Item from '../../pages/item/Item';
 import {
@@ -7,6 +8,7 @@ import {
 	FORGOT_PASSWORD_ROUTE,
 	ITEM_ROUTE,
 	LOGIN_ROUTE,
+	NOT_FOUND_ROUTE,
 	ORDER_ROUTE,
 	REGISTRATION_ROUTE,
 	RESET_PASSWORD_ROUTE,
@@ -27,10 +29,12 @@ import Orders from '../../pages/ordersAdmin/OrdersAdmin';
 import OrdersUser from '../../pages/odersUser/OrdersUser';
 import OrderDetails from '../../pages/orderDetails/OrderDetails';
 import { UserRoute } from '../userRoute/UserRoute';
+import NotFound from '../../pages/notFound/NotFound';
+
 interface IAppRouter {
 	closeMenu: () => void;
 }
-export default function AppRouter({closeMenu}: IAppRouter) {
+export default function AppRouter({ closeMenu }: IAppRouter) {
 	return (
 		<main className={styles.main} onClick={closeMenu}>
 			<Routes>
@@ -39,21 +43,21 @@ export default function AppRouter({closeMenu}: IAppRouter) {
 				<Route path={LOGIN_ROUTE} element={<Signin />} />
 				<Route path={FORGOT_PASSWORD_ROUTE} element={<ForgotPassword />} />
 				<Route path={RESET_PASSWORD_ROUTE} element={<ResetPassword />} />
+				<Route element={<ProtectedRoute />}>
+					<Route path={`${ORDER_ROUTE}/:id`} element={<OrderDetails />} />
+				</Route>
 				<Route element={<UserRoute />}>
 					<Route path={CART_ROUTE} element={<Cart />} />
 					<Route path={CHECKOUT_ROUTE} element={<CheckOut />} />
 					<Route path={`${ORDER_ROUTE}/me`} element={<OrdersUser />} />
-				</Route>
-				<Route element={<ProtectedRoute />}>
-					<Route path={`${ORDER_ROUTE}/:id`} element={<OrderDetails />} />
 				</Route>
 				<Route path={`${ITEM_ROUTE}/:id`} element={<Item />} />
 
 				<Route element={<AdminRoute />}>
 					<Route path={ADMIN_ROUTE} element={<Admin />} />
 					<Route path={ORDER_ROUTE} element={<Orders />} />
-					{/* <Route path={`${ORDER_ROUTE}/:id`} element={<OrderDetails />} /> */}
 				</Route>
+				<Route path={NOT_FOUND_ROUTE} element={<NotFound />} />
 			</Routes>
 		</main>
 	);

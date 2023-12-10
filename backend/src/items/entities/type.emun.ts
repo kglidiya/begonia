@@ -1,6 +1,6 @@
 export enum Type {
   ELATIOR = "Элатиор",
   BULB = "Клубневая",
-  FOLIAGE = "Декоративно-лиственная",
+  FOLIAGE = "Ампельная",
   ALL = "Все сорта"
 }

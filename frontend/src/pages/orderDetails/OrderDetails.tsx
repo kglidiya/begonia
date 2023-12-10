@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FieldValues, useForm } from 'react-hook-form';
@@ -6,10 +7,9 @@ import {
 	getOrderStatusEnum,
 	getOrderStatus,
 	getTotal,
-	handleRequest,
 } from '../../utils/utils';
-import { ORDER_URL } from '../../utils/api';
-import { getCookie } from '../../utils/cookies';
+import { ORDER_URL, handleRequestWithAuth } from '../../utils/api';
+import { deleteCookie } from '../../utils/cookies';
 import Loader from '../../components/loader/Loader';
 import styles from './OrderDetails.module.css';
 import { IOrder, IStatus, Role } from '../../utils/types';
@@ -17,20 +17,33 @@ import { ITEM_ROUTE } from '../../utils/paths';
 import Button from '../../ui/button/Button';
 import InputSelect from '../../ui/inputSelect/InputSelect';
 import { Context } from '../..';
-import CartStore from '../../store/CartStore';
 
 const orderStatus = ['Ожидает обработки', 'Отменен', 'В обработке', 'Получен'];
 
 export default function OrderDetails() {
 	const userStore = useContext(Context).user;
+	const cartStore = useContext(Context).cart;
+	const orderStore = useContext(Context).order;
+	const navigate = useNavigate();
+	const logOut = () => {
+		userStore.setUser({});
+		userStore.setIsAuth(false);
+		cartStore.setCart([]);
+		cartStore.setTotal([]);
+		orderStore.setOrder([]);
+		orderStore.setOrderCount();
+		deleteCookie('token');
+		deleteCookie('expires_on');
+		localStorage.removeItem('token');
+		navigate('/signin');
+	};
 	const [order, setOrder] = useState<IOrder | undefined>();
 	const { register, handleSubmit, setValue } = useForm<FieldValues>({
 		values: { status: getOrderStatus(order?.status as string) },
 	});
-	const navigate = useNavigate();
+
 	const { id } = useParams();
 
-	const accessToken: string | undefined = getCookie('token');
 	const [status, setStatus] = useState<IStatus<IOrder | undefined>>({
 		isloading: false,
 		data: undefined,
@@ -38,13 +51,13 @@ export default function OrderDetails() {
 	});
 
 	useEffect(() => {
-		handleRequest(
+		handleRequestWithAuth(
+			logOut,
 			status,
 			setStatus,
 			`${ORDER_URL}/${id}`,
 			'GET',
-			'',
-			accessToken
+			''
 		);
 
 		if (status.data) {
@@ -57,16 +70,12 @@ export default function OrderDetails() {
 	}
 
 	const onSubmit = (values: any) => {
-		handleRequest(
-			status,
-			setStatus,
-			`${ORDER_URL}`,
-			'PATCH',
-			{ id: order?.id, status: getOrderStatusEnum(values.status) },
-			accessToken
-		);
+		handleRequestWithAuth(logOut, status, setStatus, `${ORDER_URL}`, 'PATCH', {
+			id: order?.id,
+			status: getOrderStatusEnum(values.status),
+		});
 	};
-	// console.log(userStore.user.role)
+
 	return (
 		<div>
 			{order && (
@@ -79,28 +88,29 @@ export default function OrderDetails() {
 							{`Пользователь: ${order.userName}, ${order.user.email}, ${order.phone}`}{' '}
 						</p>
 					)}
-                  {userStore.user.role === Role.ADMIN && <form
-						onSubmit={handleSubmit(onSubmit)}
-						className={styles.statusGroup}
-					>
-						<InputSelect
-							label="Статус заказа"
-							register={register}
-							setValue={setValue}
-							options={orderStatus}
-							type="text"
-							name="status"
-							clearButton={false}
-							required
-						/>
-						<Button
-							type="submit"
-							text="Изменить статус"
-							fontSize="18px"
-							width="200px"
-						/>
-					</form>}
-					
+					{userStore.user.role === Role.ADMIN && (
+						<form
+							onSubmit={handleSubmit(onSubmit)}
+							className={styles.statusGroup}
+						>
+							<InputSelect
+								label="Статус заказа"
+								register={register}
+								setValue={setValue}
+								options={orderStatus}
+								type="text"
+								name="status"
+								clearButton={false}
+								required
+							/>
+							<Button
+								type="submit"
+								text="Изменить статус"
+								fontSize="18px"
+								width="200px"
+							/>
+						</form>
+					)}
 
 					{order.delivery && (
 						<div className={styles.address}>
@@ -118,22 +128,25 @@ export default function OrderDetails() {
 								)}
 							</div>
 							{order.delivery.comments && (
-								<p className={styles.comments}> {`Комментарии: ${order.delivery.comments}`} </p>
+								<p className={styles.comments}>
+									{' '}
+									{`Комментарии: ${order.delivery.comments}`}{' '}
+								</p>
 							)}
 						</div>
 					)}
 
 					<div className={styles.address}>
 						<h5 className={styles.sectionHeader}>Товары:</h5>
-						{order.orderItems?.map((el, i) => {
+						{order.orderItems?.map((el) => {
 							return (
-								<ul className={styles.list} key={i}>
+								<ul className={styles.list} key={el.id}>
 									<li
 										className={styles.list__item}
 										onClick={() => navigate(`/${ITEM_ROUTE}/${el.item.id}`)}
 									>
 										<div className={styles.itemGroup}>
-											<p>{el.item.name}</p>
+											<p className={styles.itemName}>{el.item.name}</p>
 											<img
 												src={el.item.image}
 												alt={el.item.name}
@@ -147,7 +160,9 @@ export default function OrderDetails() {
 							);
 						})}
 						{order.orderItems && (
-							<p>{`Общая сумма заказа: ${getTotal(order.orderItems)} руб.`}</p>
+							<p className={styles.text}>{`Общая сумма заказа: ${getTotal(
+								order.orderItems
+							)} руб.`}</p>
 						)}
 					</div>
 				</section>

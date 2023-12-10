@@ -33,8 +33,5 @@ export class CreateItemDto {
   price: number;
 
   @IsNumber()
-  article: number;
-
-  @IsNumber()
   quantity: number;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable consistent-return */
 import React, { FC, ReactNode } from 'react';
 import ReactDOM from 'react-dom';

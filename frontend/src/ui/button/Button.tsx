@@ -1,7 +1,8 @@
+import { ReactNode } from 'react';
 import styles from './Button.module.css';
 
 interface IButton {
-	text: string;
+	text: string | ReactNode;
 	width: string;
 	fontSize: string;
 	onClick?: () => void;

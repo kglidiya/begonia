@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import {
 	Dispatch,
 	SetStateAction,
@@ -8,29 +10,40 @@ import {
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import styles from './CartElement.module.css';
-import { handleRequest } from '../../utils/utils';
-import { getCookie } from '../../utils/cookies';
-import { CART_URL } from '../../utils/api';
+
+import { deleteCookie } from '../../utils/cookies';
+import { CART_URL, handleRequestWithAuth } from '../../utils/api';
 import { Context } from '../..';
 import ButtonIncrement from '../../ui/buttonIncrement/ButtonIncrement';
 import ButtonDecrement from '../../ui/buttonDecrement/ButtonDecrement';
 import PlusIcon from '../../ui/icons/plusIcon/PlusIcon';
 import { ITEM_ROUTE } from '../../utils/paths';
 import { ICartItem, IStatus } from '../../utils/types';
-import { toJS } from 'mobx';
 
 interface ICartElement {
 	status: IStatus<[] | ICartItem[]>;
 	setStatus: Dispatch<SetStateAction<IStatus<[] | ICartItem[]>>>;
 	cartItem: ICartItem;
-	setIsDisabled: Dispatch<SetStateAction<boolean>>;
 }
 const CartElement = observer(
-	({ cartItem, setStatus, status, setIsDisabled }: ICartElement) => {
+	({ cartItem, setStatus, status }: ICartElement) => {
+		const userStore = useContext(Context).user;
 		const cartStore = useContext(Context).cart;
-		const [count, setCount] = useState(+cartItem.quantity);
-		const accessToken: string | undefined = getCookie('token');
+		const orderStore = useContext(Context).order;
 		const navigate = useNavigate();
+		const logOut = () => {
+			userStore.setUser({});
+			userStore.setIsAuth(false);
+			cartStore.setCart([]);
+			cartStore.setTotal([]);
+			orderStore.setOrder([]);
+			orderStore.setOrderCount();
+			deleteCookie('token');
+			deleteCookie('expires_on');
+			localStorage.removeItem('token');
+			navigate('/signin');
+		};
+		const [count, setCount] = useState(+cartItem.quantity);
 
 		const increment = () => {
 			setCount((count) => count + 1);
@@ -41,38 +54,26 @@ const CartElement = observer(
 		};
 
 		const deleteCartItem = () => {
-			cartStore.deleteCart(status, setStatus, cartItem.id, accessToken);
+			handleRequestWithAuth(
+				logOut,
+				status,
+				setStatus,
+				`${CART_URL}`,
+				'DELETE',
+				{ id: cartItem.id }
+			);
+			cartStore.deleteCart(cartItem.id);
 		};
 
 		useEffect(() => {
-			// if (cartItem.item.quantity < count) {
-			// 	setIsDisabled(true);
-			// }
-			// if (cartItem.item.quantity >= count) {
-			// 	setIsDisabled(false);
-			// }
-		// 			cartStore.cart.some((cartElement: any) => {
-		// 	console.log(cartElement)
-		// 	if (cartElement.item.quantity < cartElement.quantity) {
-		// 		setIsDisabled(true);
-		// 	}
-		// 	if (cartElement.item.quantity >= cartElement.quantity) {
-		// 		setIsDisabled(false);
-		// 	}
-		// });
-			handleRequest(
-				status,
-				setStatus,
-				CART_URL,
-				'PATCH',
-				{ id: cartItem.id, quantity: count },
-				accessToken
-			);
+			handleRequestWithAuth(logOut, status, setStatus, CART_URL, 'PATCH', {
+				id: cartItem.id,
+				quantity: count,
+			});
 			cartStore.changeQuantity(cartItem.id, count);
 			cartStore.setTotal();
 		}, [count]);
 
-	
 		return (
 			<div className={styles.cartItemGroup}>
 				<img
@@ -99,17 +100,16 @@ const CartElement = observer(
 							className={styles.warning}
 						>{`Осталось ${cartItem.item.quantity} шт. Уменьшите количество`}</p>
 					)}
-						{cartItem.item.quantity === 0 && cartItem.item.quantity < count && (
-						<p
-							className={styles.warning}
-						>Товар закончился. Удалите товар из корзины для пролжения заказа</p>
+					{cartItem.item.quantity === 0 && cartItem.item.quantity < count && (
+						<p className={styles.warning}>
+							Товар закончился. Удалите товар из корзины для пролжения заказа
+						</p>
 					)}
 				</div>
 
 				<div className={styles.countGroup}>
 					<div className="box-flex-row">
 						<ButtonDecrement onClick={decrement} count={count} />
-						{/* <p className="text-medium">{count}</p> */}
 						<p className="text-medium">{cartItem.quantity}</p>
 						<ButtonIncrement
 							onClick={increment}
