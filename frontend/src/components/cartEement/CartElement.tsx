@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import {
 	Dispatch,
@@ -46,11 +45,11 @@ const CartElement = observer(
 		const [count, setCount] = useState(+cartItem.quantity);
 
 		const increment = () => {
-			setCount((count) => count + 1);
+			setCount((prev) => prev + 1);
 		};
 
 		const decrement = () => {
-			setCount((count) => count - 1);
+			setCount((prev) => prev - 1);
 		};
 
 		const deleteCartItem = () => {

@@ -132,6 +132,10 @@ const ItemUser = observer(() => {
 					<h3 className={styles.title}>{`Бегония ${item.type}`}</h3>
 					<div className={styles.details}>
 						<p className={styles.subtitle}>{item.name}</p>
+						<div className="box-flex-row">
+							<p className="text-medium text-bold">Цена</p>
+							<p className="text-medium">{`${item.price} руб.`}</p>
+						</div>
 						{isInTheCart.length > 0 ? (
 							<div className={styles.counterGroup}>
 								<Button
@@ -186,10 +190,7 @@ const ItemUser = observer(() => {
 								: `В наличии осталось ${remainingQty} шт.`}
 						</p>
 					)}
-					<div className="box-flex-row">
-						<p className="text-medium text-bold">Цена</p>
-						<p className="text-medium">{`${item.price} руб.`}</p>
-					</div>
+
 					<div className={styles.details}>
 						<div className={styles.wrapper}>
 							<img
@@ -200,7 +201,7 @@ const ItemUser = observer(() => {
 									setModalOpen(true);
 								}}
 							/>
-							<div className="box-flex-row">
+							<div className={styles.gallery__container}>
 								{item.galleryImage1 && (
 									<img
 										src={item.galleryImage1}

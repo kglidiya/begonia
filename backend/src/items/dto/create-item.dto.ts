@@ -13,7 +13,7 @@ export class CreateItemDto {
   @IsUrl()
   image: string;
 
-  @ValidateIf((value: Item) => value.galleryImage2 !== '')
+  @ValidateIf((value: Item) => value.galleryImage1 !== '')
   @IsUrl()
   galleryImage1: string;
 

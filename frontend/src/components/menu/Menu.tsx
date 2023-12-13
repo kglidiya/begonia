@@ -38,22 +38,21 @@ export default function Menu({ isOpen, closeMenu }: IMenu) {
 					: `${styles.list} ${styles.list_active}`
 			}
 		>
+			<li className={styles.list__item} onClick={closeMenu}>
+				<NavLink
+					to="/"
+					className={({ isActive }) =>
+						isActive ? styles.link_active : styles.link
+					}
+				>
+					<div className={`${styles.wrapper} box-flex-row`}>
+						<p>Магазин</p>
+						<FlowerIcon count={0} />
+					</div>
+				</NavLink>
+			</li>
 			{userStore.isAuth && userStore.user.role === Role.ADMIN && (
 				<>
-					<li className={styles.list__item} onClick={closeMenu}>
-						<NavLink
-							to="/"
-							className={({ isActive }) =>
-								isActive ? styles.link_active : styles.link
-							}
-						>
-							<div className={`${styles.wrapper} box-flex-row`}>
-								<p>Магазин</p>
-								<FlowerIcon count={0} />
-							</div>
-						</NavLink>
-					</li>
-
 					<li className={styles.list__item} onClick={closeMenu}>
 						<NavLink
 							to="/admin"
@@ -85,19 +84,6 @@ export default function Menu({ isOpen, closeMenu }: IMenu) {
 
 			{userStore.isAuth && userStore.user.role === Role.USER && (
 				<>
-					<li className={styles.list__item} onClick={closeMenu}>
-						<NavLink
-							to="/"
-							className={({ isActive }) =>
-								isActive ? styles.link_active : styles.link
-							}
-						>
-							<div className={`${styles.wrapper} box-flex-row`}>
-								<p> Магазин</p>
-								<FlowerIcon count={0} />
-							</div>
-						</NavLink>
-					</li>
 					<li className={styles.list__item} onClick={closeMenu}>
 						<NavLink
 							to="/cart"
@@ -148,14 +134,27 @@ export default function Menu({ isOpen, closeMenu }: IMenu) {
 				<>
 					<li className={styles.list__item} onClick={closeMenu}>
 						<NavLink
-							to="/"
+							to="/cart"
 							className={({ isActive }) =>
 								isActive ? styles.link_active : styles.link
 							}
 						>
 							<div className={`${styles.wrapper} box-flex-row`}>
-								<p> Магазин</p>
-								<FlowerIcon count={0} />
+								<p>Корзина</p>
+								<CartIcon count={0} />
+							</div>
+						</NavLink>
+					</li>
+					<li className={styles.list__item} onClick={closeMenu}>
+						<NavLink
+							to="/orders/me"
+							className={({ isActive }) =>
+								isActive ? styles.link_active : styles.link
+							}
+						>
+							<div className={`${styles.wrapper} box-flex-row`}>
+								<p>Заказы</p>
+								<OrderIcon count={0} />
 							</div>
 						</NavLink>
 					</li>

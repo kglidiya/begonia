@@ -11,6 +11,7 @@ export default function HelmetSeo({ title, description, type }: IHelmet) {
 		<Helmet>
 			{/* Standard metadata tags */}
 			<title>{title}</title>
+			<meta name="robots" content="noindex, nofollow" />
 			<meta name="description" content={description} />
 			<meta
 				name="keywords"

@@ -94,88 +94,98 @@ const NavBar = observer(({ isMenuOpen, closeMenu, setMenuOpen }: INavBar) => {
 				</Link>
 				{matches && (
 					<div className={styles.wrapper}>
-						{userStore.isAuth && userStore.user.role === Role.ADMIN && (
-							<NavLink
-								to="/"
-								className={({ isActive }) =>
-									isActive ? styles.link_active : styles.link
-								}
-							>
-								<div className="box-flex-row">
-									<p> Магазин</p>
-									<FlowerIcon count={0} />
-								</div>
-							</NavLink>
+						<NavLink
+							to="/"
+							className={({ isActive }) =>
+								isActive ? styles.link_active : styles.link
+							}
+						>
+							<div className="box-flex-row">
+								<p> Магазин</p>
+								<FlowerIcon count={0} />
+							</div>
+						</NavLink>
+						{!userStore.isAuth && (
+							<>
+								<NavLink
+									to="/cart"
+									className={({ isActive }) =>
+										isActive ? styles.link_active : styles.link
+									}
+								>
+									<div className="box-flex-row">
+										<p>Корзина</p>
+										<CartIcon count={0} />
+									</div>
+								</NavLink>
+								<NavLink
+									to="/orders/me"
+									className={({ isActive }) =>
+										isActive ? styles.link_active : styles.link
+									}
+								>
+									<div className="box-flex-row">
+										<p>Заказы</p>
+										<OrderIcon count={0} />
+									</div>
+								</NavLink>
+							</>
 						)}
 						{userStore.isAuth && userStore.user.role === Role.ADMIN && (
-							<NavLink
-								to="/admin"
-								className={({ isActive }) =>
-									isActive ? styles.link_active : styles.link
-								}
-							>
-								<div className="box-flex-row">
-									<p> Добавить новый товар</p>
-									<CartIcon count={0} />
-								</div>
-							</NavLink>
-						)}
-						{userStore.isAuth && userStore.user.role === Role.ADMIN && (
-							<NavLink
-								to="/orders"
-								className={({ isActive }) =>
-									isActive ? styles.link_active : styles.link
-								}
-							>
-								<div className="box-flex-row">
-									<p> Заказы</p>
-									<OrderIcon count={0} />
-								</div>
-							</NavLink>
-						)}
-						{userStore.user.role === Role.USER && (
-							<NavLink
-								to="/"
-								className={({ isActive }) =>
-									isActive ? styles.link_active : styles.link
-								}
-							>
-								<div className="box-flex-row">
-									<p>Магазин</p>
-									<FlowerIcon count={0} />
-								</div>
-							</NavLink>
+							<>
+								<NavLink
+									to="/admin"
+									className={({ isActive }) =>
+										isActive ? styles.link_active : styles.link
+									}
+								>
+									<div className="box-flex-row">
+										<p> Добавить новый товар</p>
+										<CartIcon count={0} />
+									</div>
+								</NavLink>
+								<NavLink
+									to="/orders"
+									className={({ isActive }) =>
+										isActive ? styles.link_active : styles.link
+									}
+								>
+									<div className="box-flex-row">
+										<p> Заказы</p>
+										<OrderIcon count={0} />
+									</div>
+								</NavLink>
+							</>
 						)}
 						{userStore.user.role === Role.USER && (
-							<NavLink
-								to="/cart"
-								className={({ isActive }) =>
-									isActive ? styles.link_active : styles.link
-								}
-							>
-								<div className="box-flex-row">
-									<p>Корзина</p>
-									<CartIcon
-										count={userStore.isAuth ? cartStore.cart.length : 0}
-									/>
-								</div>
-							</NavLink>
-						)}
-
-						{userStore.user.role === Role.USER && (
-							<NavLink
-								to="/orders/me"
-								className={({ isActive }) =>
-									isActive ? styles.link_active : styles.link
-								}
-							>
-								<div className="box-flex-row">
-									<p>Заказы</p>
-									<OrderIcon
-										count={userStore.isAuth ? orderStore.orderCount : 0}
-									/>
-								</div>
-							</NavLink>
+							<>
+								<NavLink
+									to="/cart"
+									className={({ isActive }) =>
+										isActive ? styles.link_active : styles.link
+									}
+								>
+									<div className="box-flex-row">
+										<p>Корзина</p>
+										<CartIcon
+											count={userStore.isAuth ? cartStore.cart.length : 0}
+										/>
+									</div>
+								</NavLink>
+								<NavLink
+									to="/orders/me"
+									className={({ isActive }) =>
+										isActive ? styles.link_active : styles.link
+									}
+								>
+									<div className="box-flex-row">
+										<p>Заказы</p>
+										<OrderIcon
+											count={userStore.isAuth ? orderStore.orderCount : 0}
+										/>
+									</div>
+								</NavLink>
+							</>
 						)}
 
 						{userStore.user.email ? (

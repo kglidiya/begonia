@@ -84,7 +84,7 @@ input:-webkit-autofill:active {
 	height: 40px;
 	padding-left: 20px;
 	padding-top: 10px;
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .list__item:hover {
