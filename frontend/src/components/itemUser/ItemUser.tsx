@@ -71,7 +71,7 @@ const ItemUser = observer(() => {
 				setRemainingQty(data.quantity - isInTheCart[0].quantity);
 			}
 		}
-	}, [data, setCount]);
+	}, [data, setCount, isInTheCart.length]);
 
 	const addToCart = () => {
 		if (!userStore.isAuth) {
@@ -111,7 +111,7 @@ const ItemUser = observer(() => {
 			cartStore.changeQuantity(isInTheCart[0].id, count);
 			cartStore.setTotal();
 		}
-	}, [count]);
+	}, [count, isInTheCart.length]);
 
 	const closePopup = () => {
 		setModalOpen(false);
@@ -124,7 +124,7 @@ const ItemUser = observer(() => {
 	if (isloading) {
 		return <Loader />;
 	}
-
+	// console.log(isInTheCart.length);
 	return (
 		<section className={styles.container}>
 			{item && (

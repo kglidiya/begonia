@@ -29,7 +29,10 @@ const Signup = observer(() => {
 	});
 
 	const onSubmit = (values: any) => {
-		handleRequest(status, setStatus, SIGN_UP_URL, 'POST', values);
+		handleRequest(status, setStatus, SIGN_UP_URL, 'POST', {
+			email: values.email.toLowerCase(),
+			password: values.password,
+		});
 		user.setIsAuth(true);
 	};
 

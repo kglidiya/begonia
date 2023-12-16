@@ -3,7 +3,6 @@
 	"author": "Kosinova Lidiya",
 	"version": "0.1.0",
 	"private": true,
-	"homepage": "./",
 	"dependencies": {
 		"@testing-library/jest-dom": "^6.1.5",
 		"axios": "^1.4.0",

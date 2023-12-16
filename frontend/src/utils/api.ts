@@ -51,7 +51,9 @@ export const handleRequestWithAuth = async (
 		const res = await axios(url, {
 			method,
 			data,
-			headers: { Authorization: `Bearer ${accessToken}` },
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
 			params,
 		});
 		if (res.statusText !== 'OK' && res.statusText !== 'Created') {

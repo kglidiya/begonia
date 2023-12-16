@@ -26,7 +26,9 @@ const ForgotPassword = () => {
 	});
 
 	const onSubmit = (values: any) => {
-		handleRequest(status, setStatus, `${FORGOT_PASSWORD_URL}`, 'POST', values);
+		handleRequest(status, setStatus, `${FORGOT_PASSWORD_URL}`, 'POST', {
+			email: values.email.toLowerCase(),
+		});
 	};
 	useEffect(() => {
 		if (status.data) {

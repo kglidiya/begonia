@@ -30,7 +30,10 @@ const Signin = observer(() => {
 	});
 
 	const onSubmit = (values: any) => {
-		handleRequest(status, setStatus, SIGN_IN_URL, 'POST', values);
+		handleRequest(status, setStatus, SIGN_IN_URL, 'POST', {
+			email: values.email.toLowerCase(),
+			password: values.password,
+		});
 	};
 
 	useEffect(() => {
