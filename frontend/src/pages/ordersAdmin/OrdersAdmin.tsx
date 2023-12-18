@@ -170,7 +170,7 @@ export default function Orders() {
 					})}
 
 				{watch('query') !== '' && !searching && ordersSearch.length === 0 && (
-					<h5>Поиск не дал результата</h5>
+					<p className={styles.message}>Поиск не дал результата</p>
 				)}
 			</div>
 		</section>

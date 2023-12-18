@@ -124,13 +124,16 @@
 
 	.tabs {
 		flex-direction: column;
-		gap: 0;
-		padding-bottom: 0;
-		font-size: 22px;
 	}
 
 	.tabs:last-of-type {
 		padding-bottom: 10px;
+		gap: 10px;
+	}
+
+	.tab {
+		padding-bottom: 0;
+		font-size: 22px;
 	}
 }
 

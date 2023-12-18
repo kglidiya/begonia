@@ -98,6 +98,8 @@
 	width: 70px;
 	height: 70px;
 	object-fit: contain;
+	margin-top: 7px;
+	margin-bottom: 7px;
 }
 
 .text {
