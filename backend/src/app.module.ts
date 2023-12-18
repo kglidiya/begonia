@@ -35,16 +35,33 @@ import typeorm from './config/typeorm';
       useFactory: async (configService: ConfigService) => (configService.get('typeorm'))
     }),
     CartModule,
+    // MailerModule.forRootAsync({
+    //   useFactory: async () => ({
+    //     transport: {
+    //       service: 'gmail',
+    //       host: 'smtp.gmail.com',
+    //       port: 587,
+    //       secure: false,
+    //       auth: {
+    //         user: 'lgkosinova@gmail.com',
+    //         pass: 'dymjrmozbtykhtgi'
+    //       }
+    //     },
+    //     defaults: {
+    //       from: '"No Reply" <no-reply@localhost>'
+    //     }
+    //   })
+    // })
     MailerModule.forRootAsync({
       useFactory: async () => ({
         transport: {
-          service: 'gmail',
-          host: 'smtp.gmail.com',
-          port: 587,
+          service: process.env.MAILDEV_SERVICE,
+          host: process.env.MAILDEV_HOST,
+          port: Number(process.env.MAILDEV_PORT),
           secure: false,
           auth: {
-            user: 'lgkosinova@gmail.com',
-            pass: 'dymjrmozbtykhtgi'
+            user: process.env.MAILDEV_INCOMING_USER,
+            pass: process.env.MAILDEV_INCOMING_PASS
           }
         },
         defaults: {

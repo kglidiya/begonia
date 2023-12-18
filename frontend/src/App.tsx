@@ -10,7 +10,6 @@ import HelmetSeo from './components/helmetSeo/HelmetSeo';
 
 function App() {
 	const [isMenuOpen, setMenuOpen] = useState(false);
-
 	const closeMenu = () => {
 		setMenuOpen(false);
 	};

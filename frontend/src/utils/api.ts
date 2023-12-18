@@ -3,7 +3,7 @@ import axios, { AxiosError } from 'axios';
 import { getCookie, setCookie } from './cookies';
 import { IStatus } from './types';
 
-export const BASE_URL = process.env.REACT_APP_BASE_URL;
+export const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
 export const ITEMS_URL = `${BASE_URL}items`;
 export const REFRESH_TOKEN = `${BASE_URL}refresh`;
 export const SIGN_IN_URL = `${BASE_URL}signin`;

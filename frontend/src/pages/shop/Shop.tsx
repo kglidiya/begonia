@@ -67,7 +67,6 @@ export default function Shop() {
 	if (status.error) {
 		return <ErrorWarning message="Произошла ошибка" />;
 	}
-
 	const handleItemCick = (id: number) => {
 		navigate(`${ITEM_ROUTE}/${id}`);
 	};
