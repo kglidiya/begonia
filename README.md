@@ -7,3 +7,4 @@
 -	NestJS
 -	PostgreSQL
 -	MobX
+-	Docker и Docker Compose
