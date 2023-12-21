@@ -3,12 +3,6 @@
 	position: relative;
 }
 
-/* .counterGroup {
-    position: absolute;
-    top: 0;
-    right: 0;
-  } */
-
 .counter {
 	position: absolute;
 	top: -5px;
@@ -25,11 +19,13 @@
 	text-align: center;
 }
 
+
 .fill {
 	fill: rgb(97, 97, 104);
 	transition: fill 0.3s linear;
 }
 
 .fill:hover {
-	fill: rgb(23, 23, 24);
+	/* fill: rgb(23, 23, 24); */
+	fill: red;
 }

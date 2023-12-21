@@ -62,11 +62,6 @@
 	margin: 0;
 }
 
-.link:hover {
-	transition: all 0.3s linear;
-	text-shadow: 3px 3px 3px rgb(172, 156, 156);
-}
-
 .link_active {
 	text-decoration: none;
 	color: black;
@@ -74,15 +69,11 @@
 	margin: 0;
 }
 
-.link_active:hover {
+p:hover {
 	transition: all 0.3s linear;
 	text-shadow: 3px 3px 3px rgb(172, 156, 156);
 }
 
-.link_active:last-of-type:hover {
-	transition: all 0.3s linear;
-	text-shadow: none;
-}
 .exitGroup {
 	display: flex;
 	flex-direction: row;

@@ -1,8 +1,10 @@
 import { IsUrl, IsString, IsNumber, Length, ValidateIf } from 'class-validator';
 import { Type } from '../entities/type.emun';
 import { Item } from '../entities/item.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateItemDto {
+  @ApiProperty()
   @IsString()
   type: Type;
 

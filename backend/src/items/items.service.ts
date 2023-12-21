@@ -13,17 +13,24 @@ export class ItemsService {
     private readonly itemsRepository: Repository<Item>
   ) {}
 
-  async create(createItemDto: CreateItemDto) {
+  async create(createItemDto: CreateItemDto): Promise<Item> {
     const item = this.itemsRepository.create(createItemDto);
     await this.itemsRepository.save(item);
     return item;
   }
 
-  async findAll(type: Type, page: number, resultPerPage: number) {
+  async findAll(
+    type: Type,
+    page: number,
+    resultPerPage: number
+  ): Promise<
+    | { res: Item[]; total: number; itemsAll: Item[] }
+    | { res: Item[]; total: number }
+  > {
     const skip = resultPerPage * (page - 1);
 
     if (type === Type.ALL) {
-      const res = await this.itemsRepository.find({order: { name: 'ASC' }});
+      const res = await this.itemsRepository.find({ order: { name: 'ASC' } });
       return {
         res: (await this.itemsRepository.find({
           take: resultPerPage,

@@ -15,6 +15,8 @@ import { UpdateItemDto } from './dto/update-item.dto';
 import { Roles } from 'src/auth/roles/roles.decorator';
 import { Role } from 'src/auth/roles/roles.emun';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { ApiQuery } from '@nestjs/swagger';
+import { Type } from './entities/type.emun';
 
 
 @Controller('items')
@@ -28,6 +30,9 @@ export class ItemsController {
     return this.itemsService.create(createItemDto);
   }
 
+  @ApiQuery({name: 'type'})
+  @ApiQuery({name: 'page'})
+  @ApiQuery({name: 'resultPerPage'})
   @Get()
   findAll(@Query() query: any) {
     return this.itemsService.findAll(query.type, query.page, query.resultPerPage);
