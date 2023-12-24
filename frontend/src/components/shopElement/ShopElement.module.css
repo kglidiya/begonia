@@ -1,4 +1,4 @@
-.cardContainer {
+.card_container {
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
@@ -42,13 +42,13 @@
 }
 .card__description {
 	width: 90%;
+	height: 89px;
 	text-align: justify;
 	display: -webkit-box;
 	-webkit-line-clamp: 4;
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 	margin-bottom: 15px;
-	min-height: 96px;
 	line-height: 1.4;
 }
 
@@ -58,6 +58,6 @@
 	}
 	.card__description {
 		font-size: 14px;
-		min-height: 85px;
+		height: 80px;
 	}
 }

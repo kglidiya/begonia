@@ -13,7 +13,7 @@ export default function ShopElement({ item, handleItemCick }: Props) {
 	const userStore = useContext(Context).user;
 
 	return (
-		<div className={styles.cardContainer} key={item.id}>
+		<article className={styles.card_container}>
 			<div className={styles.card} onClick={() => handleItemCick(item.id)}>
 				<img src={item.image} alt={item.image} className={styles.card__image} />
 				<p className={`${styles.card__title} text-bold`}>{item.name}</p>
@@ -46,6 +46,6 @@ export default function ShopElement({ item, handleItemCick }: Props) {
 					/>
 				)}
 			</div>
-		</div>
+		</article>
 	);
 }

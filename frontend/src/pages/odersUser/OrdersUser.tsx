@@ -26,7 +26,7 @@ const OrdersUser = observer(() => {
 	}, [orderStore.order]);
 
 	return (
-		<section className={styles.section}>
+		<section className={styles.container}>
 			{order && order?.length > 0 && (
 				<h3 className={styles.title}>Мои заказы</h3>
 			)}
@@ -39,8 +39,6 @@ const OrdersUser = observer(() => {
 					<p>Показать отмененные</p>
 				</div>
 			)}
-			{/* {!orderStore.order && <Loader/>} */}
-
 			{deleted && order && order.length > 0 && (
 				<>
 					{order?.map((el) => {

@@ -1,10 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdateCartDto } from './dto/update-cartItem.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CartItem } from './entities/cartItem.entity';
 import { Item } from 'src/items/entities/item.entity';
 import { User } from 'src/users/entities/user.entity';
+import { CreateCartItemDto } from './dto/create-cartItem.dto';
 
 @Injectable()
 export class CartService {
@@ -17,7 +18,10 @@ export class CartService {
     private readonly usersRepository: Repository<User>
   ) {}
 
-  async create(userId: number, createCartItemDto: any): Promise<any> {
+  async create(
+    userId: number,
+    createCartItemDto: CreateCartItemDto
+  ): Promise<CartItem> {
     const { id, quantity } = createCartItemDto;
     const item = await this.itemsRepository.findOne({
       where: { id }
@@ -63,7 +67,7 @@ export class CartService {
     }
   }
 
-  async update(updateCartDto: UpdateCartDto) {
+  async update(updateCartDto: UpdateCartDto): Promise<CartItem> {
     const { id, quantity } = updateCartDto;
     const cartToUpdate = await this.cartRepository.findOne({
       where: { id },
@@ -88,7 +92,7 @@ export class CartService {
     });
   }
 
-  async findAll(userId: number) {
+  async findAll(userId: number): Promise<CartItem[]> {
     return await this.cartRepository.find({
       relations: ['item', 'user'],
       where: { user: { id: userId } },
@@ -96,7 +100,7 @@ export class CartService {
     });
   }
 
-  async findOne(userId: number, itemId: number) {
+  async findOne(userId: number, itemId: number): Promise<CartItem> {
     const user = await this.usersRepository.findOne({
       where: { id: userId },
       relations: ['cart', 'cart.item']
@@ -105,7 +109,7 @@ export class CartService {
     if (!user) throw new BadRequestException('Пользователь не найден');
 
     const existingCartItem = user.cart.filter((el) => el.item.id === itemId);
-    
+
     if (existingCartItem.length > 0) {
       return await this.cartRepository.findOne({
         where: { item: { id: itemId } },
@@ -114,7 +118,7 @@ export class CartService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<DeleteResult> {
     return await this.cartRepository.delete(id);
   }
 }

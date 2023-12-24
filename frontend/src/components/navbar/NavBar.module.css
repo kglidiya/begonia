@@ -1,6 +1,7 @@
 .header {
 	width: 100vw;
-	box-shadow: -3px 26px 21px 17px white;
+	/* box-shadow: -3px 26px 21px 17px white; */
+	box-shadow: -3px 5px 17px 6px white;
 	position: relative;
 	position: sticky;
 	top: 0;
@@ -11,7 +12,8 @@
 
 .container {
 	width: 80%;
-	height: 150px;
+	height: 130px;
+	/* height: 100px; */
 	margin: auto;
 	display: flex;
 	flex-direction: row;
@@ -23,29 +25,25 @@
 	gap: 10px;
 }
 
-.logoGroup {
+.logo {
 	display: flex;
 	flex-direction: row;
-	/* gap: 20px; */
 	align-items: center;
 	text-decoration: none;
 }
-.logo {
+
+.logo__image {
 	width: 130px;
 	height: 130px;
+		/* width: 100px;
+	height: 100px; */
 	background-image: url('../../images/logo.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 	min-width: 90px;
 }
 
-.wrapper {
-	display: flex;
-	flex-direction: row;
-	gap: 50px;
-	align-items: center;
-}
-.title {
+.logo__title {
 	font-family: 'MarckScript', sans-serif;
 	font-size: 46px;
 	font-weight: bold;
@@ -54,6 +52,13 @@
 	text-shadow: 5px 5px 5px rgb(176, 173, 173);
 	margin: 0;
 	text-decoration: none;
+}
+
+.links {
+	display: flex;
+	flex-direction: row;
+	gap: 50px;
+	align-items: center;
 }
 
 .link {
@@ -69,12 +74,16 @@
 	margin: 0;
 }
 
-p:hover {
+.link__text {
+	font-size: 16px;
+}
+
+.link__text:hover {
 	transition: all 0.3s linear;
 	text-shadow: 3px 3px 3px rgb(172, 156, 156);
 }
 
-.exitGroup {
+.exit {
 	display: flex;
 	flex-direction: row;
 	gap: 15px;
@@ -87,28 +96,24 @@ p:hover {
 		padding-left: 40px;
 		padding-right: 40px;
 	}
-
-	/* .title {
-    font-size: 34px;
-  } */
 }
 
 @media (max-width: 992px) {
-	.wrapper {
+	.links {
 		gap: 10px;
 	}
 
-	.title {
+	.logo__title {
 		font-size: 34px;
 	}
 }
 
 @media (max-width: 768px) {
-	.logo {
+	.logo__image {
 		height: 100px;
 		width: 100px;
 	}
-	.title {
+	.logo__title {
 		font-size: 34px;
 	}
 }
@@ -120,7 +125,7 @@ p:hover {
 		box-shadow: -3px 15px 10px 15px white;
 	}
 
-	.logoGroup {
+	.logo {
 		gap: 5px;
 		width: 90%;
 	}

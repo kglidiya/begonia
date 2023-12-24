@@ -15,8 +15,19 @@ import Notification from '../../components/notification/Notification';
 import { Context } from '../..';
 import Spinner from '../../ui/icons/spinner/Spinner';
 
+type FormValues = {
+	type: string;
+	name: string;
+	description: string;
+	price: string;
+	image: string;
+	quantity: string;
+	galleryImage1: string;
+	galleryImage2: string;
+	galleryImage3: string;
+};
+
 export default function Admin() {
-	// const accessToken: string | undefined = getCookie('token');
 	const userStore = useContext(Context).user;
 	const navigate = useNavigate();
 	const logout = () => {
@@ -32,7 +43,7 @@ export default function Admin() {
 		handleSubmit,
 		setValue,
 		formState: { errors },
-	} = useForm({
+	} = useForm<FormValues>({
 		values: {
 			type: '',
 			name: '',
@@ -54,7 +65,7 @@ export default function Admin() {
 	const closePopup = () => {
 		setModalOpen(false);
 	};
-	const onSubmit = (values: any) => {
+	const onSubmit = (values: FormValues) => {
 		handleRequestWithAuth(logout, status, setStatus, ITEMS_URL, 'POST', {
 			...values,
 			price: values.price && +values.price,
@@ -74,7 +85,7 @@ export default function Admin() {
 	}, [status.data]);
 
 	return (
-		<div className={styles.container}>
+		<section className={styles.container}>
 			<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 				<h3 className={styles.title}>Заполните все поля</h3>
 				<InputSelect
@@ -84,7 +95,6 @@ export default function Admin() {
 					options={productType}
 					type="text"
 					name="type"
-					clearButton={false}
 					required
 				/>
 				<Input
@@ -196,6 +206,6 @@ export default function Admin() {
 			>
 				<Notification text="Данные отправлены" />
 			</Modal>
-		</div>
+		</section>
 	);
 }

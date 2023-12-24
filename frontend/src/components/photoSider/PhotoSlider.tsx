@@ -38,7 +38,7 @@ export default function PhotoSlider({ item }: IPhotoSlider) {
 
 	return (
 		<div
-			className={styles.sliderGroup}
+			className={styles.slider__wrapper}
 			style={{ width: matches ? '600px' : '300px' }}
 		>
 			{slide !== 0 ? (
@@ -63,14 +63,14 @@ export default function PhotoSlider({ item }: IPhotoSlider) {
 					<Arrow />
 				</span>
 			)}
-			<div className={styles.markerGroup}>
+			<div className={styles.dots}>
 				{images.map((_, i) => (
 					<span
 						key={i}
 						className={
 							i === slide
-								? `${styles.marker} ${styles.marker_active}`
-								: `${styles.marker} ${styles.marker_default}`
+								? `${styles.dot} ${styles.dot_active}`
+								: `${styles.dot} ${styles.dot_default}`
 						}
 					/>
 				))}

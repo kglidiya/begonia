@@ -1,4 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
+import {
+	Dispatch,
+	SetStateAction,
+	useContext,
+	useEffect,
+	useState,
+} from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../../index';
@@ -17,7 +23,7 @@ import OrderIcon from '../../ui/icons/orderIcon/OrderIcon';
 interface INavBar {
 	isMenuOpen: boolean;
 	closeMenu: () => void;
-	setMenuOpen: any;
+	setMenuOpen: Dispatch<SetStateAction<boolean>>;
 }
 const NavBar = observer(({ isMenuOpen, closeMenu, setMenuOpen }: INavBar) => {
 	const userStore = useContext(Context).user;
@@ -88,12 +94,12 @@ const NavBar = observer(({ isMenuOpen, closeMenu, setMenuOpen }: INavBar) => {
 	return (
 		<header className={styles.header}>
 			<div className={styles.container}>
-				<Link className={styles.logoGroup} to="/">
-					<div className={styles.logo} />
-					<p className={styles.title}>Мир бегоний</p>
+				<Link className={styles.logo} to="/">
+					<div className={styles.logo__image} />
+					<p className={styles.logo__title}>Мир бегоний</p>
 				</Link>
 				{matches && (
-					<div className={styles.wrapper}>
+					<div className={styles.links}>
 						<NavLink
 							to="/"
 							className={({ isActive }) =>
@@ -101,7 +107,7 @@ const NavBar = observer(({ isMenuOpen, closeMenu, setMenuOpen }: INavBar) => {
 							}
 						>
 							<div className="box-flex-row">
-								<p> Магазин</p>
+								<p className={styles.link__text}> Магазин</p>
 								<FlowerIcon count={0} />
 							</div>
 						</NavLink>
@@ -114,7 +120,7 @@ const NavBar = observer(({ isMenuOpen, closeMenu, setMenuOpen }: INavBar) => {
 									}
 								>
 									<div className="box-flex-row">
-										<p>Корзина</p>
+										<p className={styles.link__text}>Корзина</p>
 										<CartIcon count={0} />
 									</div>
 								</NavLink>
@@ -125,7 +131,7 @@ const NavBar = observer(({ isMenuOpen, closeMenu, setMenuOpen }: INavBar) => {
 									}
 								>
 									<div className="box-flex-row">
-										<p>Заказы</p>
+										<p className={styles.link__text}>Заказы</p>
 										<OrderIcon count={0} />
 									</div>
 								</NavLink>
@@ -140,7 +146,7 @@ const NavBar = observer(({ isMenuOpen, closeMenu, setMenuOpen }: INavBar) => {
 									}
 								>
 									<div className="box-flex-row">
-										<p> Добавить новый товар</p>
+										<p className={styles.link__text}> Добавить новый товар</p>
 										<CartIcon count={0} />
 									</div>
 								</NavLink>
@@ -151,7 +157,7 @@ const NavBar = observer(({ isMenuOpen, closeMenu, setMenuOpen }: INavBar) => {
 									}
 								>
 									<div className="box-flex-row">
-										<p> Заказы</p>
+										<p className={styles.link__text}>Заказы</p>
 										<OrderIcon count={0} />
 									</div>
 								</NavLink>
@@ -166,7 +172,7 @@ const NavBar = observer(({ isMenuOpen, closeMenu, setMenuOpen }: INavBar) => {
 									}
 								>
 									<div className="box-flex-row">
-										<p>Корзина</p>
+										<p className={styles.link__text}>Корзина</p>
 										<CartIcon
 											count={userStore.isAuth ? cartStore.cart.length : 0}
 										/>
@@ -179,7 +185,7 @@ const NavBar = observer(({ isMenuOpen, closeMenu, setMenuOpen }: INavBar) => {
 									}
 								>
 									<div className="box-flex-row">
-										<p>Заказы</p>
+										<p className={styles.link__text}>Заказы</p>
 										<OrderIcon
 											count={userStore.isAuth ? orderStore.orderCount : 0}
 										/>
@@ -189,7 +195,7 @@ const NavBar = observer(({ isMenuOpen, closeMenu, setMenuOpen }: INavBar) => {
 						)}
 
 						{userStore.user.email ? (
-							<div className={styles.exitGroup}>
+							<div className={styles.exit}>
 								<p className={styles.link_active}>{userStore.user.email}</p>
 								<ExitIcon onClick={logOut} />
 							</div>
@@ -200,7 +206,7 @@ const NavBar = observer(({ isMenuOpen, closeMenu, setMenuOpen }: INavBar) => {
 									isActive ? styles.link_active : styles.link
 								}
 							>
-								<p className="text-default"> Войти</p>
+								<p className={styles.link__text}> Войти</p>
 							</NavLink>
 						)}
 					</div>

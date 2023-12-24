@@ -69,7 +69,7 @@ export default function OrderDetails() {
 		return <Loader />;
 	}
 
-	const onSubmit = (values: any) => {
+	const onSubmit = (values: FieldValues) => {
 		handleRequestWithAuth(logOut, status, setStatus, `${ORDER_URL}`, 'PATCH', {
 			id: order?.id,
 			status: getOrderStatusEnum(values.status),
@@ -77,9 +77,9 @@ export default function OrderDetails() {
 	};
 
 	return (
-		<div>
+		<section>
 			{order && (
-				<section className={styles.container}>
+				<div className={styles.container}>
 					<h3 className={styles.title}>{`Заказ № ${order.id} от ${formatDate(
 						String(order.createdAt)
 					)}`}</h3>
@@ -100,7 +100,6 @@ export default function OrderDetails() {
 								options={orderStatus}
 								type="text"
 								name="status"
-								clearButton={false}
 								required
 							/>
 							<Button
@@ -113,8 +112,8 @@ export default function OrderDetails() {
 					)}
 
 					{order.delivery && (
-						<div className={styles.address}>
-							<h5 className={styles.sectionHeader}>Адрес доставки:</h5>
+						<div className={styles.details}>
+							<h5 className={styles.details__header}>Адрес доставки:</h5>
 							<p>{order.delivery.address}</p>
 							<div className="box-flex-row">
 								{order.delivery.appartment && (
@@ -128,7 +127,7 @@ export default function OrderDetails() {
 								)}
 							</div>
 							{order.delivery.comments && (
-								<p className={styles.comments}>
+								<p className={styles.details__comments}>
 									{' '}
 									{`Комментарии: ${order.delivery.comments}`}{' '}
 								</p>
@@ -136,8 +135,8 @@ export default function OrderDetails() {
 						</div>
 					)}
 
-					<div className={styles.address}>
-						<h5 className={styles.sectionHeader}>Товары:</h5>
+					<div className={styles.details}>
+						<h5 className={styles.details__header}>Товары:</h5>
 						{order.orderItems?.map((el) => {
 							return (
 								<ul className={styles.list} key={el.id}>
@@ -145,7 +144,7 @@ export default function OrderDetails() {
 										className={styles.list__item}
 										onClick={() => navigate(`/${ITEM_ROUTE}/${el.item.id}`)}
 									>
-										<div className={styles.itemGroup}>
+										<div className={styles.item__container}>
 											<p className={styles.itemName}>{el.item.name}</p>
 											<img
 												src={el.item.image}
@@ -165,8 +164,8 @@ export default function OrderDetails() {
 							)} руб.`}</p>
 						)}
 					</div>
-				</section>
+				</div>
 			)}
-		</div>
+		</section>
 	);
 }

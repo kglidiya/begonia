@@ -1,6 +1,4 @@
 import { BrowserRouter as Router } from 'react-router-dom';
-import './App.css';
-
 import { useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import AppRouter from './components/appRouter/AppRouter';

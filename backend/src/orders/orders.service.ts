@@ -8,11 +8,10 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
-import { In, Like, Not, Repository } from 'typeorm';
+import { DeleteResult, Like, Not, Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { CartItem } from 'src/cart/entities/cartItem.entity';
 import { OrderStatus } from './entities/status.enum';
-import { startWith } from 'rxjs';
 import { Item } from 'src/items/entities/item.entity';
 
 @Injectable()
@@ -28,7 +27,7 @@ export class OrdersService {
     private readonly itemsRepository: Repository<Item>
   ) {}
 
-  async create(userId: number, createOrderDto: CreateOrderDto) {
+  async create(userId: number, createOrderDto: CreateOrderDto): Promise<Order> {
     const user = await this.usersRepository.findOne({
       where: { id: userId },
       relations: ['cart', 'cart.item']
@@ -79,7 +78,17 @@ export class OrdersService {
     }
   }
 
-  async findAll(query: any, limit: number, offset: number) {
+  async findAll(
+    query: string,
+    limit: number,
+    offset: number
+  ): Promise<
+    | Order[]
+    | {
+        chunk: Order[];
+        total: number;
+      }
+  > {
     if (query) {
       return await this.ordersRepository.find({
         where: [
@@ -107,7 +116,7 @@ export class OrdersService {
     }
   }
 
-  async findByUserId(userId: number) {
+  async findByUserId(userId: number): Promise<Order[]> {
     return await this.ordersRepository.find({
       relations: ['user'],
       where: { user: { id: userId } },
@@ -115,7 +124,7 @@ export class OrdersService {
     });
   }
 
-  async findById(id: number) {
+  async findById(id: number): Promise<Order> {
     return await this.ordersRepository.findOne({
       where: { id },
       relations: ['user'],
@@ -123,7 +132,7 @@ export class OrdersService {
     });
   }
 
-  async update(updateOrderDto: UpdateOrderDto) {
+  async update(updateOrderDto: UpdateOrderDto): Promise<Order> {
     const { id, status } = updateOrderDto;
     const order = await this.ordersRepository.find({ where: { id } });
     if (!order) {
@@ -162,7 +171,7 @@ export class OrdersService {
     return orderToUpdate.raw[0];
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<DeleteResult> {
     const orderToDelete = await this.ordersRepository.findOne({
       where: { id }
     });
@@ -171,6 +180,9 @@ export class OrdersService {
     }
     if (orderToDelete.status === OrderStatus.CREATED) {
       return await this.ordersRepository.delete(id);
-    } else throw new ForbiddenException('Вы не можене удалить принятый в работу заказ');
+    } else
+      throw new ForbiddenException(
+        'Вы не можене удалить принятый в работу заказ'
+      );
   }
 }

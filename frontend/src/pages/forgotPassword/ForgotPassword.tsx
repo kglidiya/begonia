@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import styles from './ForgotPassword.module.css';
 import Button from '../../ui/button/Button';
 import { handleRequest, FORGOT_PASSWORD_URL } from '../../utils/api';
-import { IStatus } from '../../utils/types';
+import { IStatus, IUser } from '../../utils/types';
 import Input from '../../ui/input/Input';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import Spinner from '../../ui/icons/spinner/Spinner';
@@ -19,13 +19,13 @@ const ForgotPassword = () => {
 
 	const navigate = useNavigate();
 	const matches = useMediaQuery('(min-width: 576px)');
-	const [status, setStatus] = useState<IStatus<any>>({
+	const [status, setStatus] = useState<IStatus<IUser | undefined>>({
 		isloading: false,
 		data: undefined,
 		error: '',
 	});
 
-	const onSubmit = (values: any) => {
+	const onSubmit = (values: { email: string }) => {
 		handleRequest(status, setStatus, `${FORGOT_PASSWORD_URL}`, 'POST', {
 			email: values.email.toLowerCase(),
 		});

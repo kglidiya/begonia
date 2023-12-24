@@ -12,10 +12,10 @@ import { CartService } from './cartItem.service';
 import { CreateCartItemDto } from './dto/create-cartItem.dto';
 import { UpdateCartDto } from './dto/update-cartItem.dto';
 import { AccessTokenGuard } from 'src/auth/guards/accessToken.guard';
-
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Roles } from 'src/auth/roles/roles.decorator';
 import { Role } from 'src/auth/roles/roles.emun';
+import { CartItem } from './entities/cartItem.entity';
 
 @UseGuards(AccessTokenGuard)
 @Controller('cart')
@@ -42,7 +42,7 @@ export class CartController {
   }
 
   @Delete()
-  remove(@Body() item: any) {
+  remove(@Body() item: CartItem) {
     return this.cartService.remove(item.id);
   }
 }

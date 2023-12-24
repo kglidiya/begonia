@@ -11,10 +11,6 @@
 }
 
 .cartItemGroup {
-	display: flex;
-	flex-direction: column;
-	gap: 30px;
-	height: auto;
 	box-shadow: 5px 5px 15px rgb(203 197 197);
 	padding: 20px;
 	border-radius: 20px;
@@ -27,7 +23,7 @@
 	font-weight: bold;
 	padding-top: 100px;
 }
-.totalGroup {
+.total {
 	display: flex;
 	justify-content: end;
 	background-color: rgb(249 235 235);
@@ -57,7 +53,7 @@
 	.text {
 		font-size: 14px;
 	}
-	.totalGroup {
+	.total {
 		padding-left: 0;
 		justify-content: center;
 	}

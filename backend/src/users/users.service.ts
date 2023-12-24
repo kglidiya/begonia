@@ -5,6 +5,8 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { hashPassword } from 'src/utils/bcrypt';
 import { Role } from './entities/role.enum';
+import { UserResponseDto } from './dto/response-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 
 @Injectable()
@@ -14,19 +16,19 @@ export class UsersService {
     private readonly usersRepository: Repository<User>
   ) {}
 
-  async findAll() {
+  async findAll(): Promise<User[]> {
     return await this.usersRepository.find({ relations: ['cart', 'orders'] });
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<User> {
     return await this.usersRepository.findOne({ where: { id } });
   }
 
-  async findOneByEmail(email: string) {
+  async findOneByEmail(email: string): Promise<User> {
     return await this.usersRepository.findOne({ where: { email } });
   }
 
-  async findOneByRecoveryCode(code: number) {
+  async findOneByRecoveryCode(code: number): Promise<User> {
     return await this.usersRepository.findOne({
       where: { recoveryCode: code }
     });
@@ -39,7 +41,7 @@ export class UsersService {
     });
   }
 
-  async update(updateUserDto: any, id: number): Promise<any> {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const { password } = updateUserDto;
 
     if (password) {
@@ -65,7 +67,7 @@ export class UsersService {
     }
   }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<UserResponseDto> {
     try {
       const user = this.usersRepository.create({
         ...createUserDto,

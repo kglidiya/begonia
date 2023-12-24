@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useState } from 'react';
+import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import styles from './InputSelect.module.css';
-import CloseIcon from '../icons/closeIcon/CloseIcon';
 
 interface IInput {
 	options: string[];
@@ -10,15 +10,13 @@ interface IInput {
 	name: string;
 	border?: string;
 	label?: string;
-	pattern?: string;
+	pattern?: RegExp;
 	required: boolean;
 	value?: string;
-	error?: any;
+	error?: FieldErrors<any>;
 	errorMessage?: string;
-	onClick?: (e: any) => void;
-	clearButton: boolean;
-	register: any;
-	setValue: any;
+	register: UseFormRegister<any>;
+	setValue?: UseFormSetValue<any>;
 	values?: { [name: string]: string | number | string[] | null };
 }
 const InputSelect = ({
@@ -31,13 +29,8 @@ const InputSelect = ({
 	label,
 	pattern,
 	required,
-
 	error,
-	onClick,
-	clearButton,
-
 	setValue,
-
 	register,
 }: IInput) => {
 	const [isActive, setActive] = useState(false);
@@ -48,13 +41,6 @@ const InputSelect = ({
 
 	return (
 		<div className={styles.container}>
-			{clearButton && (
-				<CloseIcon
-					onClick={(e) => {
-						onClick?.(e);
-					}}
-				/>
-			)}
 			<label className={styles.label} htmlFor={name}>
 				{label}
 				<input
@@ -86,7 +72,7 @@ const InputSelect = ({
 							key={option}
 							onClick={() => {
 								handleToggle();
-								setValue(name, option);
+								setValue?.(name, option);
 							}}
 							className={styles.list__item}
 						>

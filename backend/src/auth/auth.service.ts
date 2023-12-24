@@ -10,6 +10,9 @@ import { ConfigService } from '@nestjs/config';
 import { AuthUserDto } from '../users/dto/auth-user.dto';
 import { hashPassword, verifyHash } from 'src/utils/bcrypt';
 import { MailerService } from '@nestjs-modules/mailer';
+import { User } from 'src/users/entities/user.entity';
+import { UserResponseDto } from 'src/users/dto/response-user.dto';
+import { Role } from 'src/users/entities/role.enum';
 
 let recoveryCode: number;
 
@@ -22,7 +25,7 @@ export class AuthService {
     private readonly mailerService: MailerService
   ) {}
 
-  async signUp(createUserDto: CreateUserDto): Promise<any> {
+  async signUp(createUserDto: CreateUserDto): Promise<UserResponseDto> {
     const userExists = await this.usersService.findOneWithPassword(
       createUserDto.email
     );
@@ -47,13 +50,14 @@ export class AuthService {
     };
   }
 
-  async signIn(data: AuthUserDto) {
+  async signIn(data: AuthUserDto): Promise<UserResponseDto> {
     const user = await this.usersService.findOneWithPassword(data.email);
 
-    if (!user) throw new BadRequestException('Такой пользователь не зарегистрирован');
-  
+    if (!user)
+      throw new BadRequestException('Такой пользователь не зарегистрирован');
+
     const passwordMatches = await verifyHash(data.password, user.password);
-    
+
     if (!passwordMatches) throw new BadRequestException('Неверный пароль');
 
     const tokens = await this.getTokens(user.id, user.email, user.role);
@@ -67,33 +71,49 @@ export class AuthService {
     };
   }
 
-  hashData(data: string) {
+  hashData(data: string): Promise<string> {
     return hashPassword(data);
   }
 
-  async refreshTokens(userId: number, refreshToken: string) {
+  async refreshTokens(
+    userId: number,
+    refreshToken: string
+  ): Promise<{
+    accessToken: string;
+    refreshToken: string;
+  }> {
     const user = await this.usersService.findOne(userId);
     if (!user) throw new ForbiddenException('Пользователь не зарегистирован');
-    // const refreshTokenMatches = await verifyHash(
-    //   user.refreshToken,
-    //   refreshToken,
-    // );
-    // if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
+    const refreshTokenMatches = await verifyHash(
+      user.refreshToken,
+      refreshToken
+    );
+    if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
     const tokens = await this.getTokens(user.id, user.email, user.role);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return tokens;
   }
 
-  async updateRefreshToken(userId: number, refreshToken: string) {
+  async updateRefreshToken(
+    userId: number,
+    refreshToken: string
+  ): Promise<User> {
     const hashedRefreshToken = await this.hashData(refreshToken);
     const user = await this.usersService.findOne(userId);
-    await this.usersService.update(
-      { ...user, refreshToken: hashedRefreshToken },
-      userId
-    );
+    return await this.usersService.update(userId, {
+      ...user,
+      refreshToken: hashedRefreshToken
+    });
   }
 
-  async getTokens(userId: number, email: string, role: any) {
+  async getTokens(
+    userId: number,
+    email: string,
+    role: Role
+  ): Promise<{
+    accessToken: string;
+    refreshToken: string;
+  }> {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
@@ -125,7 +145,7 @@ export class AuthService {
     };
   }
 
-  async forgotpassword(email: string) {
+  async forgotpassword(email: string): Promise<User> {
     const user = await this.usersService.findOneByEmail(email);
     recoveryCode = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
     if (!user) throw new BadRequestException('Пользователь не найден');
@@ -138,21 +158,19 @@ export class AuthService {
         html: `<b>Ваш код для восстановления пароля</b>
                <b>${recoveryCode}</b>`
       });
-      return await this.usersService.update({ recoveryCode }, user.id);
+      return await this.usersService.update(user.id, { recoveryCode });
     } catch (e) {
       console.log(e);
     }
   }
 
-  async resetPassword(recoveryCode: number, password: string) {
-  
+  async resetPassword(recoveryCode: number, password: string): Promise<User> {
     if (recoveryCode) {
       const user = await this.usersService.findOneByRecoveryCode(recoveryCode);
-    
       if (!user) {
         throw new BadRequestException('Введен некорректный код');
       }
-      return await this.usersService.update({ password }, user.id);
+      return await this.usersService.update(user.id, { password });
     }
   }
 }

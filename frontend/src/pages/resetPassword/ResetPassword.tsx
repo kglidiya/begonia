@@ -3,10 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import styles from './ResetPassword.module.css';
 import { handleRequest, RESET_PASSWORD_URL } from '../../utils/api';
-import { IStatus } from '../../utils/types';
+import { IStatus, IUser } from '../../utils/types';
 import Input from '../../ui/input/Input';
 import Button from '../../ui/button/Button';
 import useMediaQuery from '../../hooks/useMediaQuery';
+
+interface FormValues {
+	password: string;
+	repeatPassword: string;
+	code: string;
+}
 
 const ResetPassword = () => {
 	const {
@@ -25,13 +31,13 @@ const ResetPassword = () => {
 
 	const navigate = useNavigate();
 	const matches = useMediaQuery('(min-width: 576px)');
-	const [status, setStatus] = useState<IStatus<any>>({
+	const [status, setStatus] = useState<IStatus<IUser | undefined>>({
 		isloading: false,
 		data: undefined,
 		error: '',
 	});
 
-	const onSubmit = (values: any) => {
+	const onSubmit = (values: FormValues) => {
 		handleRequest(status, setStatus, `${RESET_PASSWORD_URL}`, 'POST', {
 			recoveryCode: Number(values.code),
 			password: values.password,

@@ -137,7 +137,7 @@ const ItemUser = observer(() => {
 							<p className="text-medium">{`${item.price} руб.`}</p>
 						</div>
 						{isInTheCart.length > 0 ? (
-							<div className={styles.counterGroup}>
+							<div className={styles.counter__container}>
 								<Button
 									fontSize="20px"
 									width={!matches ? '90%' : '250px'}
@@ -165,7 +165,7 @@ const ItemUser = observer(() => {
 								disabled={remainingQty <= 0}
 							/>
 						) : (
-							<div className={`${styles.buttonContainer} box-flex-row`}>
+							<div className={`${styles.button__container} box-flex-row`}>
 								<Button
 									fontSize="20px"
 									width={!matches ? '90%' : '250px'}
@@ -192,11 +192,11 @@ const ItemUser = observer(() => {
 					)}
 
 					<div className={styles.details}>
-						<div className={styles.wrapper}>
+						<div className={styles.images__container}>
 							<img
 								src={item.image}
 								alt={item.name}
-								className={styles.imageMain}
+								className={styles.image_main}
 								onClick={() => {
 									setModalOpen(true);
 								}}
@@ -206,7 +206,7 @@ const ItemUser = observer(() => {
 									<img
 										src={item.galleryImage1}
 										alt={item.name}
-										className={styles.imageGallery}
+										className={styles.image_gallery}
 										onClick={() => {
 											setModalOpen(true);
 										}}
@@ -216,7 +216,7 @@ const ItemUser = observer(() => {
 									<img
 										src={item.galleryImage2}
 										alt={item.name}
-										className={styles.imageGallery}
+										className={styles.image_gallery}
 										onClick={() => {
 											setModalOpen(true);
 										}}
@@ -226,7 +226,7 @@ const ItemUser = observer(() => {
 									<img
 										src={item.galleryImage3}
 										alt={item.name}
-										className={styles.imageGallery}
+										className={styles.image_gallery}
 										onClick={() => {
 											setModalOpen(true);
 										}}

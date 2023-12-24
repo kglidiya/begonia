@@ -76,14 +76,13 @@
 .list {
 	padding: 0;
 	list-style: none;
-	/* border-radius: 15px; */
 }
 .list__item {
 	height: 40px;
 	box-sizing: border-box;
 	width: 100%;
 	cursor: pointer;
-	padding: 7px 12px;
+	padding: 8px 12px 5px 12px;
 	font-size: 18px;
 	font-weight: normal;
 	border-bottom: 1px solid rgb(202, 191, 191);

@@ -1,4 +1,4 @@
-.section {
+.container {
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
@@ -22,13 +22,13 @@
 	font-weight: bold;
 }
 @media (max-width: 992px) {
-	.section {
+	.container {
 		width: 80%;
 	}
 }
 
 @media (max-width: 768px) {
-	.section {
+	.container {
 		width: 90%;
 	}
 

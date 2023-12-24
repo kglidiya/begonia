@@ -74,7 +74,7 @@ const CartElement = observer(
 		}, [count]);
 
 		return (
-			<div className={styles.cartItemGroup}>
+			<div className={styles.container}>
 				<img
 					src={cartItem.item.image}
 					alt={cartItem.item.name}
@@ -84,13 +84,15 @@ const CartElement = observer(
 					}}
 				/>
 				<div
-					className={`${styles.descriptionGroup} box-flex-column`}
+					className={`${styles.description} box-flex-column`}
 					onClick={() => {
 						navigate(`/${ITEM_ROUTE}/${cartItem.item.id}`);
 					}}
 				>
 					<p className="text-default text-bold">{cartItem.item.name}</p>
-					<p className={styles.description}>{cartItem.item.description}</p>
+					<p className={styles.description__text}>
+						{cartItem.item.description}
+					</p>
 					{cartItem.item.quantity === count && (
 						<p className={styles.warning}>Больше нет в наличии</p>
 					)}
@@ -106,7 +108,7 @@ const CartElement = observer(
 					)}
 				</div>
 
-				<div className={styles.countGroup}>
+				<div className={styles.count}>
 					<div className="box-flex-row">
 						<ButtonDecrement onClick={decrement} count={count} />
 						<p className="text-medium">{cartItem.quantity}</p>

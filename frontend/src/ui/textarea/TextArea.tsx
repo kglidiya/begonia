@@ -1,4 +1,4 @@
-import { UseFormRegister } from 'react-hook-form';
+import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import styles from './TextArea.module.css';
 import CloseIcon from '../icons/closeIcon/CloseIcon';
 
@@ -10,10 +10,10 @@ interface ITextArea {
 	required: boolean;
 	maxLength?: number;
 	minLength?: number;
-	error?: any;
+	error?: FieldErrors<any>;
 	errorMessage?: string;
 	clearButton?: boolean;
-	setValue?: any;
+	setValue?: UseFormSetValue<any>;
 }
 const TextArea = ({
 	placeholder,
@@ -30,7 +30,7 @@ const TextArea = ({
 }: ITextArea) => {
 	return (
 		<div className={styles.container}>
-			{clearButton && <CloseIcon onClick={() => setValue(name, '')} />}
+			{clearButton && <CloseIcon onClick={() => setValue?.(name, '')} />}
 			<label className={styles.label} htmlFor={name}>
 				{' '}
 				{label}

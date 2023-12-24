@@ -1,3 +1,5 @@
+import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { ChangeEventHandler } from 'react';
 import styles from './Input.module.css';
 import CloseIcon from '../icons/closeIcon/CloseIcon';
 
@@ -6,20 +8,20 @@ interface IInput {
 	placeholder?: string;
 	name: string;
 	label?: string;
-	register: any;
+	register: UseFormRegister<any>;
 	required: boolean;
 	maxLength?: number;
 	minLength?: number;
 	min?: number;
 	max?: number;
 	pattern?: RegExp;
-	error?: any;
+	error?: FieldErrors<any>;
 	errorMessage?: string;
 	clearButton?: boolean;
-	setValue?: any;
-	// onChange?: ChangeEventHandler<HTMLInputElement>;
-	onChange?: any;
+	setValue?: UseFormSetValue<any>;
+	onChange?: ChangeEventHandler<HTMLInputElement>;
 }
+
 const Input = ({
 	type,
 	placeholder,
@@ -38,10 +40,10 @@ const Input = ({
 	setValue,
 	onChange,
 }: IInput) => {
-	// console.log(error)
+	console.log(error);
 	return (
 		<div className={styles.container}>
-			{clearButton && <CloseIcon onClick={() => setValue(name, '')} />}
+			{clearButton && <CloseIcon onClick={() => setValue?.(name, '')} />}
 			<label className={styles.label} htmlFor={name}>
 				{label}
 			</label>

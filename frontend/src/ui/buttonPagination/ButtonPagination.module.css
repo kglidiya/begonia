@@ -7,14 +7,14 @@
 	width: 40px;
 	height: 40px;
 	font-size: 18px;
-	transition: all 0.3s linear;
 	margin-top: 30px;
+	cursor: pointer;
 }
-.button:hover {
+ .button:hover {
 	background-color: rgb(249, 187, 187);
 	box-shadow: 8px 8px 18px rgb(203 197 197);
 	color: white;
-}
+} 
 
 .button_default {
 	background-color: white;

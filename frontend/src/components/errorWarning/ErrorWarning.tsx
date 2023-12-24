@@ -6,7 +6,7 @@ interface IErrorWarning {
 
 export default function ErrorWarning({ message }: IErrorWarning) {
 	return (
-		<div className={styles.error}>
+		<div className={styles.container}>
 			<p className={styles.message}>{message}</p>
 		</div>
 	);

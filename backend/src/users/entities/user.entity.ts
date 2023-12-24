@@ -32,6 +32,9 @@ export class User {
   @Column({ default: null })
   recoveryCode: number;
 
+  @Column({default: ''})
+  refreshToken: string;
+
   @Column({ type: 'enum', enum: Role, default: Role.USER })
   role: Role;
 

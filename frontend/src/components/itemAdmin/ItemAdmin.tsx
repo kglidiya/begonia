@@ -137,7 +137,6 @@ export default function ItemAdmin() {
 						options={productType}
 						type="text"
 						name="type"
-						clearButton={false}
 						required
 					/>
 					<Input

@@ -1,4 +1,4 @@
-.cartItemGroup {
+.container {
 	display: flex;
 	flex-direction: row;
 	gap: 30px;
@@ -16,7 +16,7 @@
 	cursor: pointer;
 }
 
-.countGroup {
+.count {
 	display: flex;
 	flex-direction: row;
 	gap: 15px;
@@ -24,12 +24,13 @@
 	align-items: center;
 	margin-right: 15px;
 }
-.descriptionGroup {
+
+.description {
 	width: 40%;
 	cursor: pointer;
 }
 
-.description {
+.description__text {
 	display: -webkit-box;
 	-webkit-line-clamp: 5;
 	-webkit-box-orient: vertical;
@@ -57,35 +58,36 @@
 		width: 150px;
 		height: 150px;
 	}
-	.countGroup {
+
+	.count {
 		flex-direction: column;
 		height: auto;
 		margin-right: 0;
 	}
 
-	.descriptionGroup {
+	.description {
 		width: 35%;
 	}
 }
 
 @media (max-width: 768px) {
-	.cartItemGroup {
+	.container {
 		height: auto;
 		flex-direction: column;
 		gap: 10px;
 	}
 
-	.countGroup {
+	.count {
 		gap: 0;
 	}
 
-	.descriptionGroup {
+	.description {
 		width: 90%;
 	}
 }
 
 @media (max-width: 576px) {
-	.description {
+	.description__text {
 		font-size: 14px;
 	}
 }

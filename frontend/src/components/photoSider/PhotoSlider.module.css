@@ -1,10 +1,4 @@
-.container {
-	height: 100%;
-	border-radius: 5px;
-	overflow: hidden;
-}
-
-.sliderGroup {
+.slider__wrapper {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -43,7 +37,11 @@
 	cursor: pointer;
 }
 
-.markerGroup {
+.container {
+	overflow: hidden;
+}
+
+.dots {
 	display: flex;
 	flex-direction: row;
 	gap: 7px;
@@ -52,18 +50,18 @@
 	right: 50%;
 }
 
-.marker {
+.dot {
 	width: 15px;
 	height: 15px;
 
 	border-radius: 50%;
 }
 
-.marker_default {
+.dot_default {
 	background-color: rgb(169, 172, 174);
 }
 
-.marker_active {
+.dot_active {
 	background-color: rgb(255, 255, 255);
 }
 
@@ -77,7 +75,7 @@
 		top: 90%;
 		left: 0;
 	}
-	.markerGroup {
+	.dots {
 		right: 40%;
 	}
 }

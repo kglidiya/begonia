@@ -72,7 +72,7 @@ const Cart = observer(() => {
 			) : (
 				<>
 					<DeliveryConditions />
-					<div className={styles.totalGroup}>
+					<div className={styles.total}>
 						<p className={styles.text}>ИТОГО:</p>
 						<p className={styles.text}>{`${cartStore.total} руб.`}</p>
 					</div>
@@ -87,13 +87,13 @@ const Cart = observer(() => {
 					{cartStore.cart.length > 0 &&
 						cartStore.cart.map((cartItem: ICartItem) => {
 							return (
-								<div key={cartItem.id} className={styles.cartItemGroup}>
+								<article key={cartItem.id} className={styles.cartItemGroup}>
 									<CartElement
 										status={status}
 										setStatus={setStatus}
 										cartItem={cartItem}
 									/>
-								</div>
+								</article>
 							);
 						})}
 				</>

@@ -52,8 +52,9 @@ const OrderUserElement = observer(({ orderItem }: IOrderUserElement) => {
 		orderStore.setOrderCount();
 	};
 
-	const onClick = (e: any) => {
-		if (e.target.textContent === 'Отменить') {
+	const onClick = (e: React.MouseEvent<HTMLElement>) => {
+		const target = e.target as HTMLElement;
+		if (target.textContent === 'Отменить') {
 			deleteOrder();
 		} else navigate(`${ORDER_ROUTE}/${orderItem.id}`);
 	};

@@ -34,7 +34,7 @@ export class ItemsController {
   @ApiQuery({name: 'page'})
   @ApiQuery({name: 'resultPerPage'})
   @Get()
-  findAll(@Query() query: any) {
+  findAll(@Query() query: {type: Type, page: number, resultPerPage: number}) {
     return this.itemsService.findAll(query.type, query.page, query.resultPerPage);
   }
 

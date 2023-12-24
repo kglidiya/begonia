@@ -12,6 +12,11 @@ import Input from '../../ui/input/Input';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import Spinner from '../../ui/icons/spinner/Spinner';
 
+interface FormValues {
+	email: string;
+	password: string;
+}
+
 const Signin = observer(() => {
 	const {
 		register,
@@ -29,7 +34,7 @@ const Signin = observer(() => {
 		error: '',
 	});
 
-	const onSubmit = (values: any) => {
+	const onSubmit = (values: FormValues) => {
 		handleRequest(status, setStatus, SIGN_IN_URL, 'POST', {
 			email: values.email.toLowerCase(),
 			password: values.password,
