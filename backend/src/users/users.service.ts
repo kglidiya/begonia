@@ -43,13 +43,10 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const { password } = updateUserDto;
-
     if (password) {
       updateUserDto.password = await hashPassword(password);
     }
-
     try {
-   
       const updatedData = await this.usersRepository
         .createQueryBuilder('user')
         .update<User>(User, { ...updateUserDto })
@@ -57,7 +54,7 @@ export class UsersService {
         .returning('*')
         .updateEntity(true)
         .execute();
-      return updatedData.raw[0];
+      return updatedData.raw;
     } catch (error) {
       if (error.code == 23505) {
         throw new ConflictException(

@@ -1,7 +1,8 @@
 import {
   BadRequestException,
   ForbiddenException,
-  Injectable
+  Injectable,
+  UnauthorizedException
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
@@ -52,13 +53,12 @@ export class AuthService {
 
   async signIn(data: AuthUserDto): Promise<UserResponseDto> {
     const user = await this.usersService.findOneWithPassword(data.email);
-
     if (!user)
       throw new BadRequestException('Такой пользователь не зарегистрирован');
 
     const passwordMatches = await verifyHash(data.password, user.password);
 
-    if (!passwordMatches) throw new BadRequestException('Неверный пароль');
+    if (!passwordMatches) throw new UnauthorizedException('Неверный пароль');
 
     const tokens = await this.getTokens(user.id, user.email, user.role);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
@@ -99,9 +99,7 @@ export class AuthService {
     refreshToken: string
   ): Promise<User> {
     const hashedRefreshToken = await this.hashData(refreshToken);
-    const user = await this.usersService.findOne(userId);
     return await this.usersService.update(userId, {
-      ...user,
       refreshToken: hashedRefreshToken
     });
   }
