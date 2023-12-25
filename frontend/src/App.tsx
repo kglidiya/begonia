@@ -15,7 +15,7 @@ function App() {
 	return (
 		<HelmetProvider>
 			<HelmetSeo
-				title="Begonia world"
+				title="Мир бегоний"
 				description="Магазин бегоний"
 				type="website"
 			/>

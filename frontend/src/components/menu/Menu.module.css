@@ -51,6 +51,9 @@
 	background-color: rgb(239, 223, 223);
 }
 
+.exit:hover {
+	cursor: pointer;
+}
 .link {
 	text-decoration: none;
 	color: black;

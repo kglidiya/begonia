@@ -138,6 +138,7 @@ export class OrdersService {
     if (!order) {
       throw new BadRequestException('Такой заказ не найден');
     }
+    //при отмене заказа увеличиваем количество товара на то кол-во, которое было в отмененном заказе
     if (status === OrderStatus.CANCELLED) {
       const items = order[0].orderItems;
       const itemsId = [];

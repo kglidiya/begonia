@@ -8,7 +8,6 @@ import { Role } from './entities/role.enum';
 import { UserResponseDto } from './dto/response-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-
 @Injectable()
 export class UsersService {
   constructor(
@@ -20,7 +19,7 @@ export class UsersService {
     return await this.usersRepository.find({ relations: ['cart', 'orders'] });
   }
 
-  async findOne(id: number): Promise<User> {
+  async findOneById(id: number): Promise<User> {
     return await this.usersRepository.findOne({ where: { id } });
   }
 
@@ -31,13 +30,6 @@ export class UsersService {
   async findOneByRecoveryCode(code: number): Promise<User> {
     return await this.usersRepository.findOne({
       where: { recoveryCode: code }
-    });
-  }
-
-  async findOneWithPassword(email: string): Promise<User> {
-    return await this.usersRepository.findOne({
-      where: { email },
-      relations: ['cart']
     });
   }
 

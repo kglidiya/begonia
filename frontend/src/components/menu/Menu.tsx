@@ -166,7 +166,7 @@ export default function Menu({ isOpen, closeMenu }: IMenu) {
 						}}
 					>
 						{' '}
-						<p className="text-default"> Войти</p>
+						<p className={styles.exit}> Войти</p>
 					</li>
 				</>
 			)}

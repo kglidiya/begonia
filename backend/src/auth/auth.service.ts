@@ -27,7 +27,7 @@ export class AuthService {
   ) {}
 
   async signUp(createUserDto: CreateUserDto): Promise<UserResponseDto> {
-    const userExists = await this.usersService.findOneWithPassword(
+    const userExists = await this.usersService.findOneByEmail(
       createUserDto.email
     );
     if (userExists) {
@@ -52,7 +52,7 @@ export class AuthService {
   }
 
   async signIn(data: AuthUserDto): Promise<UserResponseDto> {
-    const user = await this.usersService.findOneWithPassword(data.email);
+    const user = await this.usersService.findOneByEmail(data.email);
     if (!user)
       throw new BadRequestException('Такой пользователь не зарегистрирован');
 
@@ -82,7 +82,7 @@ export class AuthService {
     accessToken: string;
     refreshToken: string;
   }> {
-    const user = await this.usersService.findOne(userId);
+    const user = await this.usersService.findOneById(userId);
     if (!user) throw new ForbiddenException('Пользователь не зарегистирован');
     const refreshTokenMatches = await verifyHash(
       user.refreshToken,

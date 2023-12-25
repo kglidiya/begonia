@@ -124,7 +124,6 @@ const ItemUser = observer(() => {
 	if (isloading) {
 		return <Loader />;
 	}
-	// console.log(isInTheCart.length);
 	return (
 		<section className={styles.container}>
 			{item && (
