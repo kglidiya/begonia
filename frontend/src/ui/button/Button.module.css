@@ -1,0 +1,32 @@
+.button {
+	display: flex;
+	height: 50px;
+	background-image: url(../../images/flower.png);
+	background-size: contain;
+	border-radius: 15px;
+	border: none;
+	color: #ab1f1f;
+	font-weight: bold;
+	text-shadow: 5px 5px 5px rgb(255, 255, 255);
+	box-shadow: 5px 5px 15px rgb(201 173 173);
+	align-self: center;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 15px;
+	cursor: pointer;
+}
+
+.button:disabled {
+	background-image: url(../../images/9fc30091671ad69c012b184feacbde67.png),
+		linear-gradient(45deg, #eee9e9, #eedcdc);
+	background-size: contain;
+	background-blend-mode: overlay;
+	box-shadow: 5px 5px 15px rgb(217, 200, 200);
+	scale: 1;
+	cursor: auto;
+}
+
+button:hover {
+	transition: all 1s linear;
+	scale: 1.02;
+}

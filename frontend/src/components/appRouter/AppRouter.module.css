@@ -1,0 +1,12 @@
+.main {
+	background-image: url(../../images/background.jpg);
+	background-size: 50%;
+	background-blend-mode: overlay;
+	padding-bottom: 100px;
+	background-attachment: fixed;
+}
+@media (max-width: 768px) {
+	.main {
+		background-size: 100%;
+	}
+}

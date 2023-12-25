@@ -1,0 +1,170 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: auto;
+	width: 70%;
+	min-height: 100vh;
+	padding-top: 50px;
+	gap: 5px;
+}
+
+.details {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	gap: 15px;
+	justify-content: space-around;
+}
+.details:nth-of-type(1) {
+	align-items: center;
+}
+
+.counter__container {
+	display: flex;
+	flex-direction: row;
+	gap: 15px;
+}
+.images__container {
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+	width: 60%;
+	align-items: center;
+	margin-top: 25px;
+}
+
+.title {
+	font-family: 'MarckScript', sans-serif;
+	font-style: italic;
+	font-size: 32px;
+	font-weight: 200;
+	margin-bottom: 10px;
+}
+
+.subtitle {
+	font-size: 26px;
+	font-weight: bold;
+}
+
+.warning {
+	color: red;
+	font-weight: bold;
+}
+.image_main {
+	width: 70%;
+	height: auto;
+	object-fit: contain;
+	cursor: pointer;
+}
+.gallery__container {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	box-sizing: content-box;
+}
+.image_gallery {
+	width: 70%;
+	height: auto;
+	object-fit: contain;
+	cursor: pointer;
+}
+
+.button__container {
+	justify-content: space-between;
+}
+.counter {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	align-items: center;
+}
+.description {
+	margin-left: 40px;
+	text-align: justify;
+	width: 50%;
+	margin-top: 25px;
+	word-wrap: break-word;
+	align-self: flex-start;
+	padding-top: 10px;
+	background-color: white;
+	box-shadow: 1px 4px 21px 26px white;
+	line-height: 1.4;
+}
+
+@media (max-width: 992px) {
+	.container {
+		width: 80%;
+	}
+	.images__container {
+		flex-direction: column;
+	}
+
+	.image_main {
+		width: 100%;
+	}
+	.gallery__container {
+		flex-direction: row;
+	}
+
+	.image_gallery {
+		width: 30%;
+	}
+}
+
+@media (max-width: 768px) {
+	.container {
+		width: 70%;
+		padding: 50px 20px;
+	}
+
+	.image_main {
+		width: 100%;
+	}
+	.details {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.title {
+		margin-bottom: 0;
+		text-align: center;
+	}
+	.images__container {
+		width: 100%;
+		margin-top: 15px;
+		margin-bottom: 15px;
+	}
+
+	.description {
+		width: 100%;
+		margin: 0;
+		font-size: 14px;
+	}
+
+	.button__container {
+		flex-direction: column;
+	}
+}
+
+@media (max-width: 576px) {
+	.container {
+		width: 90%;
+		gap: 10px;
+	}
+	.counter__container {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.image_galary {
+		width: 30%;
+	}
+	.title {
+		font-size: 24px;
+	}
+
+	.subtitle {
+		font-size: 22px;
+	}
+}

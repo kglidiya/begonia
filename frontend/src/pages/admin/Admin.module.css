@@ -1,0 +1,38 @@
+.container {
+	padding-bottom: 40px;
+}
+
+.title {
+	align-self: center;
+	font-size: 32px;
+	font-weight: bold;
+	color: var(--default-deep-red);
+}
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	width: 50%;
+	margin: auto;
+	padding-top: 70px;
+}
+
+@media (max-width: 768px) {
+	.title {
+		font-size: 24px;
+	}
+
+	.form {
+		width: 70%;
+	}
+}
+
+@media (max-width: 414px) {
+	.title {
+		font-size: 22px;
+	}
+
+	.form {
+		width: 90%;
+	}
+}

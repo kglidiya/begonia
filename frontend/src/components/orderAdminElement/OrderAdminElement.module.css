@@ -1,0 +1,33 @@
+.container {
+	display: flex;
+	flex-direction: row;
+	gap: 30px;
+	background-color: rgb(249 235 235);
+	box-shadow: 5px 5px 15px rgb(203 197 197);
+	border-radius: 20px;
+	padding: 30px;
+	width: 100%;
+	cursor: pointer;
+	box-sizing: border-box;
+}
+
+.container:first-of-type {
+	margin-top: 30px;
+}
+.userDetails {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	justify-content: start;
+}
+@media (max-width: 768px) {
+	.container {
+		gap: 5px;
+	}
+}
+
+@media (max-width: 576px) {
+	.container {
+		flex-direction: column;
+	}
+}
