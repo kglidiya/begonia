@@ -18,7 +18,7 @@ import { Context } from '../..';
 export default function Orders() {
 	const { register, watch } = useForm<FieldValues>({ values: { query: '' } });
 	const [status, setStatus] = useState<IStatus<IOrder[]>>({
-		isloading: false,
+		isLoading: false,
 		data: [],
 		error: '',
 	});
@@ -90,7 +90,7 @@ export default function Orders() {
 			}
 		}
 
-		setStatus({ ...status, isloading: true });
+		setStatus({ ...status, isLoading: true });
 		if (query) {
 			axios(`${ORDER_URL}`, {
 				method: 'GET',
@@ -99,7 +99,7 @@ export default function Orders() {
 			})
 				.then((res) => {
 					setOrdersSearch(res.data);
-					setStatus({ ...status, isloading: false });
+					setStatus({ ...status, isLoading: false });
 				})
 				.finally(() => {
 					setFetching(false);
@@ -116,7 +116,7 @@ export default function Orders() {
 					if (isFirstRender) {
 						setOffset(5);
 					} else setOffset((prev) => prev + 5);
-					setStatus({ ...status, isloading: false });
+					setStatus({ ...status, isLoading: false });
 				})
 				.finally(() => {
 					setFetching(false);
@@ -138,7 +138,7 @@ export default function Orders() {
 		setOffset(0);
 	};
 
-	if (status.isloading) {
+	if (status.isLoading) {
 		return <Loader />;
 	}
 	return (

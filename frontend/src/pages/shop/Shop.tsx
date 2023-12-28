@@ -15,7 +15,7 @@ import useMediaQuery from '../../hooks/useMediaQuery';
 
 export default function Shop() {
 	const [status, setStatus] = useState<IStatus<IItemsPagination | undefined>>({
-		isloading: false,
+		isLoading: false,
 		data: undefined,
 		error: '',
 	});
@@ -61,7 +61,7 @@ export default function Shop() {
 		setCurrentPage(1);
 		setResultPerPage(9);
 	};
-	if (status.isloading) {
+	if (status.isLoading) {
 		return <Loader />;
 	}
 	if (status.error) {

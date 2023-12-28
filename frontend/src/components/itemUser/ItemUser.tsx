@@ -40,11 +40,11 @@ const ItemUser = observer(() => {
 	const { id } = useParams();
 	const location = useLocation().pathname;
 	const [status, setStatus] = useState<IStatus<IItem | []>>({
-		isloading: false,
+		isLoading: false,
 		data: [],
 		error: '',
 	});
-	const { data, isloading, error } = useFetch(`${ITEMS_URL}/${id}`, location);
+	const { data, isLoading, error } = useFetch(`${ITEMS_URL}/${id}`, location);
 	const [item, setItem] = useState<IItem>();
 	const [count, setCount] = useState(1);
 	const [remainingQty, setRemainingQty] = useState(6);
@@ -121,7 +121,7 @@ const ItemUser = observer(() => {
 		return <ErrorWarning message={error} />;
 	}
 
-	if (isloading) {
+	if (isLoading) {
 		return <Loader />;
 	}
 	return (
@@ -156,7 +156,7 @@ const ItemUser = observer(() => {
 							<Button
 								fontSize="20px"
 								width={!matches ? '90%' : '250px'}
-								text={!status.isloading ? 'Добавить в корзину' : <Spinner />}
+								text={!status.isLoading ? 'Добавить в корзину' : <Spinner />}
 								onClick={() => {
 									setRemainingQty((qty) => qty - 1);
 									setButtonSwitch(true);

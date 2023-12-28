@@ -20,7 +20,7 @@ const ForgotPassword = () => {
 	const navigate = useNavigate();
 	const matches = useMediaQuery('(min-width: 576px)');
 	const [status, setStatus] = useState<IStatus<IUser | undefined>>({
-		isloading: false,
+		isLoading: false,
 		data: undefined,
 		error: '',
 	});
@@ -58,7 +58,7 @@ const ForgotPassword = () => {
 
 				<Button
 					type="submit"
-					text={!status.isloading ? 'Восстановить' : <Spinner />}
+					text={!status.isLoading ? 'Восстановить' : <Spinner />}
 					width={matches ? '300px' : '95%'}
 					fontSize={matches ? '24px' : '18px'}
 				/>

@@ -87,7 +87,7 @@ export interface IDelivery {
 }
 
 export interface IStatus<T> {
-	isloading: boolean;
+	isLoading: boolean;
 	data: T;
 	error: string;
 }

@@ -47,7 +47,7 @@ export const handleRequestWithAuth = async (
 	}
 
 	try {
-		setStatus({ ...status, isloading: true });
+		setStatus({ ...status, isLoading: true });
 		const res = await axios(url, {
 			method,
 			data,
@@ -59,12 +59,12 @@ export const handleRequestWithAuth = async (
 		if (res.statusText !== 'OK' && res.statusText !== 'Created') {
 			throw new Error();
 		}
-		setStatus({ ...status, isloading: false, data: res.data });
+		setStatus({ ...status, isLoading: false, data: res.data });
 	} catch (error) {
 		if (error instanceof AxiosError) {
 			setStatus({
 				...status,
-				isloading: false,
+				isLoading: false,
 				error: error.response?.data.message,
 			});
 		}
@@ -80,7 +80,7 @@ export const handleRequest = async (
 	params: {} | null = null
 ) => {
 	try {
-		setStatus({ ...status, isloading: true });
+		setStatus({ ...status, isLoading: true });
 		const res = await axios(url, {
 			method,
 			data,
@@ -96,12 +96,12 @@ export const handleRequest = async (
 			throw new Error();
 		}
 
-		setStatus({ ...status, isloading: false, data: res.data });
+		setStatus({ ...status, isLoading: false, data: res.data });
 	} catch (error) {
 		if (error instanceof AxiosError) {
 			setStatus({
 				...status,
-				isloading: false,
+				isLoading: false,
 				error: error.response?.data.message,
 			});
 		}

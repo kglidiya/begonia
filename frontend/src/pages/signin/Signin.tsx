@@ -29,7 +29,7 @@ const Signin = observer(() => {
 	const navigate = useNavigate();
 
 	const [status, setStatus] = useState<IStatus<undefined | IUser>>({
-		isloading: false,
+		isLoading: false,
 		data: undefined,
 		error: '',
 	});
@@ -88,7 +88,7 @@ const Signin = observer(() => {
 
 				<Button
 					type="submit"
-					text={!status.isloading ? 'Войти' : <Spinner />}
+					text={!status.isLoading ? 'Войти' : <Spinner />}
 					width={matches ? '300px' : '95%'}
 					fontSize={matches ? '24px' : '18px'}
 				/>

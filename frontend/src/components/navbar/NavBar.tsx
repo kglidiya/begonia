@@ -45,13 +45,13 @@ const NavBar = observer(({ isMenuOpen, closeMenu, setMenuOpen }: INavBar) => {
 	};
 
 	const [statusCart, setStatusCart] = useState<IStatus<ICartItem[] | []>>({
-		isloading: false,
+		isLoading: false,
 		data: [],
 		error: '',
 	});
 
 	const [statusOrder, setStatusOrder] = useState<IStatus<IOrder[] | []>>({
-		isloading: false,
+		isLoading: false,
 		data: [],
 		error: '',
 	});

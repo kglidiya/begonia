@@ -36,7 +36,7 @@ const OrderUserElement = observer(({ orderItem }: IOrderUserElement) => {
 	const [orderStatus, setOrderStatus] = useState(orderItem.status);
 
 	const [status, setStatus] = useState<IStatus<[] | IOrder>>({
-		isloading: false,
+		isLoading: false,
 		data: [],
 		error: '',
 	});

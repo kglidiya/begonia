@@ -10,7 +10,7 @@ export default function HelmetSeo({ title, description, type }: IHelmet) {
 	return (
 		<Helmet>
 			<title>{title}</title>
-			<meta name="robots" content="noindex, nofollow" />
+			{/* <meta name="robots" content="noindex, nofollow" /> */}
 			<meta name="description" content={description} />
 			<meta
 				name="keywords"

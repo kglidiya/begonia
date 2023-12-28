@@ -57,7 +57,7 @@ export default function Admin() {
 		},
 	});
 	const [status, setStatus] = useState<IStatus<[] | IItem>>({
-		isloading: false,
+		isLoading: false,
 		data: [],
 		error: '',
 	});
@@ -194,7 +194,7 @@ export default function Admin() {
 				/>
 				<Button
 					type="submit"
-					text={!status.isloading ? 'Отправить' : <Spinner />}
+					text={!status.isLoading ? 'Отправить' : <Spinner />}
 					width="200px"
 					fontSize="20px"
 				/>

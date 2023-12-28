@@ -45,7 +45,7 @@ export default function OrderDetails() {
 	const { id } = useParams();
 
 	const [status, setStatus] = useState<IStatus<IOrder | undefined>>({
-		isloading: false,
+		isLoading: false,
 		data: undefined,
 		error: '',
 	});
@@ -65,7 +65,7 @@ export default function OrderDetails() {
 		}
 	}, [status.data?.id, order]);
 
-	if (status.isloading) {
+	if (status.isLoading) {
 		return <Loader />;
 	}
 

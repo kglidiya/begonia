@@ -73,7 +73,7 @@ const CheckOut = observer(() => {
 	});
 
 	const [status, setStatus] = useState<IStatus<IOrder | []>>({
-		isloading: false,
+		isLoading: false,
 		data: [],
 		error: '',
 	});
@@ -223,7 +223,7 @@ const CheckOut = observer(() => {
 
 				<Button
 					type="submit"
-					text={!status.isloading ? 'Заказать' : <Spinner />}
+					text={!status.isLoading ? 'Заказать' : <Spinner />}
 					width={!matches ? '80%' : '300px'}
 					fontSize={!matches ? '20px' : '24px'}
 				/>

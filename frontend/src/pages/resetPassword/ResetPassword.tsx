@@ -32,7 +32,7 @@ const ResetPassword = () => {
 	const navigate = useNavigate();
 	const matches = useMediaQuery('(min-width: 576px)');
 	const [status, setStatus] = useState<IStatus<IUser | undefined>>({
-		isloading: false,
+		isLoading: false,
 		data: undefined,
 		error: '',
 	});

@@ -17,12 +17,13 @@ import Notification from '../notification/Notification';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import { Context } from '../..';
 import Spinner from '../../ui/icons/spinner/Spinner';
+import Loader from '../loader/Loader';
 
 export default function ItemAdmin() {
 	const { id } = useParams();
 	const [item, setItem] = useState<IItem>();
 	const location = useLocation().pathname;
-	const { data } = useFetch(`${ITEMS_URL}/${id}`, location);
+	const { data, isLoading } = useFetch(`${ITEMS_URL}/${id}`, location);
 	const userStore = useContext(Context).user;
 	const cartStore = useContext(Context).cart;
 	const orderStore = useContext(Context).order;
@@ -77,7 +78,7 @@ export default function ItemAdmin() {
 		buttonText: 'Удалить из коллекции',
 	});
 	const [status, setStatus] = useState<IStatus<IItem | undefined>>({
-		isloading: false,
+		isLoading: false,
 		data: undefined,
 		error: '',
 	});
@@ -117,6 +118,10 @@ export default function ItemAdmin() {
 			}, 1000);
 		}
 	}, [status.data]);
+
+	if (isLoading) {
+		return <Loader />;
+	}
 
 	return (
 		<section className={styles.container} style={{ height: isDeleted.height }}>
@@ -276,7 +281,7 @@ export default function ItemAdmin() {
 						type="submit"
 						width={matches ? '250px' : '100%'}
 						fontSize={matches ? '20px' : '18px'}
-						text={!status.isloading ? 'Обновить' : <Spinner />}
+						text={!status.isLoading ? 'Обновить' : <Spinner />}
 					/>
 				</form>
 			)}

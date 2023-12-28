@@ -32,12 +32,12 @@ const Cart = observer(() => {
 	const [isDisabled, setIsDisabled] = useState(false);
 	const matches = useMediaQuery('(min-width: 576px)');
 	const [status, setStatus] = useState<IStatus<[] | ICartItem[]>>({
-		isloading: false,
+		isLoading: false,
 		data: [],
 		error: '',
 	});
 	const [statusCart, setStatusCart] = useState<IStatus<[] | ICartItem[]>>({
-		isloading: false,
+		isLoading: false,
 		data: [],
 		error: '',
 	});

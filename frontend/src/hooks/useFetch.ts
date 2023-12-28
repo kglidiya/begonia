@@ -4,7 +4,7 @@ import { IStatus } from '../utils/types';
 
 const useFetch = (url: string, path: string) => {
 	const [status, setStatus] = useState<IStatus<any>>({
-		isloading: false,
+		isLoading: false,
 		data: [],
 		error: '',
 	});
