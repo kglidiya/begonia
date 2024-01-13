@@ -1,6 +1,6 @@
 # Begonia
 #### Цветочный интернет-магазин
-#### Ссылка на проект: https://test-begonia-world.ru/
+#### Ссылка на тестовую версию: https://test-begonia-world.ru/
 Для тестирования в роли администратора email: admin@test.ru, пароль: test
 ### Tech stack:
 -	React
